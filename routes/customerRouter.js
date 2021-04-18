@@ -1,21 +1,28 @@
 const express = require("express");
 
-const customerRouter = express.Router()
+const customerRouter = express.Router();
 
 const customerController = require("../controllers/customerController");
 const snackController = require("../controllers/snackController");
+const orderController = require("../controllers/orderController");
 
 // Handles request for menu page
-app.get("/customer/menu", async (req, res) => {
-    res.send(`<h1>Menu</h1>`);
-});
+customerRouter.get("/menu", (req, res) => snackController.getAllSnacks(req, res));
 
 // Cannot GET /customer/menu/hcocs
 // Handles request for single food item (Doesn't actually pull anything yet)
-app.get("/customer/menu/:food", async (req, res) => {
-  res.send(`<h1>${req.params.food}</h1>`);
+customerRouter.get("/menu/:snackId", (req, res) => {
+  snackController.getOneSnack(req, res);
 });
 
-app.post("/customer/order", async (req, res) => {
-    res.send(`<h1>start new order</h1>`);
-});
+
+customerRouter.post("/:customerId/order", async (req, res) =>
+  orderController.addOrder(req, res)
+);
+
+customerRouter.post("/", async (req, res) =>
+  customerController.addCustomer(req, res)
+);
+
+// export the router
+module.exports = customerRouter;

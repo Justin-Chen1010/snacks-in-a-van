@@ -6,12 +6,20 @@ const app = express();
 
 require('./models')
 
-// https://github.com/INFO30005-2021-SM1/project-t12-roboto
 app.use(express.urlencoded({ extended: false }));
+
+const customerRouter = require('./routes/customerRouter');
+const vendorRouter = require('./routes/vendorRouter');
+
+
+// app.use([customerRouter, vendorRouter]);
+app.use("/customer", customerRouter);
+app.use("/vendor", vendorRouter);
 
 app.all("*", async (req, res) => {
     res.status(404).send("Not Found");
 });
+
 
 const port = 8080 // process.env.PORT || 8080
 

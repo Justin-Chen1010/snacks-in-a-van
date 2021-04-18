@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const {Snack} = require("./snack"); 
 
 const itemOrderSchema = new mongoose.Schema({
-    snack: {type: snackSchema, required: true},
+    snack: {type: mongoose.Schema.Types.ObjectId, ref:"Snack"},
     amount: {type: Number, required: true, min: 1}
 });
 

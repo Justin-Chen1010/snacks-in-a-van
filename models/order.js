@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const {Rating} = require("./rating");
+const {itemOrder} = require("./itemOrder");
 
 const orderSchema = new mongoose.Schema({
     orderId: {type: String, required: true, unique: true},
@@ -10,7 +11,8 @@ const orderSchema = new mongoose.Schema({
     discountApplied: {type: Boolean, default: false},
     // customer: customerSchema,
     vendor: {type: mongoose.Schema.Types.ObjectId, ref: "Vendor"},
-    items: [itemOrder],
+    // Array of object IDs
+    items: [{type: mongoose.Schema.Types.ObjectId, ref:"ItemOrder"}],
     customerRating: {type: mongoose.Schema.Types.ObjectId, ref: "Rating"}
 });
 

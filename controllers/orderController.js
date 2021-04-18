@@ -5,6 +5,8 @@ const Customer = mongoose.model("Customer");
 
 // import order model
 const Order = mongoose.model("Order");
+const Snack = mongoose.model("Snack");
+const ItemOrder = mongoose.model("ItemOrder");
 
 // get all orders
 const getAllOrders = async (req, res) => {
@@ -40,21 +42,37 @@ const addOrder = async (req, res) => {
     const customer = await Customer.findOne({
       customerId: req.params.customerId,
     });
-    if (customer === null) {
-      // no customer found in database
-      res.status(404);
-      return res.send("Customer not found");
-    }
+
+  // get the query string www.hostname.com/customer/:customerId/order/?name=white+coffee&amount=3
+  const {name, amount} = req.query;
+  // find the food item Id
+  const snack = await Snack.findOne({name: name});
+  console.log(snack);
+  if (!snack){
+    return res.status(400).send(`Food item ${name} not found....`);
+  }
+  let snackId = snack._id;
+
+  // Create a single item order ID
+  const itemOrder = await ItemOrder.create({snack: snackId, amount: Number(amount)});
+
+  let order = await Order.create({orderId: uuidv4(), status: "preparing", items:[itemOrder._id]});
+  // get the _id field of newly inserted order
+  const id = order._id;
+
+  await Customer.updateOne({customerId: req.params.customerId}, { $push: {orders: id}});
+
+  res.send("IM DONE NOW");
+
   } catch (err) {
     // error occurred
     res.status(400);
+    console.log(err);
     return res.send("Database query failed");
   }
-
-  // let order = Order.insertOne({orderId: uuidv4(), status: :"preparing", })
 };
 
-// make new order is POST: customer/:customerId/newOrder
+// make new order is POST: customer/:customerId/order/
 
 // change an order (POST)
 const updateOrder = async (req, res) => {
@@ -79,6 +97,9 @@ const updateOrder = async (req, res) => {
 // remember to export the functions
 module.exports = {
   getAllOrders,
-  getOneOrder, //, updateOrder, addOrder
+  getOneOrder, 
+  addOrder,
+  updateOrder
+  //, updateOrder, addOrder
 };
 
