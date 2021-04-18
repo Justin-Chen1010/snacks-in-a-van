@@ -79,6 +79,38 @@ const addVendor = async (req, res) => {
 };
 
 const getOutstandingOrders = async (req, res) => {
+    try {
+        const vendor = Vendor.find({name: vendorName});
+        const outstanding = Order.findAll({vendor: vendor, status: "preparing"});
+        res.send(outstanding);
+    } catch (err) {
+        res.status(400);
+        return res.send("Database query failed")
+    }
+}
+
+const updateVanStatus = async(req, res) => {
+    try {
+        const oneVendor = await Vendor.findOne({
+            vendorId: req.params.vendorId,
+        });
+        if (oneVendor === null) {
+            // no vendor found in database
+            res.status(404);
+            return res.send("Vendor not found");
+        }
+        if (!oneVendor.open) {
+            await Vendor.updateOne({ vendorId: oneVendor.vendorId }, {$set:{open: true}});
+        }
+        else {
+            await Vendor.updateOne({ vendorId: oneVendor.vendorId }, {$set: {open: false}});
+        }
+        res.send("Done Boi");
+
+    } catch (err) {
+        res.status(400);
+        return res.send("Database query failed");
+    }
 }
 
 // remember to export the functions
@@ -87,4 +119,6 @@ module.exports = {
   getOneVendor,
   updateVendor,
   addVendor,
+  getOutstandingOrders,
+  updateVanStatus,
 };
