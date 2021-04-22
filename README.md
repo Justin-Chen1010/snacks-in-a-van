@@ -14,11 +14,14 @@ We have added to this repository a `README.md` file and `.gitignore` file.
 Remember that _"this document"_ can use `different formats` to **highlight** important information. This is just an example of different formating tools available for you. For help with the format you can find a guide [here](https://docs.github.com/en/github/writing-on-github).
 
 ## Table of contents
-* [Team Members](#team-members)
-* [General Info](#general-info)
-* [Technologies](#technologies)
-* [Code Implementation](#code-implementation)
-* [Adding Images](#adding-images)
+- [INFO30005 – Web Information Technologies](#info30005--web-information-technologies)
+- [Group Project Repository](#group-project-repository)
+  - [Table of contents](#table-of-contents)
+  - [Team Members](#team-members)
+  - [General info](#general-info)
+  - [Technologies](#technologies)
+  - [Code Implementation](#code-implementation)
+  - [Adding Images](#adding-images)
 
 ## Team Members
 

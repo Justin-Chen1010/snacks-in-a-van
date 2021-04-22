@@ -8,5 +8,4 @@ const snackSchema = new mongoose.Schema({
 });
 
 const Snack = mongoose.model("Snack", snackSchema);
-
 module.exports = Snack;

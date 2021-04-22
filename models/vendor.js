@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-// need a "[server-name]/vendor" and a "[server-name]/customer"
-// vendor
 const vendorSchema = new mongoose.Schema({
    
     vendorName: {type: String, required: true, unique: true},
@@ -13,5 +11,4 @@ const vendorSchema = new mongoose.Schema({
 });
 
 const Vendor = mongoose.model("Vendor", vendorSchema);
-
 module.exports = Vendor;

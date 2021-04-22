@@ -2,19 +2,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
-
 require('./models')
 
 // TODO: readme file, db creds username/pw, input output expectations 
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const customerRouter = require('./routes/customerRouter');
 const vendorRouter = require('./routes/vendorRouter');
 
-
-// app.use([customerRouter, vendorRouter]);
 app.use("/customer", customerRouter);
 app.use("/vendor", vendorRouter);
 
