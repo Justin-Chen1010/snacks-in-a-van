@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 // need a "[server-name]/vendor" and a "[server-name]/customer"
 // vendor
 const vendorSchema = new mongoose.Schema({
-    name: {type: String, required: true, unique: true},
+   
+    vendorName: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     open: {type: Boolean, required: true},
     lat: {type: Number},
-    long: {type: Number}
+    lon: {type: Number},
+    address: {type: String}
 });
 
 const Vendor = mongoose.model("Vendor", vendorSchema);

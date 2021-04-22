@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+require('dotenv').config()
+CONNECTION_STRING = "mongodb+srv://<username>:<password>@cluster0.7suke.mongodb.net/snacks?retryWrites=true&w=majority"
+MONGO_URL = CONNECTION_STRING.replace("<username>", process.env.MONGO_USERNAME).replace("<password>", process.env.MONGO_PASSWORD)
 
-CONNECTION_STRING = "mongodb+srv://vendorsnacks:vendorsnacks@cluster0.7suke.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-
-mongoose.connect(CONNECTION_STRING || "mongodb://localhost", {
+mongoose.connect(MONGO_URL || "mongodb://localhost", {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,

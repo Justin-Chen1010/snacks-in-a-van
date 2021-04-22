@@ -8,7 +8,7 @@ const customerSchema = new mongoose.Schema({
     familyName: {type: String, required: true},
     givenName: {type: String, required: true},
     password: {type: String, required: true},
-    orders: [{type: mongoose.Schema.Types.ObjectId, ref: "Order"}]
+    orders: [{type: String}]
 });
 
 const Customer = mongoose.model("Customer", customerSchema);

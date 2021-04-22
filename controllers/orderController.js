@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 const Vendor = require("../models/vendor");
 
 const Customer = mongoose.model("Customer");
@@ -37,6 +37,7 @@ const getOneOrder = async (req, res) => {
   }
 };
 
+
 // add order
 const addOrder = async (req, res) => {
   try {
@@ -44,28 +45,33 @@ const addOrder = async (req, res) => {
       customerId: req.params.customerId,
     });
 
-  // get the query string www.hostname.com/customer/:customerId/order/:vendorName/?name=white+coffee&amount=3
-  const {name, amount} = req.query;
-  // find the food item Id
-  // TODO: Get rid of itemOrder
-  const snack = await Snack.findOne({name: name});
-  console.log(snack);
-  if (!snack){
-    return res.status(400).send(`Food item ${name} not found....`);
-  }
-  let snackId = snack._id;
-  
-  // Create a single item order ID
-  const itemOrder = await ItemOrder.create({snack: snackId, amount: Number(amount)});
+    // HTTP POST method, req.body = [{name: snack_name, quantity: quantity, vendorName: vendorName}]
+    const order = req.body;
 
-  let order = await Order.create({orderId: uuidv4(), vendor: req.params.vendorName, items:[itemOrder._id]});
-  // get the _id field of newly inserted order
-  const id = order._id;
+    // find the food by name
+    const snack = await Snack.findOne({ name: order.name });
+    // Snack not found, send crying photo
+    if (!snack) {
+      return res.status(400).send(`Food item ${order.name} not found....`);
+    }
+    // get the food item Id
+    let snackId = snack.snackId;
 
-  await Customer.updateOne({customerId: req.params.customerId}, { $push: {orders: id}});
+    let newOrder = await Order.create({
+      orderId: uuidv4(),
+      vendor: order.vendorName,
+      items: [{ snack: snackId, quantity: order.quantity }],
+    });
 
-  res.send("IM DONE NOW");
+    // get the id field of newly inserted order
+    const id = newOrder.orderId;
 
+    await Customer.updateOne(
+      { customerId: req.params.customerId },
+      { $push: { orders: id } }
+    );
+
+    res.send("IM DONE NOW");
   } catch (err) {
     // error occurred
     res.status(400);
@@ -99,9 +105,8 @@ const updateOrder = async (req, res) => {
 // remember to export the functions
 module.exports = {
   getAllOrders,
-  getOneOrder, 
+  getOneOrder,
   addOrder,
-  updateOrder
+  updateOrder,
   //, updateOrder, addOrder
 };
-

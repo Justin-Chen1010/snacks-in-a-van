@@ -15,7 +15,7 @@ vendorRouter.get("/", (req, res) => vendorController.getAllVendors(req, res));
 vendorRouter.put("/:vendorName/order/:orderId", (req, res) =>"");
 
 // set van status
-vendorRouter.put("/:vendorName/changeStatus", (req, res) => vendorController.updateVanStatus(req, res));
+vendorRouter.put("/:vendorName/status", (req, res) => vendorController.updateVanStatus(req, res));
 
 // create new vendor
 // vendorRouter.post("/", (req, res) => addVendor(req, res));

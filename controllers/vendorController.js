@@ -79,41 +79,68 @@ const addVendor = async (req, res) => {
 };
 
 const getOutstandingOrders = async (req, res) => {
-    try {
-        const vendor = await Vendor.find({name: req.params.vendorName});
-        console.log(vendor);
-        const outstanding = await Order.findAll({vendor: vendor, status: "preparing"});
-        console.log(outstanding);
-        res.send(outstanding);
-    } catch (err) {
-        res.status(400);
-        return res.send("Database query failed")
-    }
-}
+  try {
+    const vendor = await Vendor.findOne({ vendorName: req.params.vendorName });
+    console.log(vendor.vendorName);
+    console.log(vendor);
+    const outstanding = await Order.find({
+      vendor: vendor.vendorName,
+      status: "preparing",
+    });
+    console.log(outstanding);
+    res.send(outstanding);
+  } catch (err) {
+    res.status(400);
+    return res.send("Database query failed");
+  }
+};
 
-const updateVanStatus = async(req, res) => {
-    try {
-        const oneVendor = await Vendor.findOne({
-            vendorId: req.params.vendorId,
-        });
-        if (oneVendor === null) {
-            // no vendor found in database
-            res.status(404);
-            return res.send("Vendor not found");
-        }
-        if (!oneVendor.open) {
-            await Vendor.updateOne({ vendorId: oneVendor.vendorId }, {$set:{open: true}});
-        }
-        else {
-            await Vendor.updateOne({ vendorId: oneVendor.vendorId }, {$set: {open: false}});
-        }
-        res.send("Done Boi");
+// PUT /vendor/:vendorName/status
+// PUT /vendor/:vendorName/
+const updateVanStatus = async (req, res) => {
+  try {
+    const oneVendor = await Vendor.findOne({
+      vendorName: req.params.vendorName,
+    });
+    const status = req.body;
 
-    } catch (err) {
-        res.status(400);
-        return res.send("Database query failed");
+    if (oneVendor === null) {
+      // no vendor found in database
+      res.status(404);
+      return res.send("Vendor not found");
     }
-}
+    if (!oneVendor.open) {
+      await Vendor.updateOne(
+        { vendorName: oneVendor.vendorName },
+        {
+          $set: {
+            open: status.open,
+            lat: status.lat,
+            lon: status.lon,
+            address: status.address,
+          },
+        }
+      );
+    } else {
+      await Vendor.updateOne(
+      { vendorName: oneVendor.vendorName },
+        {
+          $set: {
+            open: status.open,
+            lat: null,
+            lon: null,
+            address: null
+          },
+        }
+      );  
+    }
+
+    res.send(status);
+  } catch (err) {
+    res.status(400);
+    return res.send("Database query failed");
+  }
+};
 
 // remember to export the functions
 module.exports = {
