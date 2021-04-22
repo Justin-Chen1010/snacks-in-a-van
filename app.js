@@ -22,8 +22,7 @@ app.all("*", async (req, res) => {
     res.status(404).send("Not Found");
 });
 
-
-const port = 8080 // process.env.PORT || 8080
+const port = process.env.PORT || 8080 // process.env.PORT || 8080
 
 app.listen(port, () => {
   console.log(`The app is listening on port ${port}!`);

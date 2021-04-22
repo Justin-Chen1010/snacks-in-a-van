@@ -126,4 +126,3 @@ const getOneSnack = async (req, res) => {
 module.exports = {
   getAllSnacks, getOneSnack // ,addSnack//, updateSnack, addSnack
 }
-
