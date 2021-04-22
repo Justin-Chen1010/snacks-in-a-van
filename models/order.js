@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const {Rating} = require("./rating");
-const {itemOrder} = require("./itemOrder");
 
 const orderSchema = new mongoose.Schema({
     orderId: {type: String, required: true, unique: true},

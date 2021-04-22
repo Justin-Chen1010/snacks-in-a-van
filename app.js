@@ -14,6 +14,7 @@ const vendorRouter = require('./routes/vendorRouter');
 app.use("/customer", customerRouter);
 app.use("/vendor", vendorRouter);
 
+// Invalid path, return status 404
 app.all("*", async (req, res) => {
     res.status(404).send("Not Found");
 });

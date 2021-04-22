@@ -23,7 +23,6 @@ db.once("open", async () => {
 });
 
 require("./customer");
-require("./itemOrder");
 require("./order");
 require("./rating");
 require("./snack");

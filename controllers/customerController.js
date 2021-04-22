@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-
-// import customer model
+const { v4: uuidv4 } = require("uuid");
 const Customer = mongoose.model("Customer");
 
 // get all customers
@@ -58,13 +57,14 @@ const updateCustomer = async (req, res) => {
 // add an customer (POST)
 const addCustomer = async (req, res) => {
   // try {
+  const customer = req.body;
   Customer.create(
     {
-      customerId: 1,
-      email: "ad@min.com",
-      familyName: "adminson",
-      givenName: "admin",
-      password: "admin",
+      customerId: uuidv4(),
+      email: customer.email,
+      familyName: customer.familyName,
+      givenName: customer.givenName,
+      password: customer.password,
       orders: [],
     },
     (err, customer) => {

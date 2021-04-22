@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Vendor = mongoose.model("Vendor");
 const Order = mongoose.model("Order");
+const { v4: uuidv4 } = require("uuid");
 
 
 // get all vendors
@@ -61,16 +62,16 @@ const updateVendor = async (req, res) => {
 // add an vendor (POST)
 const addVendor = async (req, res) => {
   // try {
+  const vendor = req.body;
   Vendor.create(
     {
-      name: "actUallyAdMiN",
-      password: "a@dmin.actually.com",
+      vendorName: vendor.vendorName,
+      password: vendor.password,
       open: false,
-      lat: 0,
-      long: 0,
     },
     (err, vendor) => {
       if (err) {
+        console.log(err);
         res.status(400);
         return res.send("Database query failed");
       } else {
@@ -84,10 +85,11 @@ const addVendor = async (req, res) => {
 const getOutstandingOrders = async (req, res) => {
   try {
     const vendor = await Vendor.findOne({ vendorName: req.params.vendorName });
+    // Get unfulfilled orders and sort them by time ordered
     const outstanding = await Order.find({
       vendor: vendor.vendorName,
       status: "preparing",
-    });
+    }).sort('timeOrdered');
     res.send(outstanding);
   } catch (err) {
     res.status(400);
@@ -143,22 +145,27 @@ const updateVanStatus = async (req, res) => {
 
 // PUT vendor/:vendorName/orders/:orderId/fulfill
 const markOrderAsFulfilled = async (req, res) => {
-  const filter = {
-    orderId: req.params.orderId,
-    status: "preparing",
-    vendor: req.params.vendorName,
-  };
-  await Order.findOneAndUpdate(filter, { $set: { status: "fulfilled" } });
-  const order = Order.findOne(filter);
-  if (order === null) {
-    res.status(404);
-    return res.send("Order not found");
+  try {
+    const filter = {
+      orderId: req.params.orderId,
+      status: "preparing",
+      vendor: req.params.vendorName,
+    };
+    
+    // await Order.findOneAndUpdate(filter, { $set: { status: "fulfilled" } });
+    const order = await Order.findOne(filter);
+
+    if (order === null) {
+      res.status(404);
+      return res.send("Order not found :^(");
+    }
+    await Order.updateOne(filter, { $set: { status: "fulfilled", timeFulfilled: Date.now} });
+    res.send("Order status updated!");
+  } catch (err) {
+    res.status(400);
+    return res.send("Database query failed");
   }
-
-
-  res.send();
 };
-
 
 module.exports = {
   getAllVendors,
