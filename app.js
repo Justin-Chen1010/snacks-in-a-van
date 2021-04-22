@@ -6,6 +6,8 @@ const app = express();
 
 require('./models')
 
+// TODO: readme file, db creds username/pw, input output expectations 
+
 app.use(express.urlencoded({ extended: false }));
 
 const customerRouter = require('./routes/customerRouter');

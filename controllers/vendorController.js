@@ -80,8 +80,10 @@ const addVendor = async (req, res) => {
 
 const getOutstandingOrders = async (req, res) => {
     try {
-        const vendor = Vendor.find({name: vendorName});
-        const outstanding = Order.findAll({vendor: vendor, status: "preparing"});
+        const vendor = await Vendor.find({name: req.params.vendorName});
+        console.log(vendor);
+        const outstanding = await Order.findAll({vendor: vendor, status: "preparing"});
+        console.log(outstanding);
         res.send(outstanding);
     } catch (err) {
         res.status(400);

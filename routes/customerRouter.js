@@ -15,11 +15,12 @@ customerRouter.get("/menu/:snackId", (req, res) => {
   snackController.getOneSnack(req, res);
 });
 
-
+// insert new order 
 customerRouter.post("/:customerId/order", async (req, res) =>
   orderController.addOrder(req, res)
 );
 
+//insert new customer
 customerRouter.post("/", async (req, res) =>
   customerController.addCustomer(req, res)
 );
