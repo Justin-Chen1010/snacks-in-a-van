@@ -8,6 +8,7 @@ const Snack = mongoose.model("Snack");
 // get all orders
 const getAllOrders = async (req, res) => {
   try {
+    // sort by timeOrdered, earlier orders first
     const orders = await Order.find().sort('timeOrdered');
     return res.send(orders);
   } catch (err) {
@@ -25,7 +26,8 @@ const getOneOrder = async (req, res) => {
       res.status(404);
       return res.send("Order not found");
     }
-    return res.send(oneOrder); // order was found
+    // order was found
+    return res.send(oneOrder); 
   } catch (err) {
     // error occurred
     res.status(400);
@@ -34,7 +36,7 @@ const getOneOrder = async (req, res) => {
 };
 
 
-// add order
+// add order 
 const addOrder = async (req, res) => {
   try {
     const customer = await Customer.findOne({
@@ -57,14 +59,14 @@ const addOrder = async (req, res) => {
     if (vendor === null || !vendor.open) {
       return res.status(400).send(`No open vendor named ${order.vendorName} found...`);
     }
-
+    // To order items with specific quantity
     let newOrder = await Order.create({
       orderId: uuidv4(),
       vendor: order.vendorName,
       items: [{ snack: snackId, quantity: order.quantity }],
     });
 
-    // get the id field of newly inserted order
+    // get the id field of newly inserted order 
     const id = newOrder.orderId;
 
     await Customer.updateOne(
@@ -81,8 +83,6 @@ const addOrder = async (req, res) => {
   }
 };
 
-
-// make new order is POST: customer/:customerId/order/
 // change an order (POST)
 const updateOrder = async (req, res) => {
   try {
@@ -96,9 +96,9 @@ const updateOrder = async (req, res) => {
     // actually update the order
     Order.updateOne({ orderId: oneOrder.orderId });
 
-    return res.send(oneOrder); // order was found
+    // order was found: return as repsonse
+    return res.send(oneOrder); 
   } catch (err) {
-
     // error occurred
     res.status(400);
     return res.send("Database query failed");

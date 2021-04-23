@@ -31,7 +31,6 @@ const getOneSnack = async (req, res) => {
   }
 };
 
-// remember to export the functions
 module.exports = {
   getAllSnacks,
   getOneSnack

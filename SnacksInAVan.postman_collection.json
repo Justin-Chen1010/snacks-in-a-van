@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "0bf06435-f892-47ee-80ab-82ef1f6794cb",
+		"name": "SnacksInAVan",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all snacks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://snacks-in-a-van-roboto.herokuapp.com/customer/menu",
+					"protocol": "https",
+					"host": [
+						"snacks-in-a-van-roboto",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						"menu"
+					]
+				},
+				"description": "get all the snacks in the menu"
+			},
+			"response": []
+		},
+		{
+			"name": "Get the details of one snack",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://snacks-in-a-van-roboto.herokuapp.com/customer/menu/3",
+					"protocol": "https",
+					"host": [
+						"snacks-in-a-van-roboto",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						"menu",
+						"3"
+					]
+				},
+				"description": "get the details of one snack"
+			},
+			"response": []
+		},
+		{
+			"name": "Start a new order by requesting a snack",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"snackName\": \"Plain biscuit\",\r\n    \"quantity\": 3,\r\n    \"vendorName\": \"ASD AND CO\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://snacks-in-a-van-roboto.herokuapp.com/customer/f9f8e2ea-a3a3-4003-97d9-ce1f1e7b31f6/order/",
+					"protocol": "https",
+					"host": [
+						"snacks-in-a-van-roboto",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						"f9f8e2ea-a3a3-4003-97d9-ce1f1e7b31f6",
+						"order",
+						""
+					]
+				},
+				"description": "Customer starts a new order by requesting a snack"
+			},
+			"response": []
+		},
+		{
+			"name": "Set van status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"open\": true,\r\n    \"lat\": 37.8,\r\n    \"lon\": 144.96,\r\n    \"address\": \"In front of Stop 1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://snacks-in-a-van-roboto.herokuapp.com/vendor/lorem-ipsum/status",
+					"protocol": "https",
+					"host": [
+						"snacks-in-a-van-roboto",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"vendor",
+						"lorem-ipsum",
+						"status"
+					]
+				},
+				"description": "vendor sends location, marks van as ready-for-orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Show list of outstanding orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://snacks-in-a-van-roboto.herokuapp.com/vendor/lorem-ipsum/order",
+					"protocol": "https",
+					"host": [
+						"snacks-in-a-van-roboto",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"vendor",
+						"lorem-ipsum",
+						"order"
+					]
+				},
+				"description": "Show list of outstanding orders for one van"
+			},
+			"response": []
+		},
+		{
+			"name": "Mark an order as fulfilled",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://snacks-in-a-van-roboto.herokuapp.com/vendor/lorem-ipsum/order/ffa79daa-21e4-4276-83fc-328f0ebc6533/status",
+					"protocol": "https",
+					"host": [
+						"snacks-in-a-van-roboto",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"vendor",
+						"lorem-ipsum",
+						"order",
+						"ffa79daa-21e4-4276-83fc-328f0ebc6533",
+						"status"
+					]
+				},
+				"description": "Mark an order as ready to be picked up by customer"
+			},
+			"response": []
+		},
+		{
+			"name": "Add new customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"new@customer2.com\",\r\n    \"familyName\": \"Customer2\",\r\n    \"givenName\": \"New\",\r\n    \"password\": \"test12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://snacks-in-a-van-roboto.herokuapp.com/customer/",
+					"protocol": "https",
+					"host": [
+						"snacks-in-a-van-roboto",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"customer",
+						""
+					]
+				},
+				"description": "Add new customer"
+			},
+			"response": []
+		},
+		{
+			"name": "Add new vendor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vendorName\": \"lorem-ipsum2\",\r\n    \"password\": \"dolor-sit-amet123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://snacks-in-a-van-roboto.herokuapp.com/vendor/",
+					"protocol": "https",
+					"host": [
+						"snacks-in-a-van-roboto",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"vendor",
+						""
+					]
+				},
+				"description": "Add new vendor"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all open vendors",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				},
+				"description": "Get all open vendors"
+			},
+			"response": []
+		}
+	]
+}

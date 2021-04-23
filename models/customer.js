@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 // double check if need to put "unique: false"
 const customerSchema = new mongoose.Schema({ 
     customerId: {type: String, required: true, unique: true},
@@ -12,5 +11,4 @@ const customerSchema = new mongoose.Schema({
 });
 
 const Customer = mongoose.model("Customer", customerSchema);
-
 module.exports = Customer;

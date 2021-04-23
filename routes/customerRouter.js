@@ -25,5 +25,4 @@ customerRouter.post("/", async (req, res) =>
   customerController.addCustomer(req, res)
 );
 
-// export the router
 module.exports = customerRouter;
