@@ -5,16 +5,16 @@ const snackController = require("../controllers/snackController");
 const orderController = require("../controllers/orderController");
 
 // get the menu: details of all snacks
-customerRouter.get("/menu", (req, res) =>
+customerRouter.get("/menu", async (req, res) =>
   snackController.getAllSnacks(req, res)
 );
 
 // get the details of a single snack
-customerRouter.get("/menu/:snackId", (req, res) => {
+customerRouter.get("/menu/:snackId", async (req, res) => {
   snackController.getOneSnack(req, res);
 });
 
-// insert an order, specifying the name of the first name and the assigned
+// insert an order, specifying the name of the first snack and the assigned
 // vendor
 customerRouter.post("/:customerId/order", async (req, res) =>
   orderController.addOrder(req, res)
