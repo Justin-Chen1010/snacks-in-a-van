@@ -20,90 +20,72 @@ Remember that _"this document"_ can use `different formats` to **highlight** imp
 - [Group Project Repository](#group-project-repository)
   - [Table of contents](#table-of-contents)
   - [Team Members](#team-members)
-  - [General info](#general-info)
+  - [General info`](#general-info)
   - [Technologies](#technologies)
-  - [Code Implementation](#code-implementation)
-  - [Adding Images](#adding-images)
+  - [Server Mockup](#server-mockup)
+    - [Server URL](#server-url)
+    - [Postman](#postman)
+      - [Viewing full menu of the snack](#viewing-full-menu-of-the-snack)
+      - [View details of a snack](#view-details-of-a-snack)
+      - [Customer starts a new order by requesting a snack](#customer-starts-a-new-order-by-requesting-a-snack)
+    - [Database](#database)
 
 ## Team Members
 
-| Name           |     Task      |    State |
-| :------------- | :-----------: | -------: |
-| Student Name 1 |   Back End    |     Done |
-| Student Name 2 |   Front End   |  Testing |
-| Student Name 3 | README Format | Amazing! |
+| Name                 | Student ID |   Task   | State |
+| :------------------- | :--------: | :------: | ----: |
+| Cynthia              |  1086213   | Back End |  Done |
+| Jonathan Jauhari     |  1038331   | Back End |  Done |
+| Mei Chuan Lu         |  1068282   | Back End |  Done |
+| MH Lu                |  1068283   | Back End |  Done |
+| Yan-Ting Justin Chen |  1086022   | Back End |  Done |
 
-## General info
+## General info`
 
-This is project ...
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+`This is project Snacks in a Van`.
+It is a web app with two interfaces: one that allows customers to view the
+menu of snacks, find and order snacks from food trucks that work as popup
+cafes, and the other one allows vendors to set the status such as their
+location, marking vans as ready-for-orders and show all the outstanding
+orders, prepare them and mark them as fulfilled.
 
 ## Technologies
 
-Project is created with:
+This project as created with:
 
-- NodeJs 14.16.X
-- Ipsum version: 2.33
-- Ament library version: 999
-
-## Code Implementation
-
-You can include a code snippet here.
-
-```HTML
-<!--
-Example code from: https://www.w3schools.com/jsref/met_win_alert.asp
-__>
-
-<!DOCTYPE html>
-<html>
-<body>
-
-<p>Click the button to display an alert box.</p>
-
-<button onclick="myFunction()">Try it</button>
-
-<script>
-function myFunction() {
-  alert("Hello! I am an alert box!");
-}
-</script>
-
-</body>
-</html>
-```
-
-## Adding Images
-
-You can use images/gif hosted online:
-
-<p align="center">
-  <img src="https://github.com/Martin-Reinoso/sandpit-Profile/raw/main/Images_Readme/01.gif"  width="300" >
-</p>
-
-Or you can add your own images from a folder in your repo with the following code. The example has a folder `Gifs` with an image file `Q1-1.gif`:
-
-```HTML
-<p align="center">
-  <img src="Gifs/Q1-1.gif"  width="300" >
-</p>
-```
-
-To create a gif from a video you can follow this [link](https://ezgif.com/video-to-gif/ezgif-6-55f4b3b086d4.mov).
-
-You can use emojis :+1: but do not over use it, we are looking for professional work. If you would not add them in your job, do not use them here! :shipit:
+- NodeJs: 12.18.4
+- dotenv: 8.2.0
+- body-parser: 1.19.0
+- express: 4.17.1
+- mongoose: 5.12.3
+- uuid: 8.3.2
 
 **Now Get ready to complete all the tasks:**
 
 - [x] Read the Project handouts carefully
 - [x] User Interface (UI)mockup
-- [ ] App server mockup
+- [x] App server mockup
 - [ ] Front-end + back-end (one feature)
 - [ ] Complete system + source code
 - [ ] Report on your work(+ test1 feature)
 
 ## Server Mockup
 
+### Server URL
+
+Access the server via [link](https://snacks-in-a-van-roboto.herokuapp.com/)
+
+### Postman
+
+The required functionalities is implemented via different access routes.
+
+#### Viewing full menu of the snack
+
+#### View details of a snack
+
+#### Customer starts a new order by requesting a snack
 
 ### Database
+
 Access the database via [link](https://cloud.mongodb.com/v2/607a6469b3cdb46083865625#clusters)
+Need the: Connection string, username, password

@@ -46,7 +46,7 @@ const addOrder = async (req, res) => {
 
     // find the food by name
     const snack = await Snack.findOne({ snackName: order.snackName });
-    // Snack not found, send crying photo
+    // Snack not found, send message
     if (snack === null) {
       return res.status(400).send(`Food item ${order.snackName} not found....`);
     }

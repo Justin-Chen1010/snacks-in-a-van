@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const app = express();
 require('./models')
 
-// TODO: readme file, db creds username/pw, input output expectations 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -13,6 +12,10 @@ const vendorRouter = require('./routes/vendorRouter');
 
 app.use("/customer", customerRouter);
 app.use("/vendor", vendorRouter);
+
+app.get("/", (req, res) => {
+  res.status(200).send("<h1>Home page</h1>");
+})
 
 // Invalid path, return status 404
 app.all("*", async (req, res) => {
