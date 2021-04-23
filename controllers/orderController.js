@@ -96,7 +96,6 @@ const updateOrder = async (req, res) => {
     // actually update the order
     Order.updateOne({ orderId: oneOrder.orderId });
 
-    // db.foods.updateOne( {name: "Apple"}, {$set: {description: "Apples are cool" }}
     return res.send(oneOrder); // order was found
   } catch (err) {
 
@@ -110,6 +109,5 @@ module.exports = {
   getAllOrders,
   getOneOrder,
   addOrder,
-  updateOrder,
-  //, updateOrder, addOrder
+  updateOrder
 };

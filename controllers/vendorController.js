@@ -3,18 +3,16 @@ const Vendor = mongoose.model("Vendor");
 const Order = mongoose.model("Order");
 const { v4: uuidv4 } = require("uuid");
 
-
 // get all vendors
 const getAllVendors = async (req, res) => {
   try {
-    const vendors = await Vendor.find();
+    const vendors = await Vendor.find({ open: true });
     return res.send(vendors);
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");
   }
 };
-
 
 // find one vendor by their id
 const getOneVendor = async (req, res) => {
@@ -34,7 +32,6 @@ const getOneVendor = async (req, res) => {
     return res.send("Database query failed");
   }
 };
-
 
 // change an vendor (POST)
 const updateVendor = async (req, res) => {
@@ -58,7 +55,6 @@ const updateVendor = async (req, res) => {
   }
 };
 
-
 // add an vendor (POST)
 const addVendor = async (req, res) => {
   // try {
@@ -81,7 +77,6 @@ const addVendor = async (req, res) => {
   );
 };
 
-
 const getOutstandingOrders = async (req, res) => {
   try {
     const vendor = await Vendor.findOne({ vendorName: req.params.vendorName });
@@ -89,14 +84,13 @@ const getOutstandingOrders = async (req, res) => {
     const outstanding = await Order.find({
       vendor: vendor.vendorName,
       status: "preparing",
-    }).sort('timeOrdered');
+    }).sort("timeOrdered");
     res.send(outstanding);
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");
   }
 };
-
 
 const updateVanStatus = async (req, res) => {
   try {
@@ -142,7 +136,6 @@ const updateVanStatus = async (req, res) => {
   }
 };
 
-
 // PUT vendor/:vendorName/orders/:orderId/fulfill
 const markOrderAsFulfilled = async (req, res) => {
   try {
@@ -151,15 +144,15 @@ const markOrderAsFulfilled = async (req, res) => {
       status: "preparing",
       vendor: req.params.vendorName,
     };
-    
-    // await Order.findOneAndUpdate(filter, { $set: { status: "fulfilled" } });
-    const order = await Order.findOne(filter);
 
+    const order = await Order.findOne(filter);
     if (order === null) {
       res.status(404);
       return res.send("Order not found :^(");
     }
-    await Order.updateOne(filter, { $set: { status: "fulfilled", timeFulfilled: Date.now} });
+    await Order.updateOne(filter, {
+      $set: { status: "fulfilled", timeFulfilled: Date.now() },
+    });
     res.send("Order status updated!");
   } catch (err) {
     res.status(400);
