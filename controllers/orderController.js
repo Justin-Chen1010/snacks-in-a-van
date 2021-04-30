@@ -43,7 +43,7 @@ const addOrder = async (req, res) => {
       customerId: req.params.customerId,
     });
 
-    // HTTP POST method, req.body = [{name: snack_name, quantity: quantity, vendorName: vendorName}]
+    // req.body format example [{name: snack_name, quantity: quantity, vendorName: vendorName}]
     const order = req.body;
 
     // find the food by name
@@ -56,6 +56,8 @@ const addOrder = async (req, res) => {
     let snackId = snack.snackId;
 
     const vendor = await Vendor.findOne({vendorName: order.vendorName});
+    
+    //if vendor is closed
     if (vendor === null || !vendor.open) {
       return res.status(400).send(`No open vendor named ${order.vendorName} found...`);
     }
@@ -105,6 +107,7 @@ const updateOrder = async (req, res) => {
   }
 };
 
+// remember to export the functions
 module.exports = {
   getAllOrders,
   getOneOrder,
