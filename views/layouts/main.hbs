@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snacks in a Van</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="http://fonts.cdnfonts.com/css/sedan-sc" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend+Mega&family=Rammetto+One&display=swap" rel="stylesheet"> 
 </head>
+
 <body>
     <header>
-        <h1> <a href="/">SNACKS IN A VAN</a> </h1>        
+        <div class="header-navbar">
+            <h1 class="navbar-logo">
+                <img src="../../public/static/logo.png">
+                <a href="/">Snacks in a Van</a>
+            </h1>
+            <nav class="navbar-links">
+                <a href="/orders" class="target">Orders</a>
+                <a href="/menu" class="target">Menu</a>
+                <a href="/account" class="target">Account</a>
+            </nav>
+        </div>
     </header>
-    <nav>
-        <section style="text-align:left;">
-            <a href="/">Home</a>&nbsp; | &nbsp;<a href="/customer">Author Management</a>
-            <hr size="30">
-        </section>
-    </nav>
     <main>
         {{{body}}}
     </main>
     <footer>
-        <p><span>&#169;</span> Snacks IN A VAN 2021</p>
+        <p><span>&#169;</span>Snacks in a Van 2021</p>
     </footer>
 </body>
+
 </html>
