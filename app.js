@@ -22,10 +22,23 @@ app.engine('hbs', exphbs({
 
 app.set('view engine', 'hbs');
 
-app.get("/", (req, res) => {
+app.get("/customer", (req, res) => {
   res.render('index')
   // res.status(200).send("<h1>Home page</h1>");
 });
+
+// app.get("/menu", (req, res) => {
+//   res.render('menu')
+// });
+// var button = document.getElementById("clickme"),
+//   count = 0
+// button.onclick = function(snackId) {
+//   count += 1;
+//   document
+//   button.textContent = count;
+// };
+
+// var count = 0
 
 
 

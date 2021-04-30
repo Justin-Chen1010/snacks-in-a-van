@@ -11,10 +11,9 @@
   --color-dark: #042046;
   --color-medium: #d4b496;
   --color-light: #f5e5d6;
-  --color-grey: #eeeeee;
+  --color-grey: #68798E;
   --color-black: #042046;
   --color-white: #ffffff;
-  --color-selected: var(--color-black);
 }
 
 .header-navbar {
@@ -41,7 +40,7 @@ html {
 }
 
 main {
-  height: 100%;
+  min-height: 100%;
   display: flex;
 }
 
@@ -83,8 +82,7 @@ h1 {
 }
 
 a {
-  color: var(--color-selected);
-  --color-selected: var(--color-black);
+  color: var(--color-black);
   text-decoration: none; /* switch off underlining of anchors */
 }
 
@@ -99,8 +97,7 @@ a {
 } */
 
 :target {
-  --color-selected: var(--color-white);
-  color: var(--color-selected);
+  color: var(--color-white);
 }
 
 a:hover {
@@ -147,32 +144,57 @@ table {
 
 /* Button style from https://fdossena.com/?p=html5cool/buttons/i.frag */
 .find-us {
-  /* position: relative;
-  margin-bottom: 0; */
+    position: absolute;
+    bottom: 8vw;
+    left: 46vw;
     padding: 0.3em 1.2em;
-    border-radius: 2em;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: 'Roboto',sans-serif;
-    font-weight: 300;
-    color: #FFFFFF;
-    background-color: #4eb5f1;
-    text-align: center; 
-    transition: all 0.2s; 
-    display: inline-flex;
-    justify-content: center; /* center the content horizontally */
-    align-items: center; /* center the content vertically */
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    color: #FFFFFF;
+    background-color: var(--color-grey);
+    text-align: center; 
+    transition: all 0.2s; 
+    border-radius: 8px;
+    /* display: inline-flex;
+    justify-content: center; 
+    align-items: center;  */
 }
+
+
 
 .find-us:hover{
-    background-color:#4095c6;
+    background-color: var(--color-black);
 }
 
+ul {
+  display: inline;
+}
+
+#snackslist {
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.menu-item {
+  padding: 16px;
+}
+
+.menu-item img {
+  border-radius: 16px;
+}
 
 form {
   /* centre the form */
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 form input {
