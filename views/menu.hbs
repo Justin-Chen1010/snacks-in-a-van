@@ -16,7 +16,12 @@
     function addToOrder(snackId) {
         currAmount = parseInt(document.getElementById(snackId).textContent);
         if (currAmount > 0){
-            cart[snackId] += document.getElementById(snackId).textContent;
+            if (snackId in cart){
+                cart[snackId] += currAmount;
+            }
+            else{
+                cart[snackId] = currAmount;
+            }
             document.getElementById(snackId).textContent = 0;   
         }
         if (cart){
