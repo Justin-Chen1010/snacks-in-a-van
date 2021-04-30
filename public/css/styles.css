@@ -1,0 +1,263 @@
+/* central area to control type and colour */
+@import url("http://fonts.cdnfonts.com/css/sedan-sc");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+:root {
+  --text-big: 36px;
+  --text-medium: 22px;
+  --text-small: 16px;
+  --font-body: "Roboto", sans-serif;
+  --font-heading: "Sedan SC", cursive;
+  --color-dark: #042046;
+  --color-medium: #d4b496;
+  --color-light: #f5e5d6;
+  --color-grey: #eeeeee;
+  --color-black: #042046;
+  --color-white: #ffffff;
+  --color-selected: var(--color-black);
+}
+
+.header-navbar {
+  display: flex;
+}
+
+.header-navbar h1 {
+  text-align: left;
+  display: inline;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.header-navbar nav {
+  color: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+
+html {
+  height: 100%;
+}
+
+main {
+  height: 100%;
+  display: flex;
+}
+
+/* elements that are on every page */
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-medium);
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  margin: 0;
+  height: 100%;
+}
+
+header,
+footer {
+  width: 100%;
+  color: var(--color-dark);
+  background-color: var(--color-medium);
+  text-align: center;
+  font-family: var(--font-heading);
+  margin: 0;
+}
+
+header {
+  /* "sticky header" which stays at the top of the screen */
+  position: sticky;
+  top: 0;
+}
+
+footer{
+    position:absolute;
+}
+
+h1 {
+  text-align: center;
+  font-size: var(--text-big);
+  color: var(--color-dark);
+  margin-top: 0;
+}
+
+a {
+  color: var(--color-selected);
+  --color-selected: var(--color-black);
+  text-decoration: none; /* switch off underlining of anchors */
+}
+
+.header-navbar nav a {
+  margin: 8px;
+  padding: 0 16px;
+}
+
+/* Current selected page */
+/* a:active {
+    color: var(--color-white);
+} */
+
+:target {
+  --color-selected: var(--color-white);
+  color: var(--color-selected);
+}
+
+a:hover {
+  /* instead, get anchors to expand when hovered over */
+  /* font-size: larger; */
+  /* Scale without realigning texts */
+  -webkit-transform: scale(1.2);
+  /* color: var();
+  font-weight: bold; */
+  /* text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+}
+
+header h1 a {
+  color: var(--color-dark);
+}
+
+footer p {
+  margin: 0;
+  display: inline-block;
+}
+
+table {
+  width: 25%;
+}
+
+.home-container {
+  /* display: flex;
+    flex-grow: 1;
+    background-repeat: no-repeat;
+    background-position: center; */
+  /* background-size: 100% auto; */
+  flex-grow: 1;
+  background-image: url("../static/home-background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.welcome {
+    position: relative;
+    width: 400px;
+    margin: 128px 0 0 128px;
+}
+
+/* Button style from https://fdossena.com/?p=html5cool/buttons/i.frag */
+.find-us {
+  /* position: relative;
+  margin-bottom: 0; */
+    padding: 0.3em 1.2em;
+    border-radius: 2em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 300;
+    color: #FFFFFF;
+    background-color: #4eb5f1;
+    text-align: center; 
+    transition: all 0.2s; 
+    display: inline-flex;
+    justify-content: center; /* center the content horizontally */
+    align-items: center; /* center the content vertically */
+}
+
+.find-us:hover{
+    background-color:#4095c6;
+}
+
+
+form {
+  /* centre the form */
+  display: flex;
+  justify-content: center;
+}
+
+form input {
+  font-size: var(--text-medium);
+}
+
+form input[type$="submit"] {
+  /* submit button - note use of attribute selector */
+  background-color: var(--color-medium);
+}
+
+form span.bigScreen {
+  /* on small screens, hide some of the wording */
+  display: none;
+}
+
+
+/* Modal (background) */
+.modal-background {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal (content) */
+.modal-foreground {
+  background-color: var(--color-medium);
+  text-align: center;
+  margin: 30% auto; /* 15% from the top and centered */
+  width: 50%;
+}
+
+/* Responsive Design */
+
+@media screen and (min-width: 768px) {
+  /* for tablet-sized screens */
+
+  #authorList ul {
+    /* flow author list into two columns */
+    column-count: 2;
+  }
+
+  #oneauthor-details {
+    flex-direction: row; /* now picture and text are side-by-side */
+  }
+
+  #oneauthor-picture,
+  #oneauthor-text {
+    /* divide the sceren into two halves */
+    flex-basis: 50%;
+  }
+
+  #oneauthor p#description {
+    /* increase font size of author description */
+    font-size: var(--text-medium);
+    text-align: left;
+  }
+
+  form span.bigScreen {
+    /* spell out abbreviated words in full */
+    display: inline;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  /* for big screens */
+
+  #authorList ul {
+    /* flow author list into three columns */
+    column-count: 3;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  /* for very big screens */
+
+  #authorList ul {
+    /* flow author list into four columns */
+    column-count: 4;
+  }
+}
