@@ -27,6 +27,9 @@ app.get("/", (req, res) => {
   // res.status(200).send("<h1>Home page</h1>");
 });
 
+// app.get("/menu", (req, res) => {
+//   res.render('menu')
+// });
 
 
 // Invalid path, return status 404

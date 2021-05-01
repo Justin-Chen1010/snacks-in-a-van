@@ -1,4 +1,7 @@
 /* central area to control type and colour */
+/* FIXME: fix hires background, logo, sedan font, sticky nav not sticky, login/cart
+ * functionality, find new images for coffee, check for login (at checkout or at
+ * add to cart?), split css, fix logo (maybe just use jpg instead of svp)*/
 @import url("http://fonts.cdnfonts.com/css/sedan-sc");
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
@@ -147,8 +150,8 @@ table {
 
 /* Button style from https://fdossena.com/?p=html5cool/buttons/i.frag */
 .find-us {
-  /* position: relative;
-  margin-bottom: 0; */
+  position: relative;
+  margin-bottom: 0;
     padding: 0.3em 1.2em;
     border-radius: 2em;
     box-sizing: border-box;
@@ -168,6 +171,14 @@ table {
     background-color:#4095c6;
 }
 
+.menu-item {
+  padding: 16px;
+  text-align: center;
+}
+
+.menu-item img {
+  border-radius: 16px;
+}
 
 form {
   /* centre the form */
