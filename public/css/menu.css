@@ -1,5 +1,15 @@
 .menu {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+  margin-top: 128px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.menu-item {
+  padding: 16px;
+  text-align: center;
+}
+
+.menu-item img {
+  border-radius: 16px;
 }

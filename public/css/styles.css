@@ -8,6 +8,9 @@
 @import "./navbar.css";
 @import "./footer.css";
 @import "./home.css";
+@import "./menu.css";
+@import "./button.css";
+@import "./login.css";
 
 :root {
   --text-big: 36px;

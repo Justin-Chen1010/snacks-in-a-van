@@ -30,3 +30,18 @@
   margin: 8px;
   padding: 0 16px;
 }
+
+@media screen and (min-width: 768px) {	/* for tablet-sized screens */
+    .navbar {
+
+    }
+}
+
+@media screen and (min-width: 1200px) {	/* for big screens */
+
+}
+
+@media screen and (min-width: 1600px) {	/* for very big screens */
+
+}
+
