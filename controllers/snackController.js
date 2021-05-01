@@ -6,8 +6,8 @@ const Snack = mongoose.model("Snack");
 // get all snacks
 const getAllSnacks = async (req, res) => {
   try {
-    const snacks = await Snack.find();
-    return res.send(snacks);
+    const snacks = await Snack.find().lean();
+    res.render('menu', {'snacks':snacks});
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");

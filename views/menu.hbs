@@ -1,0 +1,55 @@
+<script>
+    let cart = {};
+
+    function incrementAmount(snackId) {
+        currAmount = parseInt(document.getElementById(snackId).textContent);
+        document.getElementById(snackId).textContent = currAmount + 1;
+    }
+
+    function decrementAmount(snackId) {
+        currAmount = parseInt(document.getElementById(snackId).textContent);
+        if (currAmount > 0) {
+            document.getElementById(snackId).textContent = currAmount - 1;
+        }
+    }
+    
+    function addToOrder(snackId) {
+        currAmount = parseInt(document.getElementById(snackId).textContent);
+        if (currAmount > 0){
+            if (snackId in cart){
+                cart[snackId] += currAmount;
+            }
+            else{
+                cart[snackId] = currAmount;
+            }
+            document.getElementById(snackId).textContent = 0;   
+        }
+        if (cart){
+            alert(JSON.stringify(cart));
+        }
+    }
+    
+</script>
+
+<script src="./public/static/menu.js"></script>
+
+<section id="snackslist">
+    <div class="menu">
+    {{#each snacks}}
+    <div class="menu-item">
+        <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
+        <p>{{this.snackName}} ${{this.price}}</p>
+
+        <div>
+            <button type="button" onclick="decrementAmount({{this.snackId}})">-</button>
+            <span id={{this.snackId}}>0</span>
+            <button type="button" onclick="incrementAmount({{this.snackId}})">+</button>
+        </div>
+        <div>
+            <button onclick="addToOrder({{this.snackId}})">ADD TO ORDER</button>
+        </div>
+    </div>
+    {{/each}}
+    </div>
+    <a href="/order/3">View order</button>
+</section>

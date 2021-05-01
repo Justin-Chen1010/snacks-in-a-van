@@ -5,7 +5,7 @@ const Customer = mongoose.model("Customer");
 // get all customers
 const getAllCustomers = async (req, res) => {
   try {
-    const customers = await Customer.find();
+    const customers = await Customer.find().lean();
     return res.send(customers);
   } catch (err) {
     res.status(400);
