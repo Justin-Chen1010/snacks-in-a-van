@@ -1,0 +1,12 @@
+footer {
+  color: var(--color-dark);
+  background-color: var(--color-medium);
+  text-align: center;
+  font-family: var(--font-heading);
+  margin: 0;
+}
+
+footer p {
+  margin: 0;
+  display: inline-block;
+}
