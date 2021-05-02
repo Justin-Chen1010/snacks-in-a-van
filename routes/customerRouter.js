@@ -20,6 +20,11 @@ customerRouter.post("/:customerId/order", async (req, res) =>
   orderController.addOrder(req, res)
 );
 
+//FIXME: check customer ID and authenticate
+customerRouter.get("/orders", async (req, res) =>
+  orderController.getAllOrders(req, res)
+);
+
 // insert new customer
 customerRouter.post("/", async (req, res) =>
   customerController.addCustomer(req, res)

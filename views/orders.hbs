@@ -1,0 +1,14 @@
+<section id="orderlist">
+    <div class="orders">
+        {{#each orders}}
+        <div class="order-item">
+            <div class="order-item-id">
+                {{this.orderId}}
+            </div>
+            <div>
+                {{formatDateTime this.timeOrdered}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</section>

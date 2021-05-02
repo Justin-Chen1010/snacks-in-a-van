@@ -8,7 +8,7 @@
 
     function decrementAmount(snackId) {
         currAmount = parseInt(document.getElementById(snackId).textContent);
-        if (currAmount > 0) {
+        if (currAmount > 1) {
             document.getElementById(snackId).textContent = currAmount - 1;
         }
     }
@@ -36,9 +36,11 @@
 <section id="snackslist">
     <div class="menu">
         {{#each snacks}}
-        <div class="menu-item">
+        {{!-- <div class="menu-item">
             <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
-            <p>{{this.snackName}} ${{this.price}}</p>
+            <p>{{this.snackName}} 
+                
+            </p>
 
             <div>
                 <button type="button" onclick="decrementAmount({{this.snackId}})">-</button>
@@ -48,7 +50,30 @@
             <div>
                 <button onclick="addToOrder({{this.snackId}})">ADD TO ORDER</button>
             </div>
-        </div>
+        </div> --}}
+            <ul>
+                <li>
+                    <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
+                    <h3 class="snack-name">
+                        {{this.snackName}}
+                    </h3>
+                    <span class="price">
+                        {{this.price}}
+                    </span>
+                    <span class="buttons">
+                        <button type="button" class="add-button" onclick="decrementAmount({{this.snackId}})"><i class="fa fa-minus"></i></button>
+                        <span id={{this.snackId}}>1</span>
+                        <button type="button" class="minus-button" onclick="incrementAmount({{this.snackId}})"><i class="fa fa-plus"></i></button>
+                    </span>
+                    <div class="submit">
+                        <form method="post" action="/">
+                            <button class= "submit-button" onclick="addToOrder({{this.snackId}})">ADD TO ORDER</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            
         {{/each}}
         {{!-- <a href="/order/3" class="button">View order</button> --}}
     </div>
