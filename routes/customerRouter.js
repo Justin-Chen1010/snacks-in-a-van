@@ -33,4 +33,6 @@ customerRouter.post("/", async (req, res) =>
 customerRouter.get("/login", async (req, res) => res.render("login"));
 customerRouter.post("/login", async (req, res) => res.render("login"));
 
+customerRouter.get("/cart", async (req, res) => res.render("cart"));
+
 module.exports = customerRouter;

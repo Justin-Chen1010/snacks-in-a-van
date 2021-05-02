@@ -23,7 +23,8 @@ const getOneSnack = async (req, res) => {
       res.status(404);
       return res.send("Snack not found");
     }
-    return res.send(oneSnack); // snack was found
+    
+    res.send(oneSnack); // snack was found
   } catch (err) {
     // error occurred
     res.status(400);

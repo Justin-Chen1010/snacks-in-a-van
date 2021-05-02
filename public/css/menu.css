@@ -54,3 +54,9 @@ ol, ul, li {
   text-align: center;
 }
 
+.view-order-button {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+}
+

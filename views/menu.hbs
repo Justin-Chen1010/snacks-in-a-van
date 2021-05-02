@@ -1,5 +1,9 @@
 <script>
-    let cart = {};
+    let cart = JSON.parse(sessionStorage.getItem("cart"));
+    if (!cart){
+        cart = {};
+    }
+    
 
     function incrementAmount(snackId) {
         currAmount = parseInt(document.getElementById(snackId).textContent);
@@ -22,8 +26,11 @@
             else {
                 cart[snackId] = currAmount;
             }
-            document.getElementById(snackId).textContent = 0;
+            document.getElementById(snackId).textContent = 1;
         }
+
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+
         if (cart) {
             alert(JSON.stringify(cart));
         }
@@ -31,50 +38,31 @@
 
 </script>
 
-<script src="./public/static/menu.js"></script>
-
 <section id="snackslist">
     <div class="menu">
         {{#each snacks}}
-        {{!-- <div class="menu-item">
-            <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
-            <p>{{this.snackName}} 
-                
-            </p>
-
-            <div>
-                <button type="button" onclick="decrementAmount({{this.snackId}})">-</button>
-                <span id={{this.snackId}}>0</span>
-                <button type="button" onclick="incrementAmount({{this.snackId}})">+</button>
-            </div>
-            <div>
-                <button onclick="addToOrder({{this.snackId}})">ADD TO ORDER</button>
-            </div>
-        </div> --}}
-            <ul>
-                <li>
-                    <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
-                    <h3 class="snack-name">
-                        {{this.snackName}}
-                    </h3>
-                    <span class="price">
-                        ${{this.price}}
-                    </span>
-                    <span class="buttons">
-                        <button type="button" class="add-button" onclick="decrementAmount({{this.snackId}})"><i class="fa fa-minus"></i></button>
-                        <span id={{this.snackId}}>1</span>
-                        <button type="button" class="minus-button" onclick="incrementAmount({{this.snackId}})"><i class="fa fa-plus"></i></button>
-                    </span>
-                    <div class="submit">
-                        <form method="post" action="/">
-                            <button class= "submit-button" onclick="addToOrder({{this.snackId}})">ADD TO ORDER</button>
-                        </form>
-                    </div>
-                </li>
-            </ul>
-
-            
+        <ul>
+            <li>
+                <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
+                <h3 class="snack-name">
+                    {{this.snackName}}
+                </h3>
+                <span class="price">
+                    ${{this.price}}
+                </span>
+                <span class="buttons">
+                    <button type="button" class="add-button" onclick="decrementAmount({{this.snackId}})"><i
+                            class="fa fa-minus"></i></button>
+                    <span id={{this.snackId}}>1</span>
+                    <button type="button" class="minus-button" onclick="incrementAmount({{this.snackId}})"><i
+                            class="fa fa-plus"></i></button>
+                </span>
+                <div class="submit">
+                    <button class="submit-button" onclick="addToOrder({{this.snackId}})">ADD TO CART</button>
+                </div>
+            </li>
+        </ul>
         {{/each}}
-        {{!-- <a href="/order/3" class="button">View order</button> --}}
+        <a class="button view-order-button" href="/customer/cart"><i class="fa fa-shopping-cart"></i> View cart</a>
     </div>
 </section>

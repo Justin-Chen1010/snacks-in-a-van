@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+// const bcrypt = require("bcrypt-nodejs");
 
 // double check if need to put "unique: false"
 const customerSchema = new mongoose.Schema({ 
@@ -9,6 +10,8 @@ const customerSchema = new mongoose.Schema({
     password: {type: String, required: true},
     orders: [{type: String}]
 });
+
+// customerSchema 
 
 const Customer = mongoose.model("Customer", customerSchema);
 module.exports = Customer;

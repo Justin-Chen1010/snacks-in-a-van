@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
 const Customer = mongoose.model("Customer");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 
 // get all customers
 const getAllCustomers = async (req, res) => {
