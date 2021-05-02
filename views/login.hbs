@@ -1,12 +1,21 @@
-<section id="loginform">
-  <form method="post" action="/login">
-    <label> Email
-      <input placeholder="username" />
-    </label>
-    <label>
-      Password
-      <input placeholder="***************" type="password" />
-    </label>
+<section id="login">
+  <form method="post" action="/login" class="login-form">
+    <div class="login-form-header">
+      <i class="fa fa-camera"></i>
+      <h1>Login Form</h1>
+    </div>
+    <label for="user-email"> Email Address</label>
+    <input id="user-email" placeholder="Your email address" type="email" />
+    <label for="user-pw">Password</label>
+    <input id="user-pw" placeholder="***************" type="password" />
+    <div class="login-forgot-password">
+      <a href="/customer/forgot-password"><u>Forgot password?</u></a>
+    </div>
+    <div class="login-form-submit">
+      <button type="submit" class="button" id="login-button"><i class="fa fa-camera"></i>&nbsp;LOG IN</button>
+    </div>
+    <div class="login-no-account-yet">
+      Don't have an account yet? <a href="/customer/register"><u><i>Register</i></u></a>
+    </div>
   </form>
-
 </section>

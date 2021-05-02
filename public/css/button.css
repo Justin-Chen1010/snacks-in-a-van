@@ -4,6 +4,7 @@
 .button {
   padding: 8px 24px;
   font-size: 32px;
+  border: none;
   font-family: "Roboto", sans-serif;
   color: var(--color-white);
   background-color: var(--color-grey);
