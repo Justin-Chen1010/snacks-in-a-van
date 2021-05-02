@@ -1,3 +1,48 @@
 #cart {
-    margin-top: 256px;
+    margin-top: 64px;
+    width: 100%;
+}
+
+#cart h1 {
+    text-align: center;
+    font-size: 64px;
+    font-family: var(--font-heading);
+}
+
+.cart-wrapper {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cart-van-details {
+}
+
+#items-table {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--color-light) ;
+    width: 100%;
+    border: solid black 3px;
+}
+
+#items-table tr {
+    text-decoration: bold;
+    text-align: center;
+    border :solid black 1px;
+}
+
+.order-buttons {
+    margin-top: 16px;
+    text-align: center;
+}
+
+#cancel-order {
+    margin: 16px;
+    font-size: 10px;
+}
+
+#place-order {
+    margin: 16px;
+    font-size: 10px;
 }

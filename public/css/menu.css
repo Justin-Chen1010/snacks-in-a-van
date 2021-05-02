@@ -38,7 +38,7 @@ ol, ul, li {
   
 .submit-button{
   text-align: center;
-  color: white;
+  color: var(--color-white);
   border-radius: 8px;
   background: #68798e;
   border: none;

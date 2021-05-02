@@ -3,7 +3,6 @@
     if (!cart){
         cart = {};
     }
-    
 
     function incrementAmount(snackId) {
         currAmount = parseInt(document.getElementById(snackId).textContent);
@@ -17,14 +16,15 @@
         }
     }
 
-    function addToOrder(snackId) {
+    function addToOrder(snackId, snackName, price) {
         currAmount = parseInt(document.getElementById(snackId).textContent);
         if (currAmount > 0) {
-            if (snackId in cart) {
-                cart[snackId] += currAmount;
+            const snackJson = JSON.stringify({"snackName": snackName, "price": price});
+            if (snackJson in cart) {
+                cart[snackJson] += currAmount;
             }
             else {
-                cart[snackId] = currAmount;
+                cart[snackJson] = currAmount;
             }
             document.getElementById(snackId).textContent = 1;
         }
@@ -35,6 +35,8 @@
             alert(JSON.stringify(cart));
         }
     }
+
+    let submit 
 
 </script>
 
@@ -58,7 +60,8 @@
                             class="fa fa-plus"></i></button>
                 </span>
                 <div class="submit">
-                    <button class="submit-button" onclick="addToOrder({{this.snackId}})">ADD TO CART</button>
+                    <button class="submit-button" onclick="addToOrder({{this.snackId}}, 
+                    '{{this.snackName}}', {{this.price}})">ADD TO CART</button>
                 </div>
             </li>
         </ul>
