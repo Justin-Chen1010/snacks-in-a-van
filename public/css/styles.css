@@ -53,11 +53,6 @@ a {
   text-decoration: none; /* switch off underlining of anchors */
 }
 
-a:hover {
-  /* Scale without realigning texts */
-  -webkit-transform: scale(1.2);
-}
-
 :target {
   color: var(--color-white);
 }

@@ -30,3 +30,7 @@
   margin: 8px;
   padding: 0 16px;
 }
+
+.navbar nav a:hover {
+  -webkit-transform: scale(1.2);
+}

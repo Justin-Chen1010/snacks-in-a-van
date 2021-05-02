@@ -20,7 +20,7 @@ h3::before, h3::after {
 }
 
 h3.snack-name, span.price, span.buttons{
-  margin-bottom: 0.25em;
+  margin-bottom: 0.5em;
   display: block;
   text-align: center;
 }
@@ -35,15 +35,23 @@ ol, ul, li {
   border-radius: 50%;
   background: none;
 }
-
+  
 .submit-button{
   text-align: center;
-  border-radius: 20%;
+  color: white;
+  border-radius: 8px;
+  background: #68798e;
+  border: none;
+  padding: 8px;
+  transition: 0.3s;
+}
+
+.submit-button:hover{  
+  background-color: var(--color-black);
+  color: white;
 }
 
 .submit {
   text-align: center;
-  border-radius: 20%;
-  background: #68798e;
 }
 
