@@ -43,12 +43,11 @@ ol, ul, li {
   background: #68798e;
   border: none;
   padding: 8px;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .submit-button:hover{  
   background-color: var(--color-black);
-  color: white;
 }
 
 .submit {

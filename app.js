@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.engine('hbs', exphbs({
   defaultlayout: 'main',
   extname: 'hbs',
-  helpers: require(__dirname + "\\public\\js\\helpers.js").helpers
+  helpers: require(__dirname + "/public/js/helpers.js").helpers
 }));
 
 app.set('view engine', 'hbs');
