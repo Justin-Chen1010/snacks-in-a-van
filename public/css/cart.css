@@ -40,11 +40,11 @@
 }
 
 .order-buttons {
-    margin-top: 16px;
+    margin: 32px 0;
     text-align: center;
 }
 
-#place-order-button, #cancel-order-button {
+#place-order-button, #clear-cart-button {
     margin: 16px;
     font-size: 16px;
 }

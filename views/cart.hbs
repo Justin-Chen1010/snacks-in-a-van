@@ -10,9 +10,9 @@
             </table>
         </div>
         <div class="order-buttons">
-            <button id="cancel-order-button" class="button" onclick="clearCart()">
+            <button id="clear-cart-button" class="button" onclick="clearCart()">
                 <i class="fa fa-concierge-bell"></i>
-                Cancel Order
+                Clear Cart
             </button>
             <button id="place-order-button" class="button" onclick="debugCart()">
                 Place Order
@@ -48,8 +48,20 @@
         }
     }
 
+    function deleteItem(snackId) {
+        delete cart[snackId];
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        updateTable();
+    }
+
     function updateQuantity(snackId) {
         const quantityField = document.getElementById(`snack-${snackId}-quantity`);
+        let quantity = parseInt(quantityField.value);
+
+        // invalid value, don't update to cart to this!
+        if (!quantity || quantity < 0) {
+            quantityField.value = 1;
+        }
         cart[snackId] = parseInt(quantityField.value);
         sessionStorage.setItem("cart", JSON.stringify(cart));
         updateTable();
@@ -101,6 +113,12 @@
                 cell.appendChild(text);
             }
         }
+        let cell = row.insertCell();
+        let deleteButton = document.createElement("button");
+        deleteButton.className = "button";
+        deleteButton.textContent = "x";
+        deleteButton.setAttribute("onclick", `deleteItem(${datum["Snack ID"]})`);
+        cell.appendChild(deleteButton);
     }
 
     function generateLastRow(table) {
