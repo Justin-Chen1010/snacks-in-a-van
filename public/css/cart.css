@@ -18,18 +18,21 @@
 .cart-van-details {
 }
 
-#items-table {
-    margin-left: auto;
-    margin-right: auto;
+.cart-table {
+    border-collapse: collapse; 
+    margin: 32px auto;
     background-color: var(--color-light) ;
     width: 100%;
-    border: solid black 3px;
 }
 
-#items-table tr {
+.cart-table thead tr, .cart-table tr:nth-last-child(2) {
+    border-bottom: 2px solid var(--color-black);
+}
+
+.cart-table td {
     text-decoration: bold;
     text-align: center;
-    border :solid black 1px;
+    padding: 16px 0;
 }
 
 .order-buttons {
@@ -37,12 +40,16 @@
     text-align: center;
 }
 
-#cancel-order {
+#place-order-button, #cancel-order-button {
     margin: 16px;
-    font-size: 10px;
+    font-size: 16px;
 }
 
-#place-order {
-    margin: 16px;
-    font-size: 10px;
+.cart-total-container {
+    display: flex;
+}
+
+.cart-total {
+    flex-grow: 1;
+    text-align: right;
 }

@@ -1,4 +1,4 @@
-.home-container {
+#home {
   flex-grow: 1;
   background-image: url("../static/home-background.jpg");
   background-position: center;
@@ -8,11 +8,11 @@
   flex-direction: column;
 }
 
-.home-container-top {
+.home-top {
     flex-grow: 5;
 }
 
-.home-container-bottom {
+.home-bottom {
     flex-grow: 1;
     display: flex;
     align-items: center;

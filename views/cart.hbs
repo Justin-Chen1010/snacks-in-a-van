@@ -5,49 +5,49 @@
             Van Name <br>
             Van Location
         </div>
-        <div>
-            Cart Total: <b><span class="cart-total"></span></b>
-        </div>
-        <table id="items-table">
+        <table class="cart-table">
         </table>
+        <div class="cart-total-container">
+            {{!-- Cart Total: <div class="cart-total"></div> --}}
+        </div>
         <div class="order-buttons">
-            <button id="cancel-order" class="button" onclick="clearCart()"><i class="fa fa-concierge-bell"></i>Cancel Order</button>
-            <button id="place-order" class="button" onclick="debugCart()">Place Order</button>
+            <button id="cancel-order-button" class="button" onclick="clearCart()">
+                <i class="fa fa-concierge-bell"></i>
+                Cancel Order
+            </button>
+            <button id="place-order-button" class="button" onclick="debugCart()">
+                Place Order
+            </button>
         </div>
     </div>
 </section>
 
 <script>
+    // TODO: don't forget to wipe cart when user logs out
 
-    function debugCart() {
-        const cart = sessionStorage.getItem("cart");
-        console.log(cart);
-        return cart;
-    }
-    cart = JSON.parse(sessionStorage.getItem("cart"))
+    const menu = JSON.parse(sessionStorage.getItem("menu"));
+    const cart = JSON.parse(sessionStorage.getItem("cart"));
 
-    let itemCart = [];
-    for (let itemJSON in cart) {
-        const item = JSON.parse(itemJSON);
-        const quantity = cart[itemJSON];
-        itemCart.push({
-            Item: item.snackName,
+    let tableContents = [];
+    for (let snackId in cart) {
+        const snack = menu.find(item => item.snackId === snackId);
+        const quantity = cart[snackId];
+        tableContents.push({
+            Item: snack.snackName,
             Quantity: quantity,
-            "Unit Price": `$${item.price}`,
-            Price: `$${item.price * quantity}`
+            "Unit Price": `$${snack.price}`,
+            Price: `$${snack.price * quantity}`
         });
     }
 
-    let cartTotalField = document.querySelector(".cart-total");
-    let sum = 0;
-    for (let itemJSON in cart) {
-        const item = JSON.parse(itemJSON);
-        const quantity = cart[itemJSON];
-        sum += item.price * quantity;
-    }
-    cartTotalField.textContent = `$${sum}`;
-    for (let cartItem in cart) {
-        sum += cartItem
+    function updateCartTotal() {
+        let cartTotalField = document.querySelector(".cart-total");
+        let sum = 0;
+        console.log(tableContents);
+        for (const row of tableContents) {
+            sum += parseFloat(row["Price"].substring(1));
+        }
+        cartTotalField.textContent = `$${sum}`;
     }
 
     function generateTableHead(table, data) {
@@ -70,16 +70,30 @@
                 cell.appendChild(text);
             }
         }
+        let row = table.insertRow();
+        let cell = row.insertCell();
+        let text = document.createTextNode("Cart Total");
+        cell.appendChild(text);
+
+        row.insertCell();
+        row.insertCell();
+
+        let cell2 = row.insertCell();
+        cell2.classList.add("cart-total");
+        let text2 = document.createTextNode("0");
+        cell2.appendChild(text2);
     }
 
-    function clearCart(){
+    function clearCart() {
         sessionStorage.clear();
     }
 
-    let table = document.querySelector("#items-table");
-    let data = Object.keys(itemCart[0]);
-    generateTable(table, itemCart);
+    let table = document.querySelector(".cart-table");
+    let data = Object.keys(tableContents[0]);
+    generateTable(table, tableContents);
     generateTableHead(table, data);
+
+    updateCartTotal();
 
 
 </script>
