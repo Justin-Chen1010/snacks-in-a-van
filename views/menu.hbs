@@ -1,6 +1,9 @@
 <script>
     let cart = {};
 
+    const x = {{{json snacks}}};
+    console.log(x);
+
     function incrementAmount(snackId) {
         currAmount = parseInt(document.getElementById(snackId).textContent);
         document.getElementById(snackId).textContent = currAmount + 1;
