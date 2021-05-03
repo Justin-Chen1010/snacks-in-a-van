@@ -20,9 +20,19 @@ customerRouter.post("/:customerId/order", async (req, res) =>
   orderController.addOrder(req, res)
 );
 
+//FIXME: check customer ID and authenticate
+customerRouter.get("/orders", async (req, res) =>
+  orderController.getAllOrders(req, res)
+);
+
 // insert new customer
 customerRouter.post("/", async (req, res) =>
   customerController.addCustomer(req, res)
 );
+
+customerRouter.get("/login", async (req, res) => res.render("login"));
+customerRouter.post("/login", async (req, res) => res.render("login"));
+
+customerRouter.get("/cart", async (req, res) => res.render("cart"));
 
 module.exports = customerRouter;

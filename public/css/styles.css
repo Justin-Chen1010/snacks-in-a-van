@@ -2,28 +2,38 @@
 /* FIXME: fix hires background, logo, sedan font, sticky nav not sticky, login/cart
  * functionality, find new images for coffee, check for login (at checkout or at
  * add to cart?), split css, fix logo (maybe just use jpg instead of svp)*/
-@import url("http://fonts.cdnfonts.com/css/sedan-sc");
+/* @import url('https://fonts.googleapis.com/css2?family=Cormorant+SC&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 @import "./navbar.css";
 @import "./footer.css";
 @import "./home.css";
 @import "./menu.css";
+@import "./cart.css";
+@import "./orders.css";
 @import "./button.css";
+@import "./error.css";
 @import "./login.css";
+
+* {
+  box-sizing: border-box;
+}
 
 :root {
   --text-big: 36px;
   --text-medium: 22px;
   --text-small: 16px;
   --font-body: "Roboto", sans-serif;
-  --font-heading: "Sedan SC", cursive;
+  --font-heading: "Cormorant SC", "Georgia", cursive;
   --color-dark: #042046;
   --color-medium: #d4b496;
   --color-light: #f5e5d6;
   --color-grey: #68798e;
   --color-black: #042046;
   --color-white: #ffffff;
+  --color-lighter: #f0eded;
 }
 
 html {
@@ -48,11 +58,6 @@ body {
 a {
   color: var(--color-black);
   text-decoration: none; /* switch off underlining of anchors */
-}
-
-a:hover {
-  /* Scale without realigning texts */
-  -webkit-transform: scale(1.2);
 }
 
 :target {

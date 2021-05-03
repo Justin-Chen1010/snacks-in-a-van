@@ -1,0 +1,20 @@
+.orders {
+    margin-top: 128px;
+}
+
+.orders-wrapper {
+    padding: 0 10vw;
+}
+
+.order-item {
+    background-color: var(--color-lighter);
+    padding: 16px;
+    margin: 16px;
+    border: 1px solid black;
+    border-radius: 16px;
+}
+
+.order-item-id {
+    font-weight: bold;
+    margin-bottom: 16px;
+}

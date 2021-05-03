@@ -1,51 +1,39 @@
-require('./models');
+require("./models");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const customerRouter = require('./routes/customerRouter');
-const vendorRouter = require('./routes/vendorRouter');
-const exphbs = require('express-handlebars')
+const customerRouter = require("./routes/customerRouter");
+const vendorRouter = require("./routes/vendorRouter");
+const exphbs = require("express-handlebars");
 
 const app = express();
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use("/vendor", vendorRouter);
 app.use("/customer", customerRouter);
 app.use(express.urlencoded({ extended: true }));
 
+app.engine(
+  "hbs",
+  exphbs({
+    defaultlayout: "main",
+    extname: "hbs",
+    helpers: require(__dirname + "/public/js/helpers.js").helpers,
+  })
+);
 
-app.engine('hbs', exphbs({
-  defaultlayout: 'main',
-  extname: 'hbs'
-}));
-
-app.set('view engine', 'hbs');
+app.set("view engine", "hbs");
 
 app.get("/customer", (req, res) => {
-  res.render('index')
-  // res.status(200).send("<h1>Home page</h1>");
+  res.render("index");
 });
-
-// app.get("/menu", (req, res) => {
-//   res.render('menu')
-// });
-// var button = document.getElementById("clickme"),
-//   count = 0
-// button.onclick = function(snackId) {
-//   count += 1;
-//   document
-//   button.textContent = count;
-// };
-
-// var count = 0
-
-
 
 // Invalid path, return status 404
 app.all("*", async (req, res) => {
-    res.status(404).render('error', {errorCode: '404', message: 'That route is invalid.'})
-    // res.status(404).send("Not Found");
+  res
+    .status(404)
+    .render("error", { errorCode: "404", message: "that route is invalid." });
 });
 
 const port = process.env.PORT || 8080;
@@ -53,4 +41,3 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`The app is listening on port ${port}!`);
 });
-
