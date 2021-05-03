@@ -5,10 +5,9 @@
             Van Name <br>
             Van Location
         </div>
+        <div class="cart-table-wrapper">
         <table class="cart-table">
         </table>
-        <div class="cart-total-container">
-            {{!-- Cart Total: <div class="cart-total"></div> --}}
         </div>
         <div class="order-buttons">
             <button id="cancel-order-button" class="button" onclick="clearCart()">
@@ -20,6 +19,7 @@
             </button>
         </div>
     </div>
+    <a class="button view-menu-button" href="/customer/menu"><i class="fa fa-shopping-cart"></i> View menu</a>
 </section>
 
 <script>
@@ -31,13 +31,24 @@
     let tableContents = [];
     for (let snackId in cart) {
         const snack = menu.find(item => item.snackId === snackId);
+        if (!snack) {
+            delete cart[snackId];
+            sessionStorage.setItem("cart", JSON.stringify(cart));
+        }
         const quantity = cart[snackId];
         tableContents.push({
+            "Snack ID": snack.snackId,
             Item: snack.snackName,
             Quantity: quantity,
             "Unit Price": `$${snack.price}`,
             Price: `$${snack.price * quantity}`
         });
+    }
+
+    function updateQuantity(snackId) {
+        const quantityField = document.getElementById(`snack-${snackId}-quantity`);
+        cart[snackId] = parseInt(quantityField.value);
+        sessionStorage.setItem("cart", JSON.stringify(cart));
     }
 
     function updateCartTotal() {
@@ -62,14 +73,33 @@
     }
 
     function generateTable(table, data) {
-        for (let element of data) {
+        for (let datum of data) {
             let row = table.insertRow();
-            for (key in element) {
-                let cell = row.insertCell();
-                let text = document.createTextNode(element[key]);
+            generateRow(row, datum);
+        }
+        generateLastRow(table);
+    }
+
+    function generateRow(row, datum) {
+        for (key in datum) {
+            let cell = row.insertCell();
+            if (key === "Quantity") {
+                let input = document.createElement("input");
+                input.id = `snack-${datum["Snack ID"]}-quantity`;
+                input.className = `count-input`;
+                input.setAttribute("type", "number");
+                input.setAttribute("min", "1");
+                input.setAttribute("onchange", `updateQuantity(${datum["Snack ID"]})`);
+                input.setAttribute("value", datum.Quantity);
+                cell.appendChild(input);
+            } else {
+                let text = document.createTextNode(datum[key]);
                 cell.appendChild(text);
             }
         }
+    }
+
+    function generateLastRow(table) {
         let row = table.insertRow();
         let cell = row.insertCell();
         let text = document.createTextNode("Cart Total");
@@ -77,23 +107,33 @@
 
         row.insertCell();
         row.insertCell();
+        row.insertCell();
 
         let cell2 = row.insertCell();
-        cell2.classList.add("cart-total");
+        cell2.className = "cart-total";
         let text2 = document.createTextNode("0");
         cell2.appendChild(text2);
     }
 
     function clearCart() {
         sessionStorage.clear();
+        window.location.reload();
     }
 
-    let table = document.querySelector(".cart-table");
-    let data = Object.keys(tableContents[0]);
-    generateTable(table, tableContents);
-    generateTableHead(table, data);
+    // if cart is empty display message
+    if (!cart || Object.keys(cart).length === 0) {
+        let wrapper = document.querySelector(".cart-table-wrapper");
+        let div = document.createElement("div");
+        div.className = "empty-cart-message";
+        let text = document.createTextNode("Empty cart.");
+        div.appendChild(text);
+        wrapper.appendChild(div);
+    } else {
+        let table = document.querySelector(".cart-table");
+        let data = Object.keys(tableContents[0]);
+        generateTable(table, tableContents);
+        generateTableHead(table, data);
 
-    updateCartTotal();
-
-
+        updateCartTotal();
+    }
 </script>
