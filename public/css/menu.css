@@ -1,5 +1,6 @@
-.menu {
-  margin-top: 128px;
+#menu {
+  margin-top: 64px;
+  padding: 24px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -14,19 +15,10 @@
   border-radius: 16px;
 }
 
-h3::before, h3::after {
-  content: " ";
-  display: table;
-}
-
 h3.snack-name, span.price, span.buttons{
   margin-bottom: 0.5em;
   display: block;
   text-align: center;
-}
-
-ol, ul, li {
-  list-style: none;
 }
 
 .add-button, .minus-button {

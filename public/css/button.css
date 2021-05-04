@@ -15,5 +15,6 @@
 
 .button:hover {
   background-color: var(--color-black);
+  transform: scale(1.2);
   -webkit-transform: scale(1.2);
 }
