@@ -77,9 +77,14 @@ module.exports = (passport) => {
                         var newUser = new Customer();
                         newUser.customerId = uuidv4();
                         newUser.email = email;
-                        newUser.password = newUser.generateHash(password);
                         newUser.familyName = req.body.familyName;
                         newUser.givenName = req.body.givenName;
+                        if (password === req.body.confirmPassword) {
+                            newUser.password = newUser.generateHash(password);
+                        }
+                        else {
+                           return done(null, false, req.flash('signupMessage', 'Passwords must be identical.'));
+                        }
 
                         // and save the user
                         newUser.save(function(err) {

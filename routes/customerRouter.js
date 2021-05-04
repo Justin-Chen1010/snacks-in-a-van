@@ -18,14 +18,20 @@ customerRouter.get("/menu/:snackId", async (req, res) => {
 
 // insert an order, specifying the name of the first snack and the assigned
 // vendor
-customerRouter.post("/:customerId/order", async (req, res) =>
+customerRouter.post("/:customerId/order", async (req, res) => 
   orderController.addOrder(req, res)
 );
 
 //FIXME: check customer ID and authenticate
-customerRouter.get("/orders", async (req, res) =>
-  orderController.getAllOrders(req, res)
-);
+// redirect unauthenticated customer
+customerRouter.get("/orders", async (req, res) => {
+  if (req.isAuthenticated()) {
+    orderController.getAllOrders(req, res);
+  }
+  else {
+    res.redirect('/customer/login');
+  }
+});
 
 // insert new customer
 customerRouter.post("/", async (req, res) =>
