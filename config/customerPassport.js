@@ -42,6 +42,9 @@ module.exports = (passport) => {
                     }
                     else {
                         req.session.email = email;
+                        if (req.session.returnTo === '/orders') {
+                            req.session.returnTo = `/customer/${user.customerId}/orders`
+                        }
                         return done(null, user, req.flash('loginMessage', 'Login successful'));
                     }
                 });
@@ -97,6 +100,7 @@ module.exports = (passport) => {
                         // put the user's email in the session so that it can now be used for all
                         // communications between the client (browser) and the FoodBuddy app
                         req.session.email=email;
+                        
                     }
                 });
             });

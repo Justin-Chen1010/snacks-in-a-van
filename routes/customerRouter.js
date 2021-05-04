@@ -29,6 +29,7 @@ customerRouter.get("/orders", async (req, res) => {
     orderController.getAllOrders(req, res);
   }
   else {
+    req.session.returnTo = '/orders'
     res.redirect('/customer/login');
   }
 });
@@ -42,7 +43,7 @@ customerRouter.get("/cart", async (req, res) => res.render("cart"));
 
 customerRouter.get("/login", async (req, res) => res.render("login"));
 customerRouter.post("/login", passport.authenticate('local-login', {
-  successRedirect: '/customer/cart', //redirect to cart after login if success
+  successReturnToOrRedirect: '/customer/cart', //redirect to cart after login if success
   failureRedirect: '/customer/login', //redirect to the login page after failed
   failureFlash: true
 }));
