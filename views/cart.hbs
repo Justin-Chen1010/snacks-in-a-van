@@ -14,7 +14,7 @@
                 <i class="fa fa-concierge-bell"></i>
                 Clear Cart
             </button>
-            <button id="place-order-button" class="button" onclick="debugCart()">
+            <button id="place-order-button" class="button" onclick="debugCarts()">
                 Place Order
             </button>
         </div>
@@ -52,6 +52,9 @@
         delete cart[snackId];
         sessionStorage.setItem("cart", JSON.stringify(cart));
         updateTable();
+      
+    function debugCarts() {
+        return res.redirect('/customer/login');
     }
 
     function updateQuantity(snackId) {
