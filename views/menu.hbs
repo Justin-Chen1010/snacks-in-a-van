@@ -16,7 +16,7 @@
         }
     }
 
-    function addToOrder(snackId, snackName, price) {
+    function addToCart(snackId, snackName, price) {
         currAmount = parseInt(document.getElementById(snackId).textContent);
         if (currAmount > 0) {
             const snackJson = JSON.stringify({"snackName": snackName, "price": price});
@@ -60,7 +60,7 @@
                             class="fa fa-plus"></i></button>
                 </span>
                 <div class="submit">
-                    <button class="submit-button" onclick="addToOrder({{this.snackId}}, 
+                    <button class="submit-button" onclick="addToCart({{this.snackId}}, 
                     '{{this.snackName}}', {{this.price}})">ADD TO CART</button>
                 </div>
             </li>

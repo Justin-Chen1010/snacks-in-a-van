@@ -12,7 +12,7 @@
         </table>
         <div class="order-buttons">
             <button id="cancel-order" class="button" onclick="clearCart()"><i class="fa fa-concierge-bell"></i>Cancel Order</button>
-            <button id="place-order" class="button" onclick="debugCart()">Place Order</button>
+            <button id="place-order" class="button" onclick="debugCarts()">Place Order</button>
         </div>
     </div>
 </section>
@@ -24,6 +24,11 @@
         console.log(cart);
         return cart;
     }
+
+    function debugCarts() {
+        return res.redirect('/customer/login');
+    }
+
     cart = JSON.parse(sessionStorage.getItem("cart"))
 
     let itemCart = [];

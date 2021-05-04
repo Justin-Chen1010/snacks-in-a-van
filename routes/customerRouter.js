@@ -3,6 +3,8 @@ const customerRouter = express.Router();
 const customerController = require("../controllers/customerController");
 const snackController = require("../controllers/snackController");
 const orderController = require("../controllers/orderController");
+const passport = require('passport');
+require('../config/customerPassport')(passport);
 
 // get the menu: details of all snacks
 customerRouter.get("/menu", async (req, res) =>
@@ -16,23 +18,47 @@ customerRouter.get("/menu/:snackId", async (req, res) => {
 
 // insert an order, specifying the name of the first snack and the assigned
 // vendor
-customerRouter.post("/:customerId/order", async (req, res) =>
+customerRouter.post("/:customerId/order", async (req, res) => 
   orderController.addOrder(req, res)
 );
 
 //FIXME: check customer ID and authenticate
-customerRouter.get("/orders", async (req, res) =>
-  orderController.getAllOrders(req, res)
-);
+// redirect unauthenticated customer
+customerRouter.get("/orders", async (req, res) => {
+  if (req.isAuthenticated()) {
+    orderController.getAllOrders(req, res);
+  }
+  else {
+    req.session.returnTo = '/orders'
+    res.redirect('/customer/login');
+  }
+});
 
 // insert new customer
 customerRouter.post("/", async (req, res) =>
   customerController.addCustomer(req, res)
 );
 
-customerRouter.get("/login", async (req, res) => res.render("login"));
-customerRouter.post("/login", async (req, res) => res.render("login"));
-
 customerRouter.get("/cart", async (req, res) => res.render("cart"));
+
+customerRouter.get("/login", async (req, res) => res.render("login"));
+customerRouter.post("/login", passport.authenticate('local-login', {
+  successReturnToOrRedirect: '/customer/cart', //redirect to cart after login if success
+  failureRedirect: '/customer/login', //redirect to the login page after failed
+  failureFlash: true
+}));
+
+customerRouter.get("/signup", (req, res) => { res.render('signup')});
+customerRouter.post('/signup', passport.authenticate('local-signup', {
+  successRedirect: '/customer/login', //redirect to the login page if sign up succeed
+  failureRedirect: '/customer/signup', //redirect to the sign up page if failed
+  failureFlash: true
+}));
+
+customerRouter.post('/logout', function(req, res) {
+  req.logout();
+  req.flash('');
+  res.redirect('/customer/login');
+});
 
 module.exports = customerRouter;

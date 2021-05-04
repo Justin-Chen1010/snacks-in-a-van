@@ -11,7 +11,7 @@ const getAllOrders = async (req, res) => {
     // sort by timeOrdered, earlier orders first
     const orders = await Order.find().sort('timeOrdered').lean();
     // return res.send(orders);
-    return res.render('orders', {'orders':orders});
+    return res.render('orders', {'orders':orders, 'isLoggedin':req.isAuthenticated()});
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");
