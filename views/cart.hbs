@@ -52,6 +52,7 @@
         delete cart[snackId];
         sessionStorage.setItem("cart", JSON.stringify(cart));
         updateTable();
+    }
       
     function debugCarts() {
         return res.redirect('/customer/login');
