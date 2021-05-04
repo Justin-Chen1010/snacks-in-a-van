@@ -1,8 +1,7 @@
 var register = function (Handlebars) {
   var helpers = {
     // add all helpers as key: value pairs
-    // an example of listfood helper to iterate over
-    // food items and display these in the page
+    // format date and time to MM/DD/YYYY HH:MM
     formatDateTime: function (dateString) {
       const date = new Date(dateString);
       return (
@@ -18,6 +17,10 @@ var register = function (Handlebars) {
         date.getMinutes()
       );
     },
+
+    json: function(object) {
+      return JSON.stringify(object);
+    }
   };
 
   if (Handlebars && typeof Handlebars.registerHelper === "function") {

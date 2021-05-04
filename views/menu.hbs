@@ -1,71 +1,61 @@
 <script>
-    let cart = JSON.parse(sessionStorage.getItem("cart"));
-    if (!cart){
-        cart = {};
-    }
+    const menu = {{{ json snacks }}};
+    sessionStorage.setItem("menu", JSON.stringify(menu));
+
+    let cart = JSON.parse(sessionStorage.getItem("cart")) || {};
 
     function incrementAmount(snackId) {
-        currAmount = parseInt(document.getElementById(snackId).textContent);
-        document.getElementById(snackId).textContent = currAmount + 1;
+        let count = document.getElementById(`snack-${snackId}-count`);
+        let currAmount = parseInt(count.textContent);
+        count.textContent = currAmount + 1;
     }
 
     function decrementAmount(snackId) {
-        currAmount = parseInt(document.getElementById(snackId).textContent);
+        let count = document.getElementById(`snack-${snackId}-count`);
+        let currAmount = parseInt(count.textContent);
         if (currAmount > 1) {
-            document.getElementById(snackId).textContent = currAmount - 1;
+            count.textContent = currAmount - 1;
         }
     }
 
-    function addToCart(snackId, snackName, price) {
-        currAmount = parseInt(document.getElementById(snackId).textContent);
+    function addToOrder(snackId) {
+        let count = document.getElementById(`snack-${snackId}-count`);
+        let currAmount = parseInt(count.textContent);
         if (currAmount > 0) {
-            const snackJson = JSON.stringify({"snackName": snackName, "price": price});
-            if (snackJson in cart) {
-                cart[snackJson] += currAmount;
+            if (snackId in cart) {
+                cart[snackId] += currAmount;
             }
             else {
-                cart[snackJson] = currAmount;
+                cart[snackId] = currAmount;
             }
-            document.getElementById(snackId).textContent = 1;
-        }
-
-        sessionStorage.setItem("cart", JSON.stringify(cart));
-
-        if (cart) {
-            alert(JSON.stringify(cart));
+            count.textContent = 1;
+            sessionStorage.setItem("cart", JSON.stringify(cart));
         }
     }
-
-    let submit 
-
 </script>
 
-<section id="snackslist">
-    <div class="menu">
-        {{#each snacks}}
-        <ul>
-            <li>
-                <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
-                <h3 class="snack-name">
-                    {{this.snackName}}
-                </h3>
-                <span class="price">
-                    ${{this.price}}
-                </span>
-                <span class="buttons">
-                    <button type="button" class="add-button" onclick="decrementAmount({{this.snackId}})"><i
-                            class="fa fa-minus"></i></button>
-                    <span id={{this.snackId}}>1</span>
-                    <button type="button" class="minus-button" onclick="incrementAmount({{this.snackId}})"><i
-                            class="fa fa-plus"></i></button>
-                </span>
-                <div class="submit">
-                    <button class="submit-button" onclick="addToCart({{this.snackId}}, 
-                    '{{this.snackName}}', {{this.price}})">ADD TO CART</button>
-                </div>
-            </li>
-        </ul>
-        {{/each}}
-        <a class="button view-order-button" href="/customer/cart"><i class="fa fa-shopping-cart"></i> View cart</a>
+<section id="menu">
+    {{#each snacks}}
+    <div class="menu-item">
+
+        <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
+        <h3 class="snack-name">
+            {{this.snackName}}
+        </h3>
+        <span class="price">
+            ${{this.price}}
+        </span>
+        <span class="buttons">
+            <button type="button" class="add-button" onclick="decrementAmount({{this.snackId}})"><i
+                    class="fa fa-minus"></i></button>
+            <span id="snack-{{this.snackId}}-count">1</span>
+            <button type="button" class="minus-button" onclick="incrementAmount({{this.snackId}})"><i
+                    class="fa fa-plus"></i></button>
+        </span>
+        <div class="submit">
+            <button class="submit-button" onclick="addToOrder({{this.snackId}})">ADD TO CART</button>
+        </div>
     </div>
+    {{/each}}
+    <a class="button view-order-button" href="/customer/cart"><i class="fa fa-shopping-cart"></i> View cart</a>
 </section>

@@ -1,4 +1,4 @@
-.error {
+#error {
     margin-top: 128px;
     width: 30%;
     text-align: center;
@@ -6,6 +6,6 @@
     margin-right: auto;
 }
 
-.error h1 {
+#error h1 {
     font-family: var(--font-heading);
 }

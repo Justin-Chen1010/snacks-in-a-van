@@ -3,7 +3,7 @@
 /* find us button */
 .button {
   padding: 8px 24px;
-  font-size: 32px;
+  font-size: 24px;
   border: none;
   font-family: "Roboto", sans-serif;
   color: var(--color-white);
@@ -15,5 +15,6 @@
 
 .button:hover {
   background-color: var(--color-black);
+  transform: scale(1.2);
   -webkit-transform: scale(1.2);
 }

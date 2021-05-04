@@ -5,54 +5,79 @@
             Van Name <br>
             Van Location
         </div>
-        <div>
-            Cart Total: <b><span class="cart-total"></span></b>
+        <div class="cart-table-wrapper">
+            <table class="cart-table">
+            </table>
         </div>
-        <table id="items-table">
-        </table>
         <div class="order-buttons">
-            <button id="cancel-order" class="button" onclick="clearCart()"><i class="fa fa-concierge-bell"></i>Cancel Order</button>
-            <button id="place-order" class="button" onclick="debugCarts()">Place Order</button>
+            <button id="clear-cart-button" class="button" onclick="clearCart()">
+                <i class="fa fa-concierge-bell"></i>
+                Clear Cart
+            </button>
+            <button id="place-order-button" class="button" onclick="debugCarts()">
+                Place Order
+            </button>
         </div>
     </div>
+    <a class="button view-menu-button" href="/customer/menu"><i class="fa fa-clipboard"></i> View menu</a>
 </section>
 
 <script>
+    // TODO: don't forget to wipe cart when user logs out
 
-    function debugCart() {
-        const cart = sessionStorage.getItem("cart");
-        console.log(cart);
-        return cart;
+    const menu = JSON.parse(sessionStorage.getItem("menu"));
+    const cart = JSON.parse(sessionStorage.getItem("cart"));
+    let tableContents = [];
+
+    function updateTableContents() {
+        tableContents = [];
+        for (let snackId in cart) {
+            const snack = menu.find(item => item.snackId === snackId);
+            if (!snack) {
+                delete cart[snackId];
+                sessionStorage.setItem("cart", JSON.stringify(cart));
+            }
+            const quantity = cart[snackId];
+            tableContents.push({
+                "Snack ID": snack.snackId,
+                Item: snack.snackName,
+                Quantity: quantity,
+                "Unit Price": `$${snack.price}`,
+                Price: `$${snack.price * quantity}`
+            });
+        }
     }
 
+    function deleteItem(snackId) {
+        delete cart[snackId];
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        updateTable();
+      
     function debugCarts() {
         return res.redirect('/customer/login');
     }
 
-    cart = JSON.parse(sessionStorage.getItem("cart"))
+    function updateQuantity(snackId) {
+        const quantityField = document.getElementById(`snack-${snackId}-quantity`);
+        let quantity = parseInt(quantityField.value);
 
-    let itemCart = [];
-    for (let itemJSON in cart) {
-        const item = JSON.parse(itemJSON);
-        const quantity = cart[itemJSON];
-        itemCart.push({
-            Item: item.snackName,
-            Quantity: quantity,
-            "Unit Price": `$${item.price}`,
-            Price: `$${item.price * quantity}`
-        });
+        // invalid value, don't update to cart to this!
+        if (!quantity || quantity < 0) {
+            quantityField.value = 1;
+        }
+        cart[snackId] = parseInt(quantityField.value);
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        updateTable();
     }
 
-    let cartTotalField = document.querySelector(".cart-total");
-    let sum = 0;
-    for (let itemJSON in cart) {
-        const item = JSON.parse(itemJSON);
-        const quantity = cart[itemJSON];
-        sum += item.price * quantity;
-    }
-    cartTotalField.textContent = `$${sum}`;
-    for (let cartItem in cart) {
-        sum += cartItem
+    function updateCartTotal() {
+        let cartTotalField = document.querySelector(".cart-total");
+        let sum = 0;
+        console.log(tableContents);
+        for (const row of tableContents) {
+            sum += parseFloat(row["Price"].substring(1));
+        }
+        cartTotalField.textContent = `$${sum}`;
     }
 
     function generateTableHead(table, data) {
@@ -67,24 +92,82 @@
     }
 
     function generateTable(table, data) {
-        for (let element of data) {
+        for (let datum of data) {
             let row = table.insertRow();
-            for (key in element) {
-                let cell = row.insertCell();
-                let text = document.createTextNode(element[key]);
+            generateRow(row, datum);
+        }
+        generateLastRow(table);
+    }
+
+    function generateRow(row, datum) {
+        for (key in datum) {
+            let cell = row.insertCell();
+            if (key === "Quantity") {
+                let input = document.createElement("input");
+                input.id = `snack-${datum["Snack ID"]}-quantity`;
+                input.className = `count-input`;
+                input.setAttribute("type", "number");
+                input.setAttribute("min", "1");
+                input.setAttribute("onchange", `updateQuantity(${datum["Snack ID"]})`);
+                input.setAttribute("value", datum.Quantity);
+                cell.appendChild(input);
+            } else {
+                let text = document.createTextNode(datum[key]);
                 cell.appendChild(text);
             }
         }
+        let cell = row.insertCell();
+        let deleteButton = document.createElement("button");
+        deleteButton.className = "button";
+        deleteButton.textContent = "x";
+        deleteButton.setAttribute("onclick", `deleteItem(${datum["Snack ID"]})`);
+        cell.appendChild(deleteButton);
     }
 
-    function clearCart(){
+    function generateLastRow(table) {
+        let row = table.insertRow();
+        row.insertCell();
+        row.insertCell();
+        row.insertCell();
+
+        let cell = row.insertCell();
+        let text = document.createTextNode("Cart Total:");
+        cell.appendChild(text);
+
+        let cell2 = row.insertCell();
+        cell2.className = "cart-total";
+        let text2 = document.createTextNode("0");
+        cell2.appendChild(text2);
+    }
+
+    function clearCart() {
         sessionStorage.clear();
+        window.location.reload();
     }
 
-    let table = document.querySelector("#items-table");
-    let data = Object.keys(itemCart[0]);
-    generateTable(table, itemCart);
-    generateTableHead(table, data);
+    function updateTable() {
+        updateTableContents();
+        let wrapper = document.querySelector(".cart-table-wrapper");
+        // if cart is empty display message
+        if (!cart || Object.keys(cart).length === 0) {
+            let wrapper = document.querySelector(".cart-table-wrapper");
+            let div = document.createElement("div");
+            div.className = "empty-cart-message";
+            let text = document.createTextNode("Empty cart.");
+            div.appendChild(text);
 
+            wrapper.replaceChild(div, wrapper.childNodes[0]);
+        } else {
+            let table = document.createElement("table");
+            table.className = "cart-table";
+            let data = Object.keys(tableContents[0]);
+            generateTable(table, tableContents);
+            generateTableHead(table, data);
+
+            wrapper.replaceChild(table, wrapper.childNodes[0]);
+            updateCartTotal();
+        }
+    }
+    updateTable();
 
 </script>

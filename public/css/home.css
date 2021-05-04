@@ -1,4 +1,4 @@
-.home-container {
+#home {
   flex-grow: 1;
   background-image: url("../static/home-background.jpg");
   background-position: center;
@@ -8,15 +8,8 @@
   flex-direction: column;
 }
 
-.home-container-top {
-    flex-grow: 5;
-}
-
-.home-container-bottom {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.home-top {
+  flex-grow: 5;
 }
 
 .welcome {
@@ -25,4 +18,15 @@
   width: 400px;
   top: 128px;
   left: 128px;
+}
+
+.find-us {
+  position: relative;
+}
+
+.find-us a {
+  position: absolute;
+  bottom: 64px;
+  right: 128px;
+  font-size: 48px;
 }
