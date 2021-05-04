@@ -1,32 +1,23 @@
-<section >
-    <h1>Signup Form</h1>
-    <form method="post" action="/customer/signup">
-        <table>
-          <tr>
-            <td>Given Name</td>
-            <td><input placeholder="given name" name='givenName' id='givenName' value=""/></td>
-          </tr>
-          <tr>
-            <td>Family Name</td>
-            <td><input placeholder="family name" name='familyName' id='familyName' value=""/></td>
-          </tr>
-          <tr>
-            <td>Email</td>
-            <td><input placeholder="username" name='email' id='email' value=""/></td>
-          </tr>
-          <tr>
-            <td>Password</td>
-            <td><input placeholder="***************" type="password" name='password' id='password' value=""/></td>
-          </tr>
-          <tr>
-            <td>Confirm Password</td>
-            <td><input placeholder="***************" type="password" name='confirmPassword' id='confirmPassword' value=""/></td>
-          </tr>
-          <tr>
-            <td colspan="2"><center><input type="submit" value="Submit"></center></td>
-          </tr>
-        </table>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 
-    </form>
-
+<section id="signup">
+  <form method="post" action="/customer/signup" class="signup-form">
+    <div class="signup-form-header">
+      <i class="icon-SnackVan"></i>
+      <h1>Signup Form</h1>
+    </div>
+    <label for="givenName">Given Name</label>
+    <input placeholder="given name" name='givenName' id='givenName' value="" />
+    <label for="familyName">Family Name</label>
+    <input placeholder="family name" name='familyName' id='familyName' value="" />
+    <label for="emailAddress">Email Address</label>
+    <input placeholder="email address" name='email' id='email' type="email" value="" />
+    <label for="password">Password</label>
+    <input placeholder="***************" name='password' id='password' type="password" value="" />
+    <label for="confirmPassword">Confirm Password</label>
+    <input placeholder="***************" name='confirmPassword' id='confirmPassword' type="password" value="" />
+    <div class="signup-form-submit">
+      <button type="submit" class="button" id="login-button"><i class="fas fa-sign-in-alt"></i>&nbsp;SIGN IN</button>
+    </div>
+  </form>
 </section>

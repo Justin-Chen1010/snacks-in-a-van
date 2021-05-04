@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?tv93xy');
-  src:  url('fonts/icomoon.eot?tv93xy#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?tv93xy') format('truetype'),
-    url('fonts/icomoon.woff?tv93xy') format('woff'),
-    url('fonts/icomoon.svg?tv93xy#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?tv93xy');
+  src:  url('../fonts/icomoon.eot?tv93xy#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?tv93xy') format('truetype'),
+    url('../fonts/icomoon.woff?tv93xy') format('woff'),
+    url('../fonts/icomoon.svg?tv93xy#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -13,7 +13,6 @@
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
-  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -22,7 +21,6 @@
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .icon-SnackVan:before {

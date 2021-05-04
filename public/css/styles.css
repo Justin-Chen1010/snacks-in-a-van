@@ -16,6 +16,7 @@
 @import "./button.css";
 @import "./error.css";
 @import "./login.css";
+@import "./signup.css";
 
 * {
   box-sizing: border-box;
