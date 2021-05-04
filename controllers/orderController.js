@@ -106,9 +106,35 @@ const updateOrder = async (req, res) => {
   }
 };
 
+// find all orders for specific customer
+const getOrdersForOneCustomer = async (req, res) => {
+  try {
+    const customer = await Customer.findOne({
+      customerId: req.params.customerId,
+    });
+
+    const orders = await Promise.all(customer.orders.map(async (id) => {
+      var order = await Order.findOne({orderId: id}).lean();
+      return order;
+    }));
+    if (customer === null) {
+      // no customer found in database: 404
+      res.status(404);
+      return res.send("Customer not found");
+    }
+    // customer was found, return as response
+    return res.render('orders', {'orders': orders, 'isLoggedin':req.isAuthenticated()})
+  } catch (err) {
+    // error occurred
+    res.status(400);
+    return res.send("Database query failed");
+  }
+};
+
 module.exports = {
   getAllOrders,
   getOneOrder,
   addOrder,
-  updateOrder
+  updateOrder,
+  getOrdersForOneCustomer
 };

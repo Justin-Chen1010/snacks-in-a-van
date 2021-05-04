@@ -22,14 +22,35 @@ customerRouter.post("/:customerId/order", async (req, res) =>
   orderController.addOrder(req, res)
 );
 
-//FIXME: check customer ID and authenticate
-// redirect unauthenticated customer
-customerRouter.get("/orders", async (req, res) => {
+//Directly check orders
+customerRouter.get("/:customerId/order", async (req, res) => {
+  // console.log(req);
+  // console.log(req.session.userId);
+  // console.log(req.params.customerId);
   if (req.isAuthenticated()) {
-    orderController.getAllOrders(req, res);
+    if (req.session.userId === req.params.customerId) {
+      orderController.getOrdersForOneCustomer(req, res);
+    }
+    else {
+        res.redirect(`/customer/${req.session.userId}/order`);
+    }
+    
   }
   else {
-    req.session.returnTo = '/orders'
+    req.session.returnTo = `/customer/${req.session.userId}/order`;
+    res.redirect(`/customer/login`);
+  }
+});
+
+
+// redirect unauthenticated customer
+// NavBar Check orders
+customerRouter.get("/orders", async (req, res) => {
+  if (req.isAuthenticated()) {
+    res.redirect(`/customer/${req.session.userId}/order`);
+  }
+  else {
+    req.session.returnTo = '/orders';
     res.redirect('/customer/login');
   }
 });

@@ -36,10 +36,12 @@ h3.snack-name, span.price, span.buttons{
   border: none;
   padding: 8px;
   transition: 0.2s;
+  cursor: pointer;
 }
 
 .submit-button:hover{  
   background-color: var(--color-black);
+  cursor: pointer;
 }
 
 .submit {
@@ -50,16 +52,5 @@ h3.snack-name, span.price, span.buttons{
   position: fixed;
   bottom: 56px;
   right: 56px;
-}
-
-.circle-badge{
-  position: fixed;
-  bottom: 50px;
-  right: 56px;
-  display: inline;
-  padding: 5px 10px;
-  border-radius: 50%;
-  background: red;
-  color: white;
 }
 

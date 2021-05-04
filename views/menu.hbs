@@ -68,10 +68,13 @@
     }
 
     function showNumItems(){
-        let numItems = Object.keys(cart).length;
-        console.log(cartCount.textContent);
-        if (numItems > 0){
-            cartCount.textContent = `(${numItems})`;
+        let sum = 0;
+        for (let key in cart){
+            sum += cart[key];
+        }
+        console.log(sum);        
+        if (sum > 0){
+            cartCount.textContent = `(${sum})`;
         }
         else {
             cartCount.textContent = ``;

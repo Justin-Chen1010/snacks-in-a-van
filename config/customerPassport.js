@@ -42,6 +42,7 @@ module.exports = (passport) => {
                     }
                     else {
                         req.session.email = email;
+                        req.session.userId = user.customerId;
                         if (req.session.returnTo === '/orders') {
                             req.session.returnTo = `/customer/${user.customerId}/order`
                         }
