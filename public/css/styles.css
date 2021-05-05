@@ -44,6 +44,9 @@
   --color-black: #042046;
   --color-white: #ffffff;
   --color-lighter: #f0eded;
+  --color-green: #00FF00;
+  --color-blue: #0500FF;
+  --color-orange: #FFA114;
 }
 
 html {

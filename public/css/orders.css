@@ -25,4 +25,25 @@
 .order-item-id {
     font-weight: bold;
     margin-bottom: 16px;
+    margin-right: 96px;
+}
+
+#green-dot {
+    color: var(--color-green);
+
+}
+
+#blue-dot {
+    color: var(--color-blue);
+}
+
+#orange-dot {
+    color: var(--color-orange);
+}
+
+.status-dot {
+    margin-left: 90%;
+    margin-top: -16px;
+    margin-bottom: -8px;
+    
 }

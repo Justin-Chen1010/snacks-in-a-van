@@ -7,9 +7,19 @@
                     <div class="order-item-id">
                         {{this.orderId}}
                     </div>
+                    <div class="status-dot">
+                        {{#if this.timePickedUp}}
+                            <i class="fas fa-circle" id="blue-dot"></i>
+                        {{else if this.timeFulfilled}}
+                            <i class="fas fa-circle" id="green-dot"></i>
+                        {{else if this.timeOrdered}}
+                            <i class="fas fa-circle" id="orange-dot"></i>
+                        {{/if}}
+                    </div>
                     <div>
                         {{formatDateTime this.timeOrdered}}
                     </div>
+
                 </a>
                 {{/each}}
             {{/if}}
