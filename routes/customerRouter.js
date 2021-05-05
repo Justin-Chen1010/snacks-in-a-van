@@ -1,10 +1,16 @@
 const express = require("express");
 const customerRouter = express.Router();
 const customerController = require("../controllers/customerController");
+const vendorController = require("../controllers/vendorController");
 const snackController = require("../controllers/snackController");
 const orderController = require("../controllers/orderController");
 const passport = require('passport');
 require('../config/customerPassport')(passport);
+
+// get the available vendors
+customerRouter.get("/vendors", async (req, res) => 
+  vendorController.getAllVendors(req, res)
+);
 
 // get the menu: details of all snacks
 customerRouter.get("/menu", async (req, res) =>
@@ -24,9 +30,6 @@ customerRouter.post("/:customerId/order", async (req, res) =>
 
 //Directly check orders
 customerRouter.get("/:customerId/order", async (req, res) => {
-  // console.log(req);
-  // console.log(req.session.userId);
-  // console.log(req.params.customerId);
   if (req.isAuthenticated()) {
     if (req.session.userId === req.params.customerId) {
       orderController.getOrdersForOneCustomer(req, res);
@@ -34,7 +37,6 @@ customerRouter.get("/:customerId/order", async (req, res) => {
     else {
         res.redirect(`/customer/${req.session.userId}/order`);
     }
-    
   }
   else {
     req.session.returnTo = `/customer/${req.session.userId}/order`;
@@ -55,12 +57,27 @@ customerRouter.get("/orders", async (req, res) => {
   }
 });
 
+// TODO: auth for checking individual orders
+customerRouter.get("/orders/:orderId", async (req, res) =>
+  orderController.getOneOrder(req, res)
+);
+
 // insert new customer
 customerRouter.post("/", async (req, res) =>
   customerController.addCustomer(req, res)
 );
 
 customerRouter.get("/cart", async (req, res) => res.render("cart"));
+
+customerRouter.get("/account", async (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render("account", {'email': req.session.email});
+  }
+  else {
+    req.session.returnTo = "/customer/account"
+    res.redirect("/customer/login");
+  }
+});
 
 customerRouter.get("/login", async (req, res) => res.render("login"));
 customerRouter.post("/login", passport.authenticate('local-login', {
@@ -75,6 +92,7 @@ customerRouter.post('/signup', passport.authenticate('local-signup', {
   failureRedirect: '/customer/signup', //redirect to the sign up page if failed
   failureFlash: true
 }));
+
 
 customerRouter.post('/logout', function(req, res) {
   req.logout();

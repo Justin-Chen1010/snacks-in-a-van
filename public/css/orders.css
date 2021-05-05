@@ -7,12 +7,20 @@
 }
 
 .order-item {
+    display: block;
     background-color: var(--color-lighter);
     padding: 16px;
     margin: 16px;
-    border: 1px solid black;
     border-radius: 16px;
+    transition: all 0.1s;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+
+.order-item:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+}
+
 
 .order-item-id {
     font-weight: bold;

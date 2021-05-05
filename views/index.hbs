@@ -1,15 +1,44 @@
 <section id="home">
     <div class="home-top">
-        <h2 class="welcome">
-            SNACK IN A VANへようこそ。メルボルンで最高のコーヒーを提供します
-        </h2>
+        <h2 class="welcome" id="welcome-screen"></h2>
     </div>
     <div class="home-bottom">
         <div class="find-us">
-        <a href='/customer/menu' class="button">
+        <a href='/customer/vendors' class="button">
             <i class="icon-SnackVan"></i>
             Find us
         </a>
         </div>
     </div>
 </section>
+
+<script>
+    // better animation: https://codepen.io/Rafu/pen/VJYRyY
+    const elem = document.getElementById("welcome-screen");
+    function dispText(){
+        const text = ["Snacks in a Van offers the best coffee in Melbourne", 
+                    "SNACK IN A VANへようこそ。メルボルンで最高のコーヒーを提供します", 
+                    "YEET MATE!!!", "C'MON MANRTIN WHY TAXED US???"];
+        var counter = 0;
+        var inst = setInterval(change, 5000);
+    }
+
+    function change() {
+        elem.textContent = text[counter];
+        counter++;
+        if (counter >= text.length) {
+            counter = 0;
+        }
+    }
+
+    window.addEventListener('load', (event) => {
+        const text = ["Snacks in a Van offers the best coffee in Melbourne", 
+                    "SNACK IN A VANへようこそ。メルボルンで最高のコーヒーを提供します", 
+                    "YEET MATE!!!", "C'MON MANRTIN WHY TAXED US???"];
+        var counter = 0;
+        var inst = setInterval(change, 5000);
+    });
+
+
+
+</script>

@@ -3,14 +3,14 @@
         <div class="orders-wrapper">
             {{#if isLoggedin}}
                 {{#each orders}}
-                <div class="order-item">
+                <a class="order-item" href="/customer/orders/{{this.orderId}}">
                     <div class="order-item-id">
                         {{this.orderId}}
                     </div>
                     <div>
                         {{formatDateTime this.timeOrdered}}
                     </div>
-                </div>
+                </a>
                 {{/each}}
             {{/if}}
         </div>

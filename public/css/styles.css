@@ -1,8 +1,18 @@
-/* central area to control type and colour */
-/* FIXME: fix hires background, logo, sedan font, sticky nav not sticky, login/cart
- * functionality, find new images for coffee, check for login (at checkout or at
- * add to cart?), split css, fix logo (maybe just use jpg instead of svp)*/
-/* @import url('https://fonts.googleapis.com/css2?family=Cormorant+SC&display=swap'); */
+/*
+ * TODO:
+ * RESPONSIVE
+ * favicon
+ * find new images for coffee
+ * logout
+ * plus minus icon
+ *
+ * profile
+ * order status green yellow etc
+ * single order
+ * locations
+ * timer
+ */
+
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
@@ -17,6 +27,8 @@
 @import "./error.css";
 @import "./login.css";
 @import "./signup.css";
+@import "./order.css";
+@import "./account.css";
 
 * {
   box-sizing: border-box;

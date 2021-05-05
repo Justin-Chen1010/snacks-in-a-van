@@ -21,14 +21,14 @@ const getAllOrders = async (req, res) => {
 // find one order by their id
 const getOneOrder = async (req, res) => {
   try {
-    const oneOrder = await Order.findOne({ orderId: req.params.orderId });
+    const oneOrder = await Order.findOne({ orderId: req.params.orderId }).lean();
     if (oneOrder === null) {
       // no order found in database
       res.status(404);
       return res.send("Order not found");
     }
     // order was found
-    return res.send(oneOrder); 
+    return res.render("order", {"order": oneOrder}); 
   } catch (err) {
     // error occurred
     res.status(400);

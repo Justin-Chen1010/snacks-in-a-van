@@ -5,7 +5,7 @@
             Van Name <br>
             Van Location
         </div>
-        {{> cart-table}}
+        {{> cart-table order=order }}
         <div class="order-buttons">
             <button id="clear-cart-button" class="button" onclick="clearCart()">
                 <i class="fas fa-concierge-bell"></i>
@@ -16,19 +16,5 @@
             </button>
         </div>
     </div>
-    <a class="button view-menu-button" href="/customer/menu">
-        <i class="fa fa-clipboard"></i> View menu
-    </a>
+    <a class="button view-menu-button" href="/customer/menu"><i class="fa fa-clipboard"></i> View menu</a>
 </section>
-
-<script>
-    function placeOrder() {
-        let order = {};
-        console.log(`placing order: ${JSON.stringify(cart)}`);
-    }
-
-    function clearCart() {
-        sessionStorage.clear();
-        window.location.reload();
-    }
-</script>

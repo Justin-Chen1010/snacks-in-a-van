@@ -8,6 +8,24 @@
   flex-direction: column;
 }
 
+#welcome-screen:after{
+  content:"";
+  animation: spin 2s linear infinite;
+}
+
+@keyframes welcome-screen {
+  0% { content:""; }
+  10% { content:"dolor"; }
+  20% { content:"sit"; }
+  30% { content:"amet"; }
+  40% { content:"consectetur"; }
+  50% { content: "adipisicing"; }
+  60% { content: "elit"; }
+  70% { content: "Hic"; }
+  80% { content: "atque"; }
+  90% { content: "fuga"; }
+}
+
 .home-top {
   flex-grow: 5;
 }

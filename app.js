@@ -38,10 +38,16 @@ app.engine(
     defaultlayout: "main",
     extname: "hbs",
     helpers: require(__dirname + "/public/js/helpers.js").helpers,
+    partialsDir: __dirname + '/views/partials/',
   })
 );
 
+
 app.set("view engine", "hbs");
+
+app.get("/", (req, res) => {
+  res.redirect('/customer');
+});
 
 app.get("/customer", (req, res) => {
   res.render("index");

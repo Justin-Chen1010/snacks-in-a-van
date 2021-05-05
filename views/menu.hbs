@@ -54,6 +54,7 @@
         let currAmount = parseInt(count.textContent); 
         
         if (currAmount > 0) {
+            const item = cart.find(id => id === snackId);
             if (snackId in cart) {
                 cart[snackId] += currAmount;
             }
@@ -61,7 +62,6 @@
                 cart[snackId] = currAmount;
             }
             count.textContent = 1;
-            sessionStorage.setItem("cart", JSON.stringify(cart));
         }
 
         showNumItems();
