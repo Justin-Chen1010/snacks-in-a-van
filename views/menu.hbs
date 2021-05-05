@@ -17,7 +17,7 @@
                     class="fa fa-plus"></i></button>
         </span>
         <div class="submit">
-            <button class="submit-button" onclick="addToOrder({{this.snackId}})">ADD TO CART</button>
+            <button class="submit-button" onclick="addToOrder(String({{this.snackId}}))">ADD TO CART</button>
         </div>
     </div>
     {{/each}}
@@ -30,7 +30,7 @@
     const menu = {{{ json snacks }}};
     sessionStorage.setItem("menu", JSON.stringify(menu));
 
-    let cart = JSON.parse(sessionStorage.getItem("cart")) || {};
+    let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
     // Keep track the number of items
     let cartCount = document.getElementById("menu-cart-count");
     showNumItems();
@@ -54,27 +54,26 @@
         let currAmount = parseInt(count.textContent); 
         
         if (currAmount > 0) {
-            const item = cart.find(id => id === snackId);
-            if (snackId in cart) {
-                cart[snackId] += currAmount;
+            const idx = cart.findIndex(item => item.snackId === snackId);
+            if (idx !== -1) {
+                cart[idx].quantity += currAmount;
             }
             else {
-                cart[snackId] = currAmount;
+                cart.push({ snackId: String(snackId), quantity: currAmount});
             }
             count.textContent = 1;
+            sessionStorage.setItem("cart", JSON.stringify(cart));
         }
-
         showNumItems();
     }
 
     function showNumItems(){
-        let sum = 0;
-        for (let key in cart){
-            sum += cart[key];
+        let totalNumItems = 0;
+        for (let item of cart){
+            totalNumItems += item.quantity;
         }
-        console.log(sum);        
-        if (sum > 0){
-            cartCount.textContent = `(${sum})`;
+        if (totalNumItems > 0){
+            cartCount.textContent = `(${totalNumItems})`;
         }
         else {
             cartCount.textContent = ``;

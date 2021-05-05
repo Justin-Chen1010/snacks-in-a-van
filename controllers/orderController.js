@@ -117,6 +117,8 @@ const getOrdersForOneCustomer = async (req, res) => {
       var order = await Order.findOne({orderId: id}).lean();
       return order;
     }));
+    orders.reverse();
+    
     if (customer === null) {
       // no customer found in database: 404
       res.status(404);

@@ -8,23 +8,23 @@
   flex-direction: column;
 }
 
+/* https://www.w3schools.com/cssref/css3_pr_animation.asp */
+@keyframes changeText {
+  0% { content:"SNACKS IN A VAN offers the best coffee in Melbourne"; }
+  20% { content: "SNACKS IN A VANへようこそ。メルボルンで最高のコーヒーを提供します"; }
+  40% { content:"SNACKS IN A VAN 提供墨爾本最好的咖啡"; }
+  60% { content:"SNACKS IN A VAN menawarkan kopi terbaik di Melbourne"; }
+  80% { content:"SNACKS IN A VAN предлагает лучший кофе в Мельбурне";}
+}
 #welcome-screen:after{
-  content:"";
-  animation: spin 2s linear infinite;
+  content:"SNACK IN A VAN offers the best coffee in Melbourne";
+  animation-name: changeText;
+  animation-duration: 25s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-delay: 0ms;
 }
 
-@keyframes welcome-screen {
-  0% { content:""; }
-  10% { content:"dolor"; }
-  20% { content:"sit"; }
-  30% { content:"amet"; }
-  40% { content:"consectetur"; }
-  50% { content: "adipisicing"; }
-  60% { content: "elit"; }
-  70% { content: "Hic"; }
-  80% { content: "atque"; }
-  90% { content: "fuga"; }
-}
 
 .home-top {
   flex-grow: 5;

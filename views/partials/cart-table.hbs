@@ -1,37 +1,41 @@
 <div class="cart-table-wrapper">
     <div>
-        {{{json order}}}
     </div>
 </div>
 
 <script>
     // TODO: don't forget to wipe cart when user logs out
-    const order = {{{json order}}};
+    {{!-- const order = {{{json order}}}; --}}
     const menu = JSON.parse(sessionStorage.getItem("menu")) || {};
-    const cart = JSON.parse(sessionStorage.getItem("cart")) || {};
+    let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
     let tableContents = [];
 
     function updateTableContents() {
         tableContents = [];
-        for (let snackId in cart) {
-            const snack = menu.find(item => item.snackId === snackId);
+        invalidSnackIds = [];
+        for (let cartItem of cart) {
+            const snack = menu.find(item => item.snackId === cartItem.snackId);
             if (!snack) {
-                delete cart[snackId];
-                sessionStorage.setItem("cart", JSON.stringify(cart));
+                // item in cart that is not on the menu, delete it later.
+                invalidSnackIds.push(cartItem.snackId)
+            } else {
+                const quantity = cart.find(item => item.snackId === snack.snackId).quantity;
+                tableContents.push({
+                    "Snack ID": snack.snackId,
+                    Item: snack.snackName,
+                    Quantity: quantity,
+                    "Unit Price": `$${snack.price}`,
+                    Price: `$${snack.price * quantity}`
+                });
             }
-            const quantity = cart[snackId];
-            tableContents.push({
-                "Snack ID": snack.snackId,
-                Item: snack.snackName,
-                Quantity: quantity,
-                "Unit Price": `$${snack.price}`,
-                Price: `$${snack.price * quantity}`
-            });
+        }
+        for (let snackId in invalidSnackIds) {
+            deleteItem(snackId);
         }
     }
 
     function deleteItem(snackId) {
-        delete cart[snackId];
+        cart = cart.filter(item => item.snackId !== snackId);
         sessionStorage.setItem("cart", JSON.stringify(cart));
         updateTable();
     }
@@ -45,7 +49,9 @@
         if (!quantity || quantity < 0) {
             quantityField.value = 1;
         }
-        cart[snackId] = parseInt(quantityField.value);
+        const idx = cart.findIndex(item => item.snackId === snackId);
+        cart[idx].quantity = parseInt(quantityField.value);
+
         sessionStorage.setItem("cart", JSON.stringify(cart));
         updateTable();
     }
@@ -87,7 +93,7 @@
                 input.className = `count-input`;
                 input.setAttribute("type", "number");
                 input.setAttribute("min", "1");
-                input.setAttribute("onchange", `updateQuantity(${datum["Snack ID"]})`);
+                input.setAttribute("onchange", `updateQuantity(String(${datum["Snack ID"]}))`);
                 input.setAttribute("value", datum.Quantity);
                 cell.appendChild(input);
             } else {
@@ -101,7 +107,7 @@
         let xIcon = document.createElement("i");
         xIcon.classList.add("fas", "fa-trash-alt")
         deleteButton.appendChild(xIcon);
-        deleteButton.setAttribute("onclick", `deleteItem(${datum["Snack ID"]})`);
+        deleteButton.setAttribute("onclick", `deleteItem(String(${datum["Snack ID"]}))`);
         cell.appendChild(deleteButton);
     }
 
@@ -126,7 +132,7 @@
         updateTableContents();
         let wrapper = document.querySelector(".cart-table-wrapper");
         // if cart is empty display message
-        if (!cart || Object.keys(cart).length === 0) {
+        if (!cart || cart.length === 0) {
             let wrapper = document.querySelector(".cart-table-wrapper");
             let div = document.createElement("div");
             div.className = "empty-cart-message";
