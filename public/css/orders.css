@@ -24,8 +24,7 @@
 
 .order-item-id {
     font-weight: bold;
-    margin-bottom: 16px;
-    margin-right: 96px;
+    margin-right: 80px;
 }
 
 #green-dot {
@@ -42,8 +41,8 @@
 }
 
 .status-dot {
-    margin-left: 90%;
-    margin-top: -16px;
-    margin-bottom: -8px;
-    
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5%;
+    vertical-align: middle;
 }
