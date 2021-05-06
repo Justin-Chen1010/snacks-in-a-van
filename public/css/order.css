@@ -41,7 +41,7 @@
     text-align: center;
 }
 
-#place-order-button, #clear-cart-button {
+#cancel-order-button, #update-order-button {
     margin: 16px;
     font-size: 16px;
 }

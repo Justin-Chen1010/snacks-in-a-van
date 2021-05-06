@@ -1,5 +1,5 @@
 <section id="menu" onload="showNumItems()">
-    {{#each snacks}}
+    {{#each menu}}
     <div class="menu-item">
 
         <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
@@ -21,16 +21,39 @@
         </div>
     </div>
     {{/each}}
-    <a id="view-cart-button"class="button view-order-button" href="/customer/cart"><i class="fa fa-shopping-cart"></i>
-        View cart <span id="menu-cart-count"></span>
-    </a>
+    {{#if order}}
+        <a
+            id="view-cart-button"
+            class="button view-order-button"
+            onclick="viewOrder('{{order.orderId}}')"
+        >
+            <i class="fa fa-shopping-cart"></i>
+            View order
+            <span id="menu-cart-count"></span>
+        </a>
+    {{else}}
+        <a
+            id="view-cart-button"
+            class="button view-order-button"
+            onclick="viewCart()"
+        >
+            <i class="fa fa-shopping-cart"></i>
+            View cart
+            <span id="menu-cart-count"></span>
+        </a>
+    {{/if}}
 </section>
 
 <script>
-    const menu = {{{ json snacks }}};
-    sessionStorage.setItem("menu", JSON.stringify(menu));
+    // TODO: move init'ing code to onload function, so js can be separated
+    const menu = {{{ json menu }}};
 
     let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+    let order = {{{json (orderToCart order)}}};
+    if (order) {
+        cart = order;
+    }
+
     // Keep track the number of items
     let cartCount = document.getElementById("menu-cart-count");
     showNumItems();
@@ -62,7 +85,6 @@
                 cart.push({ snackId: String(snackId), quantity: currAmount});
             }
             count.textContent = 1;
-            sessionStorage.setItem("cart", JSON.stringify(cart));
         }
         showNumItems();
     }
@@ -78,5 +100,22 @@
         else {
             cartCount.textContent = ``;
         }
+    }
+
+    function viewCart() {
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        window.location.href = "/customer/cart";
+    }
+
+    function viewOrder(orderId) {
+        order = {{{json order}}};
+        order.items = cart;
+        fetch(`/customer/orders/${orderId}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(order)
+        }).then(() => window.location.href = `/customer/orders/${orderId}`);
     }
 </script>

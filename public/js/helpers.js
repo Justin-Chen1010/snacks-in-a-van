@@ -20,6 +20,17 @@ var register = function (Handlebars) {
 
     json: function(object) {
       return JSON.stringify(object);
+    },
+
+    orderToCart: function(order) {
+      if (!order) {
+        return null;
+      }
+      let cart = [];
+      for (let item of order.items) {
+        cart.push({snackId: String(item.snack), quantity: item.quantity});
+      }
+      return cart;
     }
   };
 
