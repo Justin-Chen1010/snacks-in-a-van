@@ -2,23 +2,30 @@
     <div class="cart-wrapper">
         <h1>Order Details</h1>
         <div class="cart-van-details">
-            Van Name <br>
-            Van Location
+            <div>
+                <i class="fas fa-shuttle-van"></i>
+                <span class="cart-van-name">Van name</span>
+            </div>
+            <div>
+                <i class="fas fa-map-marker-alt"></i>
+                <span class="cart-van-location">Van location</span>
+            </div>
         </div>
         {{> cart-table order=null}}
         <div class="order-buttons">
-            {{!-- <form method="get"> --}}
-                <button id="clear-cart-button" class="button" onclick="clearCart()">
-                    <i class="fas fa-trash-alt"></i>
-                    Clear Cart
-                </button>
-                <button id="place-order-button" class="button" {{#if isLoggedin}} onclick="placeOrder()" {{else}}
-                    onclick="getLogin()" {{/if}}>
-                    <i class="fas fa-concierge-bell"></i>
-                    Place Order
-                </button>
-                {{!--
-            </form> --}}
+            <button id="clear-cart-button" class="button" onclick="clearCart()">
+                <i class="fas fa-trash-alt"></i>
+                Clear Cart
+            </button>
+            <button id="place-order-button" class="button"
+                {{#if isLoggedin}}
+                    onclick="placeOrder()"
+                {{else}}
+                    onclick="getLogin()"
+                {{/if}}>
+                <i class="fas fa-concierge-bell"></i>
+                Place Order
+            </button>
         </div>
     </div>
     <a class="button view-menu-button" href="/customer/menu">
@@ -29,50 +36,30 @@
 <script>
     const customerId = "{{{customerId}}}";
 
+    const vendor = JSON.parse(sessionStorage.getItem('vendor'));
+    if (vendor) {
+        document.querySelector('.cart-van-name').textContent = vendor.vendorName;
+        document.querySelector('.cart-van-location').textContent = vendor.address;
+    }
+
     function getLogin() {
         window.location = "/customer/login";
     }
 
     async function placeOrder() {
-        const vendor = sessionStorage.getItem("vendor");
+        const vendor = JSON.parse(sessionStorage.getItem("vendor"));
         const cart = JSON.parse(sessionStorage.getItem("cart"));
         // name: snack_name, quantity: quantity, vendorName: vendorName
         const firstItem = cart[0];
         const newOrder = {
             snackId: firstItem.snackId,
             quantity: firstItem.quantity,
-            vendorName: vendor
+            vendorName: vendor.vendorName
         };
         const order = await createOrder(newOrder);
         order.items  = cart;
         const updatedOrder = await updateOrder(order);
         window.location = `/customer/${customerId}/orders`;
-        // fetch(`/customer/${customerId}/orders/`,
-        //     {
-        //         method: "POST",
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(newOrder)
-        //     }
-        // ).then((res) => {
-        //     const order = res.body;
-        //     console.log(res.json())
-        //     console.log(JSON.stringify(order));
-        //     newOrder.items = cart;
-        //     fetch(`/customer/orders/${order.orderId}`,
-        //         {
-        //             method: "PUT",
-        //             headers: {
-        //                 'Content-Type': 'application/json'
-        //             },
-        //             body: JSON.stringify(newOrder)
-        //         }
-        //     ).then((res) => {
-        //         console.log(`placed order: ${JSON.stringify(order)}`);
-        //         console.log(res);
-        //     }).catch((err) => console.log(err));
-        // });
     }
 
     async function createOrder(newOrder) {

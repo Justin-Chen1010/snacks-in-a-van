@@ -1,21 +1,49 @@
 /* Button style from https://fdossena.com/?p=html5cool/buttons/i.frag */
 
 /* find us button */
-.button {
-  padding: 8px 24px;
-  font-size: 24px;
-  border: none;
-  font-family: "Roboto", sans-serif;
-  color: var(--color-white);
-  background-color: var(--color-grey);
-  text-align: center;
-  transition: all 0.1s;
-  border-radius: 8px;
+
+@media screen and (max-width: 768px){
+
+  .button {
+    padding: 8px 12px;
+    font-size: 12px;
+    border: none;
+    font-family: "Roboto", sans-serif;
+    color: var(--color-white);
+    background-color: var(--color-grey);
+    text-align: center;
+    transition: all 0.1s;
+    border-radius: 8px;
+  }
+
+  .button:hover {
+    background-color: var(--color-black);
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    cursor: pointer;
+  }
+
 }
 
-.button:hover {
-  background-color: var(--color-black);
-  transform: scale(1.2);
-  -webkit-transform: scale(1.2);
-  cursor: pointer;
+@media screen and (min-width: 769px){
+
+  .button {
+    padding: 8px 24px;
+    font-size: 24px;
+    border: none;
+    font-family: "Roboto", sans-serif;
+    color: var(--color-white);
+    background-color: var(--color-grey);
+    text-align: center;
+    transition: all 0.1s;
+    border-radius: 8px;
+  }
+
+  .button:hover {
+    background-color: var(--color-black);
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    cursor: pointer;
+  }
+
 }
