@@ -10,11 +10,9 @@
             ${{this.price}}
         </span>
         <span class="buttons">
-            <button type="button" class="add-button" onclick="decrementAmount({{this.snackId}})"><i
-                    class="fa fa-minus"></i></button>
+            <button type="button" class="minus-button" style="border:none;" onclick="decrementAmount({{this.snackId}})"><i class="fas fa-minus-circle" id="decrement"></i></i></button>
             <span id="snack-{{this.snackId}}-count">1</span>
-            <button type="button" class="minus-button" onclick="incrementAmount({{this.snackId}})"><i
-                    class="fa fa-plus"></i></button>
+            <button type="button" class="add-button" style="border:none;" onclick="incrementAmount({{this.snackId}})"><i class="fas fa-plus-circle" id="increment"></i></button>
         </span>
         <div class="submit">
             <button class="submit-button" onclick="addToOrder(String({{this.snackId}}))">ADD TO CART</button>
