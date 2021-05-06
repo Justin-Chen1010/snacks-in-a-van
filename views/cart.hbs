@@ -5,29 +5,36 @@
             Van Name <br>
             Van Location
         </div>
-        {{> cart-table}}
+        {{> cart-table order=null}}
         <div class="order-buttons">
             <button id="clear-cart-button" class="button" onclick="clearCart()">
-                <i class="fas fa-concierge-bell"></i>
+                <i class="fas fa-trash-alt"></i>
                 Clear Cart
             </button>
             <button id="place-order-button" class="button" onclick="placeOrder()">
+                <i class="fas fa-concierge-bell"></i>
                 Place Order
             </button>
         </div>
     </div>
     <a class="button view-menu-button" href="/customer/menu">
-        <i class="fa fa-clipboard"></i> View menu
+        <i class="fa fa-clipboard-list"></i> View menu
     </a>
 </section>
 
 <script>
     function placeOrder() {
-        let order = {};
-        console.log(`placing order: ${JSON.stringify(cart)}`);
+        const newOrder = {items: cart};
+        fetch(`/customer/orders/`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newOrder)
+        }).then(() => console.log(`placed order: ${newOrder}`));
     }
     function clearCart() {
-        sessionStorage.clear();
+        sessionStorage.removeItem("cart");
         window.location.reload();
     }
 </script>

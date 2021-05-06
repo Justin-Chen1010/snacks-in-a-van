@@ -24,22 +24,22 @@ customerRouter.get("/menu/:snackId", async (req, res) => {
 
 // insert an order, specifying the name of the first snack and the assigned
 // vendor
-customerRouter.post("/:customerId/order", async (req, res) => 
+customerRouter.post("/:customerId/orders", async (req, res) => 
   orderController.addOrder(req, res)
 );
 
 //Directly check orders
-customerRouter.get("/:customerId/order", async (req, res) => {
+customerRouter.get("/:customerId/orders", async (req, res) => {
   if (req.isAuthenticated()) {
     if (req.session.userId === req.params.customerId) {
       orderController.getOrdersForOneCustomer(req, res);
     }
     else {
-        res.redirect(`/customer/${req.session.userId}/order`);
+        res.redirect(`/customer/${req.session.userId}/orders`);
     }
   }
   else {
-    req.session.returnTo = `/customer/${req.session.userId}/order`;
+    req.session.returnTo = `/customer/${req.session.userId}/orders`;
     res.redirect(`/customer/login`);
   }
 });
@@ -49,7 +49,7 @@ customerRouter.get("/:customerId/order", async (req, res) => {
 // NavBar Check orders
 customerRouter.get("/orders", async (req, res) => {
   if (req.isAuthenticated()) {
-    res.redirect(`/customer/${req.session.userId}/order`);
+    res.redirect(`/customer/${req.session.userId}/orders`);
   }
   else {
     req.session.returnTo = '/orders';
@@ -58,8 +58,12 @@ customerRouter.get("/orders", async (req, res) => {
 });
 
 // TODO: auth for checking individual orders
-customerRouter.get("/orders/:orderId", async (req, res) =>
+customerRouter.get("/orders/:orderId", snackController.getMenu, async (req, res) =>
   orderController.getOneOrder(req, res)
+);
+
+customerRouter.put("/orders/:orderId", async (req, res) =>
+  orderController.updateOrder(req, res)
 );
 
 // insert new customer
@@ -67,7 +71,9 @@ customerRouter.post("/", async (req, res) =>
   customerController.addCustomer(req, res)
 );
 
-customerRouter.get("/cart", async (req, res) => res.render("cart"));
+customerRouter.get("/cart", snackController.getMenu, async (req, res) => {
+  res.render("cart", {menu: req.menu});
+});
 
 customerRouter.get("/account", async (req, res) => {
   if (req.isAuthenticated()) {

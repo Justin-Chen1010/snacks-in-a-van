@@ -28,7 +28,7 @@ const getOneOrder = async (req, res) => {
       return res.send("Order not found");
     }
     // order was found
-    return res.render("order", {"order": oneOrder}); 
+    return res.render("order", {order: oneOrder, menu: req.menu}); 
   } catch (err) {
     // error occurred
     res.status(400);
@@ -87,6 +87,34 @@ const addOrder = async (req, res) => {
 // change an order (POST)
 const updateOrder = async (req, res) => {
   try {
+    const newOrder = req.body;
+    const oneOrder = await Order.findOne({ orderId: req.params.orderId });
+    if (oneOrder === null) {
+      // no order found in database
+      res.status(404);
+      return res.send("Order not found");
+    }
+    oneOrder.items = newOrder.items.map(item => (
+      {
+        _id: mongoose.Types.ObjectId(),
+        snack: item.snackId,
+        quantity: item.quantity
+      }
+    ));
+    let result = await oneOrder.save();
+    return res.send(result);
+
+  } catch (err) {
+    // error occurred
+    console.log(err);
+    res.status(400);
+    return res.send("Database query failed");
+  }
+};
+
+const updateOrderItems = async (req, res) => {
+  try {
+    const newOrder = req.body;
     const oneOrder = await Order.findOne({ orderId: req.params.orderId });
     if (oneOrder === null) {
       // no order found in database
@@ -95,16 +123,20 @@ const updateOrder = async (req, res) => {
     }
 
     // actually update the order
-    Order.updateOne({ orderId: oneOrder.orderId });
+    for (let item of newOrder.items) {
+      oneOrder.items.push(item);
+    }
+    let result = await oneOrder.save();
+    return res.send(result);
 
-    // order was found: return as repsonse
-    return res.send(oneOrder); 
   } catch (err) {
     // error occurred
+    console.log(error);
     res.status(400);
     return res.send("Database query failed");
-  }
+  } 
 };
+
 
 // find all orders for specific customer
 const getOrdersForOneCustomer = async (req, res) => {
@@ -118,7 +150,7 @@ const getOrdersForOneCustomer = async (req, res) => {
       return order;
     }));
     orders.reverse();
-    
+
     if (customer === null) {
       // no customer found in database: 404
       res.status(404);
