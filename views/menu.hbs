@@ -83,6 +83,7 @@
                 cart.push({ snackId: String(snackId), quantity: currAmount});
             }
             count.textContent = 1;
+            sessionStorage.setItem("cart", JSON.stringify(cart));
         }
         showNumItems();
     }
@@ -101,13 +102,13 @@
     }
 
     function viewCart() {
-        sessionStorage.setItem("cart", JSON.stringify(cart));
         window.location.href = "/customer/cart";
     }
 
     function viewOrder(orderId) {
         order = {{{json order}}};
-        order.items = cart;
+        let orderItems = {{{json (orderToCart order)}}};
+        order.items = orderItems;
         fetch(`/customer/orders/${orderId}`, {
             method: "PUT",
             headers: {

@@ -30,6 +30,7 @@
 }
 
 #vendors-button {
+	border: none;
 	border-radius: 40px;
 	width: 40%;
 	text-align: left;

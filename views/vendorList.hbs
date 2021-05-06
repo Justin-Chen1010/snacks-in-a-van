@@ -1,4 +1,3 @@
-<link rel="stylesheet" href ="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 <section id="vendors">
    <div class="location">
       <i class="fas fa-map-marker-alt" id="location-icon"></i><input id="location-input" placeholder="Current location">
@@ -7,22 +6,29 @@
    <div class="vendors-list">
       {{#each vendors}}      
       <div>
-         <form method="get" action="/customer/menu">
-            <button id="vendors-button" type="submit">
-               <div class="details" >
-                  <div style="display: table-cell; vertical-align: middle;"><i class="icon-SnackVan fa-7x" style=" "></i></div>
-                  <div style="display: table-cell; vertical-align: middle; word-break: break-all;">
-                     <div class="vendor-name">{{this.vendorName}}</div>
-                     <div class="vendor-details">
-                        {{this.address}}</p>
-                        <i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
-                        <u><i class="fas fa-directions"></i>Get Direction</u></p>
-                     </div>
+         <button id="vendors-button" type="button" onclick="updateVendor('{{this.vendorName}}')">
+            <div class="details" >
+               <div style="display: table-cell; vertical-align: middle;"><i class="icon-SnackVan fa-7x" style=" "></i></div>
+               <div style="display: table-cell; vertical-align: middle; word-break: break-all;">
+                  <div class="vendor-name">{{this.vendorName}}</div>
+                  <div class="vendor-details">
+                     {{this.address}}</p>
+                     <i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
+                     <u><i class="fas fa-directions"></i>Get Direction</u></p>
                   </div>
                </div>
-            </button>
-         </form>
+            </div>
+         </button>
       </div>
       {{/each}}
    </div>
 </section>
+
+<script>
+   const vendors = {{{json vendors}}};
+   function updateVendor(vendorName) {
+      const vendor = vendors.find(vendor => vendor.vendorName === vendorName);
+      sessionStorage.setItem("vendor", JSON.stringify(vendor));
+      window.location = "/customer/menu";
+   }
+</script>
