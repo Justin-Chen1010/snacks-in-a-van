@@ -6,8 +6,8 @@ const { v4: uuidv4 } = require("uuid");
 // get all vendors
 const getAllVendors = async (req, res) => {
   try {
-    const vendors = await Vendor.find({ open: true });
-    return res.send(vendors);
+    const vendors = await Vendor.find({ open: true }).lean();
+    res.render('vendorList', {'vendors':vendors});
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");

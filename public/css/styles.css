@@ -26,6 +26,7 @@
 @import "./signup.css";
 @import "./order.css";
 @import "./account.css";
+@import "./vendorList.css";
 
 * {
   box-sizing: border-box;
@@ -47,6 +48,7 @@
   --color-green: #00FF00;
   --color-blue: #0500FF;
   --color-orange: #FFA114;
+  --color-brown: #C3B39F;
 }
 
 html {
