@@ -1,13 +1,16 @@
 <div class="cart-table-wrapper">
-    <div>
-    </div>
 </div>
 
 <script>
     // TODO: don't forget to wipe cart when user logs out
-    {{!-- const order = {{{json order}}}; --}}
-    const menu = JSON.parse(sessionStorage.getItem("menu")) || {};
     let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+    let order = {{{json (orderToCart order)}}};
+    if (order) {
+        cart = order;
+    }
+    const menu = {{{json menu}}};
+
+    // const menu = JSON.parse(sessionStorage.getItem("menu")) || {};
     let tableContents = [];
 
     function updateTableContents() {
@@ -40,7 +43,7 @@
         updateTable();
     }
 
-
+    // Update the quantity of the cart from the input text field
     function updateQuantity(snackId) {
         const quantityField = document.getElementById(`snack-${snackId}-quantity`);
         let quantity = parseInt(quantityField.value);
