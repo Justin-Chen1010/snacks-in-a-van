@@ -2,16 +2,20 @@
  * TODO:
  * RESPONSIVE
  * favicon
- * plus minus icon
+ * vendor selection
+ * 
+ * cancelling updating order
  *
- * order status green yellow etc
  * single order
  * locations
  * timer
  * updating orders
  * single order auth
- * confirm order
  * signup/login error message
+ * 
+ * NOTE:
+ * Deleting all items from order details will not cancel the order
+ * 
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@600&display=swap');

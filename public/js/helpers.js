@@ -5,16 +5,15 @@ var register = function (Handlebars) {
     formatDateTime: function (dateString) {
       const date = new Date(dateString);
       return (
-        date.getMonth() +
-        1 +
+        (date.getMonth() < 10 ? '0' : '') + (date.getMonth() + 1) +
         "/" +
-        date.getDate() +
+        (date.getDate() < 10 ? '0' : '') + date.getDate() +
         "/" +
-        date.getFullYear() +
+        (date.getFullYear() < 10 ? '0' : '') + date.getFullYear() +
         " " +
-        date.getHours() +
+        (date.getHours() < 10 ? '0' : '') + date.getHours() +
         ":" +
-        date.getMinutes()
+        (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
       );
     },
 
@@ -31,6 +30,10 @@ var register = function (Handlebars) {
         cart.push({snackId: String(item.snack), quantity: item.quantity});
       }
       return cart;
+    },
+
+    orderNotCancelled: function(status) {
+      return !(status === 'cancelled');
     }
   };
 

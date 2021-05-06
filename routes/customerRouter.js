@@ -24,9 +24,29 @@ customerRouter.get("/menu/:snackId", async (req, res) => {
 
 // insert an order, specifying the name of the first snack and the assigned
 // vendor
-customerRouter.post("/:customerId/orders", async (req, res) => 
-  orderController.addOrder(req, res)
-);
+customerRouter.post("/:customerId/orders", async (req, res) => {
+  if (req.isAuthenticated()) {
+    // place order
+    if (req.session.userId === req.params.customerId) {
+      orderController.addOrder(req, res);
+      // res.redirect(`/customer/${req.session.userId}/orders`);
+    }
+    else {
+        res.redirect(`/customer/${req.session.userId}/orders`);
+    }
+  }
+  else {
+    req.session.returnTo = `/customer/cart`;
+    res.redirect(`/customer/login`);
+  }
+});
+
+
+// customerRouter.post("/orders", ensureAuthenticated, async (req, res) => {
+//       req.params.customerId = req.session.userId;
+//       console.log(req);
+//       orderController.addOrder(req, res);
+// });
 
 //Directly check orders
 customerRouter.get("/:customerId/orders", async (req, res) => {
@@ -35,11 +55,11 @@ customerRouter.get("/:customerId/orders", async (req, res) => {
       orderController.getOrdersForOneCustomer(req, res);
     }
     else {
-        res.redirect(`/customer/${req.session.userId}/orders`);
+      res.redirect(`/customer/${req.session.userId}/orders`);
     }
   }
   else {
-    req.session.returnTo = `/customer/${req.session.userId}/orders`;
+    req.session.returnTo = `/customer/cart`;
     res.redirect(`/customer/login`);
   }
 });
@@ -57,14 +77,16 @@ customerRouter.get("/orders", async (req, res) => {
   }
 });
 
-// TODO: auth for checking individual orders
-customerRouter.get("/orders/:orderId", snackController.getMenu, async (req, res) =>
-  orderController.getOneOrder(req, res)
+// get an order detail that belongs to the customer
+customerRouter.get("/orders/:orderId", snackController.getMenu, async (req, res) => 
+      orderController.getOneOrder(req, res)
 );
 
-customerRouter.put("/orders/:orderId", async (req, res) =>
-  orderController.updateOrder(req, res)
+// update an order that belongs to the customer
+customerRouter.put("/orders/:orderId", async (req, res) => 
+      orderController.updateOrder(req, res)
 );
+
 
 // insert new customer
 customerRouter.post("/", async (req, res) =>
@@ -72,7 +94,12 @@ customerRouter.post("/", async (req, res) =>
 );
 
 customerRouter.get("/cart", snackController.getMenu, async (req, res) => {
-  res.render("cart", {menu: req.menu});
+  if (req.isAuthenticated()) {
+    res.render("cart", {menu: req.menu, 'isLoggedin': req.isAuthenticated(), 'customerId': req.session.userId});
+  }
+  else {
+    res.render("cart", {menu: req.menu, 'isLoggedin': req.isAuthenticated()});
+  }
 });
 
 customerRouter.get("/account", async (req, res) => {

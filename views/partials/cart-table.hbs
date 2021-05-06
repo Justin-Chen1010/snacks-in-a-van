@@ -4,9 +4,9 @@
 <script>
     // TODO: don't forget to wipe cart when user logs out
     let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-    let order = {{{json (orderToCart order)}}};
-    if (order) {
-        cart = order;
+    let orderItems = {{{json (orderToCart order)}}};
+    if (orderItems) {
+        cart = orderItems;
     }
     const menu = {{{json menu}}};
 

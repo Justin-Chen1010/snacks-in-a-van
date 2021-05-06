@@ -27,7 +27,7 @@
 }
 
 .cart-table td {
-    text-decoration: bold;
+    font-weight: bold;
     text-align: center;
     padding: 16px 0;
 }
@@ -44,6 +44,7 @@
 #cancel-order-button, #update-order-button {
     margin: 16px;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .empty-cart-message {

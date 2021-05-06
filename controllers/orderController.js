@@ -20,6 +20,7 @@ const getAllOrders = async (req, res) => {
 
 // find one order by their id
 const getOneOrder = async (req, res) => {
+  
   try {
     const oneOrder = await Order.findOne({ orderId: req.params.orderId }).lean();
     if (oneOrder === null) {
@@ -28,7 +29,7 @@ const getOneOrder = async (req, res) => {
       return res.send("Order not found");
     }
     // order was found
-    return res.render("order", {order: oneOrder, menu: req.menu}); 
+    res.render("order", {order: oneOrder, menu: req.menu});
   } catch (err) {
     // error occurred
     res.status(400);
@@ -48,10 +49,10 @@ const addOrder = async (req, res) => {
     const order = req.body;
 
     // find the food by name
-    const snack = await Snack.findOne({ snackName: order.snackName });
+    const snack = await Snack.findOne({ snackId: order.snackId });
     // Snack not found, send message
     if (snack === null) {
-      return res.status(400).send(`Food item ${order.snackName} not found....`);
+      return res.status(400).send(`Food item ${order.snackId} not found....`);
     }
     // get the food item Id
     let snackId = snack.snackId;
@@ -74,8 +75,8 @@ const addOrder = async (req, res) => {
       { customerId: req.params.customerId },
       { $push: { orders: id } }
     );
-
-    res.send(newOrder);
+    return res.send(newOrder);
+    // console.log(res.body.newOrder);
   } catch (err) {
     // error occurred
     res.status(400);
@@ -94,6 +95,7 @@ const updateOrder = async (req, res) => {
       res.status(404);
       return res.send("Order not found");
     }
+    oneOrder.status = newOrder.status;
     oneOrder.items = newOrder.items.map(item => (
       {
         _id: mongoose.Types.ObjectId(),
@@ -111,32 +113,6 @@ const updateOrder = async (req, res) => {
     return res.send("Database query failed");
   }
 };
-
-const updateOrderItems = async (req, res) => {
-  try {
-    const newOrder = req.body;
-    const oneOrder = await Order.findOne({ orderId: req.params.orderId });
-    if (oneOrder === null) {
-      // no order found in database
-      res.status(404);
-      return res.send("Order not found");
-    }
-
-    // actually update the order
-    for (let item of newOrder.items) {
-      oneOrder.items.push(item);
-    }
-    let result = await oneOrder.save();
-    return res.send(result);
-
-  } catch (err) {
-    // error occurred
-    console.log(error);
-    res.status(400);
-    return res.send("Database query failed");
-  } 
-};
-
 
 // find all orders for specific customer
 const getOrdersForOneCustomer = async (req, res) => {
