@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 // get all vendors
 const getAllVendors = async (req, res) => {
   try {
-    const vendors = await Vendor.find({ open: true }).lean();
+    const vendors = await Vendor.find({ open: true }).select({password: 0}).lean();
     res.render('vendorList', {'vendors':vendors});
   } catch (err) {
     res.status(400);
