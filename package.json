@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "**The University of Melbourne**",
   "main": "index.js",
   "scripts": {
     "start": "node app.js"
@@ -27,5 +27,13 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "uuid": "^8.3.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/INFO30005-2021-SM1/project-t12-roboto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/INFO30005-2021-SM1/project-t12-roboto/issues"
+  },
+  "homepage": "https://github.com/INFO30005-2021-SM1/project-t12-roboto#readme"
 }
