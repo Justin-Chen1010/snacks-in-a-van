@@ -16,6 +16,7 @@
 }
 
 .cart-table {
+    overflow-x: hidden;
     border-collapse: collapse; 
     margin: 32px auto;
     background-color: var(--color-light) ;
@@ -55,9 +56,18 @@
 }
 
 .view-menu-button {
-  position: fixed;
-  bottom: 56px;
-  right: 56px;
+    position: fixed;
+    bottom: 56px;
+    right: 56px;
+    padding: 8px 24px;
+    font-size: 24px;
+    border: none;
+    font-family: "Roboto", sans-serif;
+    color: var(--color-white);
+    background-color: var(--color-grey);
+    text-align: center;
+    transition: all 0.1s;
+    border-radius: 8px;
 }
 
 /* Chrome, Safari, Edge, Opera */

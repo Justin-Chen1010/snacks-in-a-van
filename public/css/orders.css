@@ -56,3 +56,12 @@
     margin-right: 5%;
     vertical-align: middle;
 }
+
+@media screen and (max-width: 768px){
+    #orders {
+        margin-top:64px;
+    }
+    .orders-wrapper {
+        width: 100%;
+    }
+  }

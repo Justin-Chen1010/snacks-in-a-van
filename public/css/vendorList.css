@@ -48,20 +48,23 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    cursor: pointer;
 }
 
 
-#vendors-button:hover {
+.vendor-button:hover {
 	transform: scale(1.1);
 	-webkit-transform: scale(1.1);
-	cursor: pointer;
+	
 }
 
 .vendor-name {
-    /* background-color: var(--color-brown); */
-    text-decoration: underline;
+    background-color: var(--color-brown);
+    padding-right: 10%;
     margin: 16px;
-    font-family: var(--font-heading);
+	font-family: var(--font-heading);
+    font-size: 16px;
+    
 }
 
 .vendor-details {

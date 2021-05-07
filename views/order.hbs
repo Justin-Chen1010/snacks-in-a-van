@@ -1,3 +1,4 @@
+
 <section id="cart">
   <div class="cart-wrapper">
     <h1>Order Details</h1>
@@ -28,7 +29,6 @@
     const cart = JSON.parse(sessionStorage.getItem("cart"));
     const order = {{{json order}}}
     order.items = cart;
-    console.log(order);
     fetch(`/customer/orders/${orderId}`, {
       method: "PUT",
       headers: {
@@ -42,7 +42,6 @@
     const order = {{{json order}}}
     order.items = {{{json (orderToCart order)}}};
     order.status = "cancelled";
-    console.log(order);
     fetch(`/customer/orders/${orderId}`, {
       method: "PUT",
       headers: {

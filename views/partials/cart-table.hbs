@@ -145,6 +145,7 @@
             wrapper.replaceChild(div, wrapper.childNodes[0]);
         } else {
             let table = document.createElement("table");
+            table.style.width = "32px";
             table.className = "cart-table";
             let data = Object.keys(tableContents[0]);
             generateTable(table, tableContents);
