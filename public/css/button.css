@@ -1,0 +1,43 @@
+@media screen and (max-width: 768px) {
+  .button {
+    padding: 4px 12px;
+    font-size: 16px;
+    border: none;
+    font-family: "Roboto", sans-serif;
+    color: var(--color-white);
+    background-color: var(--color-grey);
+    text-align: center;
+    transition: all 0.1s;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+
+  .button:hover {
+    background-color: var(--color-black);
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    cursor: pointer;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .button {
+    padding: 6px 24px;
+    font-size: 24px;
+    border: none;
+    font-family: "Roboto", sans-serif;
+    color: var(--color-white);
+    background-color: var(--color-grey);
+    text-align: center;
+    transition: all 0.1s;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+
+  .button:hover {
+    background-color: var(--color-black);
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    cursor: pointer;
+  }
+}

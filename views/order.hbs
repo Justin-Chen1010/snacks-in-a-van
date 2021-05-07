@@ -1,0 +1,142 @@
+<section id="order">
+  <div class="order-wrapper">
+    <h1>Order Details</h1>
+    <div>
+      <div>
+        <i class="fas fa-shuttle-van"></i>
+        <span class="cart-van-name">Van name</span>
+      </div>
+      <div>
+        <i class="fas fa-map-marker-alt"></i>
+        <span class="cart-van-location">Van location</span>
+      </div>
+    </div>
+    {{> cart-table order=order}}
+    <div class="order-buttons">
+      <button id="cancel-order-button" class="button" onclick="cancelOrder('{{order.orderId}}')">
+        <i class="fas fa-trash-alt"></i>
+        Cancel Order
+      </button>
+      <button id="update-order-button" class="button" onclick="updateOrder('{{order.orderId}}')">
+        <i class="fas fa-edit"></i>
+        Update Order
+      </button>
+      <button id="add-item-button" class="button" onclick="goToMenu('{{order.orderId}}')" type="button">
+        <i class="fas fa-clipboard=list"></i> Add items from menu
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+
+  // redirect to menu to add items to this current order
+  function goToMenu(orderId) {
+    window.location = `/customer/menu?orderId=${orderId}`;
+  }
+
+  const vendor = JSON.parse(sessionStorage.getItem('vendor'));
+  if (vendor) {
+    document.querySelector('.cart-van-name').textContent = vendor.vendorName;
+    document.querySelector('.cart-van-location').textContent = vendor.address;
+  }
+
+  // update the table view based on the current cart items, and modifies the
+  // order in the database
+  async function updateOrder(orderId) {
+    window.location.reload();
+    const cart = JSON.parse(sessionStorage.getItem("cart"));
+    const order = {{{ json order }}}
+    order.items = cart;
+    fetch(`/customer/orders/${orderId}`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(order)
+    });
+  }
+
+  // sets the status of the order in the database as "cancelled", they will
+  // not be displayed on the orders page
+  async function cancelOrder(orderId) {
+    const order = {{{ json order }}}
+    order.items = {{{ json (orderToCart order) }}};
+    order.status = "cancelled";
+    fetch(`/customer/orders/${orderId}`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(order)
+    }).then(() => window.location.href = `/customer/orders`);
+  }
+</script>
+
+
+{{!-- <section id="cart">
+  <p id="days"></p>
+  <p id="hours"></p>
+  <p id="mins"></p>
+  <p id="secs"></p>
+  <h2 id="end"></h2>
+</section>
+
+<script>
+  // The data/time we want to countdown to
+  //var countDownDate = new Date("Jul 25, 2021 16:37:52").getTime();
+
+  // Run myfunc every second
+  //var myfunc = setInterval(function() {
+
+  //var now = new Date().getTime();
+  //var timeleft = countDownDate - now;
+
+  // The data/time we want to countdown to
+  var countDownDate = new Date("Jul 25, 2021 16:37:52").getTime();
+
+  function addMinutes(date, minutes) {
+    var discount_time = (date + minutes * 60000);
+    return discount_time;
+  }
+  var discount_timer = 0;
+  var time_order = new Date().getTime();
+
+  if (discount_timer == 0) {
+    discount_timer = addMinutes(time_order, 1);
+    //var discount_timer = now + (15*60000);
+    //Convert 15 minutes to milliseconds
+  }
+
+  // Run myfunc every second
+  var myfunc = setInterval(function () {
+
+    var now = new Date().getTime();
+    var timeleft = discount_timer - now;
+    //var timeleft = countDownDate - now;
+
+    // Calculating the days, hours, minutes and seconds left
+    var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+
+    // Result is output to the specific element
+    document.getElementById("days").innerHTML = days + "d "
+    document.getElementById("hours").innerHTML = hours + "h "
+    document.getElementById("mins").innerHTML = minutes + "m "
+    document.getElementById("secs").innerHTML = seconds + "s "
+
+    // Display the message when countdown is over
+    if (timeleft < 0) {
+      clearInterval(myfunc);
+      document.getElementById("days").innerHTML = ""
+      document.getElementById("hours").innerHTML = ""
+      document.getElementById("mins").innerHTML = ""
+      document.getElementById("secs").innerHTML = ""
+      document.getElementById("end").innerHTML = "Discount Applied!!";
+    }
+  }, 1000);
+
+
+</script> --}}

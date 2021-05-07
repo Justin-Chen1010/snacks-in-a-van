@@ -1,0 +1,134 @@
+#account h1 {
+  font-family: var(--font-heading);
+}
+
+@media screen and (max-width: 768px) {
+  #account {
+    width: 100%;
+    margin: 36px;
+    font-size: small;
+  }
+
+  .account-detail {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .account-detail-header {
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .account-detail-header i {
+    font-size: 56px;
+  }
+
+  .account-detail-submit {
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  #logout-button {
+    width: auto;
+    border-radius: 8px;
+    border: none;
+    font-size: 10px;
+    cursor: pointer;
+    padding: 8px 16px;
+  }
+
+  #update-button {
+    width: auto;
+    border-radius: 8px;
+    border: none;
+    font-size: 10px;
+    cursor: pointer;
+    padding: 8px 16px;
+  }
+
+  #account input,
+  label {
+    width: 100%;
+    display: block;
+    margin: 8px;
+    font-weight: lighter;
+  }
+
+  #account input {
+    background-color: var(--color-white);
+    border-radius: 8px;
+    border: none;
+    padding: 8px;
+  }
+
+  #account #email {
+    background-color: var(--color-lighter);
+  }
+}
+
+@media screen and (min-width: 769px) {
+  #account {
+    width: 100%;
+    margin: 128px 0;
+  }
+
+  .account-detail {
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .account-detail-header {
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .account-detail-header i {
+    font-size: 56px;
+  }
+
+  .account-detail-submit {
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  #logout-button {
+    width: auto;
+    border-radius: 8px;
+    border: none;
+    font-size: 12px;
+    margin: 8px;
+    cursor: pointer;
+    padding: 8px 16px;
+  }
+
+  #update-button {
+    width: auto;
+    border-radius: 8px;
+    border: none;
+    font-size: 12px;
+    margin: 8px;
+    cursor: pointer;
+    padding: 8px 16px;
+  }
+
+  #account input,
+  label {
+    width: 100%;
+    display: block;
+    margin: 8px;
+    font-weight: lighter;
+  }
+
+  #account input {
+    background-color: var(--color-white);
+    border-radius: 8px;
+    border: none;
+    padding: 8px;
+  }
+
+  #account #email {
+    background-color: var(--color-lighter);
+  }
+}

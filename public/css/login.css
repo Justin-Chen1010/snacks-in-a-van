@@ -1,0 +1,107 @@
+.login-form {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-form-header {
+  margin-top: 32px;
+  text-align: center;
+  font-family: var(--font-heading);
+}
+
+.login-form-header i {
+  font-size: 56px;
+}
+
+.login-form-submit {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.login-forgot-password {
+  text-align: right;
+  font-size: 16px;
+}
+
+.login-no-account-yet {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 16px;
+}
+
+#user-pw,
+#user-email {
+  background-color: var(--color-white);
+  border-radius: 8px;
+  border: none;
+  padding: 8px;
+}
+
+input[type="email"],
+input[type="password"],
+label {
+  width: 100%;
+  display: block;
+  margin: 8px;
+  font-weight: lighter;
+}
+
+.van-icon {
+  animation-duration: 4s;
+  animation-name: movingvan;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+}
+@keyframes movingvan {
+  0% {
+    transform: translateX(-10%);
+  }
+
+  50% {
+    transform: translateX(10%);
+  }
+
+  100% {
+    transform: translateX(-10%);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #login {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 15px;
+  }
+  #login-button {
+    width: auto;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .login-forgot-password {
+    text-align: right;
+    font-size: 11px;
+  }
+  .login-no-account-yet {
+    font-size: 11px;
+  }
+}
+@media screen and (min-width: 768px) {
+  #login {
+    width: 100%;
+    margin-top: 128px;
+  }
+  #login-button {
+    width: auto;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .login-forgot-password {
+    text-align: right;
+    font-size: 16px;
+  }
+}

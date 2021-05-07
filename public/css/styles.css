@@ -1,0 +1,96 @@
+/*
+ * TODO:
+ * timer
+ * updating orders
+ * signup/login error message
+ * 
+ * NOTE:
+ * Deleting all items from order details will not cancel the order
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+@import "./navbar.css";
+@import "./footer.css";
+@import "./home.css";
+@import "./menu.css";
+@import "./cart.css";
+@import "./orders.css";
+@import "./button.css";
+@import "./error.css";
+@import "./login.css";
+@import "./signup.css";
+@import "./order.css";
+@import "./account.css";
+@import "./vendorList.css";
+@import "./cart-table.css";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+main {
+  min-height: 100%;
+  display: flex;
+}
+
+a {
+  color: var(--color-black);
+  text-decoration: none; /* switch off underlining of anchors */
+}
+
+:target {
+  color: var(--color-white);
+}
+
+/* elements that are on every page */
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-medium);
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  margin: 0;
+  height: 100%;
+}
+
+:root {
+  --font-body: "Roboto", sans-serif;
+  --font-heading: "Cormorant SC", "Georgia", cursive;
+  --color-dark: #042046;
+  --color-medium: #d4b496;
+  --color-light: #f5e5d6;
+  --color-grey: #68798e;
+  --color-black: #042046;
+  --color-white: #ffffff;
+  --color-lighter: #f0eded;
+  --color-green: #00ff00;
+  --color-blue: #0500ff;
+  --color-orange: #ffa114;
+  --color-brown: #c3b39f;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --text-big: 15px;
+    --text-medium: 12px;
+    --text-small: 10px;
+  }
+
+  .copyright {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  :root {
+    --text-big: 36px;
+    --text-medium: 22px;
+    --text-small: 16px;
+  }
+}

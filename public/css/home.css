@@ -1,0 +1,135 @@
+#home {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  background-image: url("../static/home-background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  padding-bottom: 64px;
+}
+
+.home-wrapper {
+  margin: 64px 0;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+/* https://www.w3schools.com/cssref/css3_pr_animation.asp */
+@keyframes changeText {
+  0% {
+    content: "SNACKS IN A VAN offers the best coffee in Melbourne";
+  }
+  20% {
+    content: "SNACKS IN A VANへようこそ。メルボルンで最高のコーヒーを提供します";
+  }
+  40% {
+    content: "SNACKS IN A VAN 提供墨爾本最好的咖啡";
+  }
+  60% {
+    content: "SNACKS IN A VAN menawarkan kopi terbaik di Melbourne";
+  }
+  80% {
+    content: "SNACKS IN A VAN предлагает лучший кофе в Мельбурне";
+  }
+}
+#welcome-screen:after {
+  content: "SNACK IN A VAN offers the best coffee in Melbourne";
+  animation-name: changeText;
+  animation-duration: 25s;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-delay: 0ms;
+}
+
+.home-top {
+  flex-grow: 5;
+  text-align: center;
+}
+
+.welcome {
+  position: relative;
+  /* font-size: 2vw; */
+  width: 400px;
+  top: 48px;
+  left: 64px;
+  display: none;
+}
+
+.find-us {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.find-us a {
+  color: var(--color-white);
+  bottom: 64px;
+  right: 128px;
+  margin-bottom: 16px;
+  font-size: 30px;
+  padding: 16px;
+  justify-content: center;
+}
+
+.text {
+  left: 128px;
+  flex-grow: 5;
+  font-size: 48px;
+  text-align: center;
+  font-family: var(--font-heading);
+}
+
+.icon {
+  animation-duration: 4s;
+  animation-name: movingvan;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  /* margin-top: 36px;
+  text-align: center;
+  font-size: 64px;
+  */
+  font-size: 500%;
+}
+
+@keyframes movingvan {
+  0% {
+    transform: translateX(-10%);
+  }
+
+  50% {
+    transform: translateX(10%);
+  }
+
+  100% {
+    transform: translateX(-10%);
+  }
+}
+.welcome {
+  width: 400px;
+  margin: 136px;
+}
+
+@media screen and (max-width: 768px) {
+  .welcome {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .home-wrapper {
+    margin: 0;
+  }
+
+  .welcome {
+    display: flex;
+  }
+  .icon {
+    display: none;
+  }
+  .text {
+    display: none;
+  }
+}

@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
+<section id="account">
+  <form method="post" action="/customer/account" class="account-detail">
+    <div class="account-detail-header">
+      <div class="van-icon"><i class="icon-SnackVan"></i></div>
+      <h1>Profile</h1>
+    </div>
+    <label for="emailAddress">Email Address</label>
+    <input placeholder="email address" name='email' id='email' type="email" value={{email}} readonly="readonly" />
+    <label for="givenName">Given Name</label>
+    <input placeholder="given name" name='givenName' id='givenName' value="" />
+    <label for="familyName">Family Name</label>
+    <input placeholder="family name" name='familyName' id='familyName' value="" />
+    <label for="password">Password</label>
+    <input placeholder="***************" name='password' id='password' type="password" value="" />
+    <label for="confirmPassword">Confirm Password</label>
+    <input placeholder="***************" name='confirmPassword' id='confirmPassword' type="password" value="" />
+    <div class="account-detail-submit">
+      <button id="update-button" class="button" formaction="/customer/login">
+        <i class="fas fa-edit"></i>
+        UPDATE
+      </button>
+      <button id="logout-button" class="button" formaction="/customer/logout">
+        <i class="fas fa-sign-out-alt"></i>
+        LOG OUT
+      </button>
+    </div>
+  </form>
+</section>
+
+<script>
+  function update() {
+    { { !--omitted for now--} }
+  }
+</script>

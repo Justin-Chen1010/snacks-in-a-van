@@ -1,0 +1,172 @@
+<div class="cart-table-wrapper">
+</div>
+
+<script>
+    // get the cart from local storage, or if an order is supplied then
+    // display the items of that order instead
+    let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+    let orderItems = {{{ json (orderToCart order)}}};
+    if (orderItems) {
+        cart = orderItems;
+    }
+    const menu = {{{ json menu }}};
+
+    let tableContents = [];
+
+    // update the table contents based on the current contents of the cart
+    function updateTableContents() {
+        tableContents = [];
+        invalidSnackIds = [];
+        for (let cartItem of cart) {
+            const snack = menu.find(item => item.snackId === cartItem.snackId);
+            if (!snack) {
+                // item in cart that is not on the menu, delete it later.
+                invalidSnackIds.push(cartItem.snackId)
+            } else {
+                const quantity = cart.find(item => item.snackId === snack.snackId).quantity;
+                tableContents.push({
+                    "Snack ID": snack.snackId,
+                    Item: snack.snackName,
+                    Quantity: quantity,
+                    "Unit Price": `$${snack.price}`,
+                    Price: `$${snack.price * quantity}`
+                });
+            }
+        }
+        // delete items in cart but not in menu
+        for (let snackId in invalidSnackIds) {
+            deleteItem(snackId);
+        }
+    }
+
+    // remove an item from the cart and update the table to reflect this
+    function deleteItem(snackId) {
+        cart = cart.filter(item => item.snackId !== snackId);
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        updateTable();
+    }
+
+    // Update the quantity of the cart from the input text field
+    function updateQuantity(snackId) {
+        const quantityField = document.getElementById(`snack-${snackId}-quantity`);
+        let quantity = parseInt(quantityField.value);
+
+        // invalid value, don't update to cart to this!
+        if (!quantity || quantity < 0) {
+            quantityField.value = 1;
+        }
+        const idx = cart.findIndex(item => item.snackId === snackId);
+        cart[idx].quantity = parseInt(quantityField.value);
+
+        // update cart in local storage and the table view
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        updateTable();
+    }
+
+    // update the cart total price based on the current table view
+    function updateCartTotal() {
+        let cartTotalField = document.querySelector(".cart-total");
+        let sum = 0;
+        for (const row of tableContents) {
+            sum += parseFloat(row["Price"].substring(1));
+        }
+        cartTotalField.textContent = `$${sum}`;
+    }
+
+    // generate the table head in `table`, given the cart data
+    function generateTableHead(table, data) {
+        let thead = table.createTHead();
+        let row = thead.insertRow();
+        for (let key of data) {
+            let th = document.createElement("th");
+            let text = document.createTextNode(key);
+            th.appendChild(text);
+            row.appendChild(th);
+        }
+    }
+
+    // generate a table displaying `data` in the given `table` element
+    function generateTable(table, data) {
+        for (let datum of data) {
+            let row = table.insertRow();
+            generateRow(row, datum);
+        }
+        generateLastRow(table);
+    }
+
+    // generate a table row in the given `row` node, based on the given row of
+    // cart data.
+    function generateRow(row, datum) {
+        for (key in datum) {
+            let cell = row.insertCell();
+            if (key === "Quantity") {
+                // quantities can be edited; they are a special field
+                let input = document.createElement("input");
+                input.id = `snack-${datum["Snack ID"]}-quantity`;
+                input.className = `count-input`;
+                input.setAttribute("type", "number");
+                input.setAttribute("min", "1");
+                input.setAttribute("onchange", `updateQuantity(String(${datum["Snack ID"]}))`);
+                input.setAttribute("value", datum.Quantity);
+                cell.appendChild(input);
+            } else {
+                let text = document.createTextNode(datum[key]);
+                cell.appendChild(text);
+            }
+        }
+        let cell = row.insertCell();
+        let deleteButton = document.createElement("button");
+        deleteButton.className = "button";
+        let xIcon = document.createElement("i");
+        xIcon.classList.add("fas", "fa-trash-alt")
+        deleteButton.appendChild(xIcon);
+        deleteButton.setAttribute("onclick", `deleteItem(String(${datum["Snack ID"]}))`);
+        cell.appendChild(deleteButton);
+    }
+
+    // generates the last row in the given `table` node, which contains the
+    // cart total field
+    function generateLastRow(table) {
+        let row = table.insertRow();
+        row.insertCell();
+        row.insertCell();
+        row.insertCell();
+
+        let cell = row.insertCell();
+        let text = document.createTextNode("Cart Total:");
+        cell.appendChild(text);
+
+        let cell2 = row.insertCell();
+        cell2.className = "cart-total";
+        let text2 = document.createTextNode("0");
+        cell2.appendChild(text2);
+    }
+
+    // update the table contents and the view. This function generates the
+    // table and replaces the current one.
+    function updateTable() {
+        updateTableContents();
+        let wrapper = document.querySelector(".cart-table-wrapper");
+        if (!cart || cart.length === 0) {
+            // if cart is empty display message
+            let wrapper = document.querySelector(".cart-table-wrapper");
+            let div = document.createElement("div");
+            div.className = "empty-cart-message";
+            let text = document.createTextNode("Empty cart.");
+            div.appendChild(text);
+
+            wrapper.replaceChild(div, wrapper.childNodes[0]);
+        } else {
+            // generate cart table
+            let table = document.createElement("table");
+            table.className = "cart-table";
+            let data = Object.keys(tableContents[0]);
+            generateTable(table, tableContents);
+            generateTableHead(table, data);
+
+            wrapper.replaceChild(table, wrapper.childNodes[0]);
+            updateCartTotal();
+        }
+    }
+    updateTable();
+</script>

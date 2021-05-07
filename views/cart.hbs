@@ -1,0 +1,94 @@
+<section id="cart">
+    <div class="cart-wrapper">
+        <h1>Order Details</h1>
+        <div>
+            <div>
+                <i class="fas fa-shuttle-van"></i>
+                <span class="cart-van-name">Van name</span>
+            </div>
+            <div>
+                <i class="fas fa-map-marker-alt"></i>
+                <span class="cart-van-location">Van location</span>
+            </div>
+        </div>
+        {{> cart-table order=null}}
+        <div class="order-buttons">
+            <button id="clear-cart-button" class="button" onclick="clearCart()">
+                <i class="fas fa-trash-alt"></i>
+                Clear Cart
+            </button>
+            <button id="place-order-button" class="button" {{#if isLoggedin}} onclick="placeOrder()" {{else}}
+                onclick="getLogin()" {{/if}}>
+                <i class="fas fa-concierge-bell"></i>
+                Place Order
+            </button>
+        </div>
+    </div>
+    <a class="view-menu-button button" id="view-menu" href="/customer/menu">
+        <i class="fa fa-clipboard-list"></i> View menu
+    </a>
+</section>
+
+<script>
+    const customerId = "{{{customerId}}}";
+
+    const vendor = JSON.parse(sessionStorage.getItem('vendor'));
+    if (vendor) {
+        document.querySelector('.cart-van-name').textContent = vendor.vendorName;
+        document.querySelector('.cart-van-location').textContent = vendor.address;
+    }
+
+    function getLogin() {
+        window.location = "/customer/login";
+    }
+
+    // place an order based on the current cart items
+    async function placeOrder() {
+        const vendor = JSON.parse(sessionStorage.getItem("vendor"));
+        const cart = JSON.parse(sessionStorage.getItem("cart"));
+        const firstItem = cart[0];
+        const newOrder = {
+            snackId: firstItem.snackId,
+            quantity: firstItem.quantity,
+            vendorName: vendor.vendorName
+        };
+        const order = await createOrder(newOrder);
+        order.items = cart;
+        const updatedOrder = await updateOrder(order);
+        window.location = `/customer/${customerId}/orders`;
+        sessionStorage.removeItem("cart");
+    }
+
+    // create a new order by ordering one item
+    async function createOrder(newOrder) {
+        const res = await fetch(`/customer/${customerId}/orders/`,
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newOrder)
+            }
+        );
+        return res.json();
+    }
+
+    // update an order (can add more items to the order)
+    async function updateOrder(order) {
+        const res = await fetch(`/customer/orders/${order.orderId}`,
+            {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(order)
+            }
+        );
+        return res.json();
+    }
+
+    function clearCart() {
+        sessionStorage.removeItem("cart");
+        window.location.reload();
+    }
+</script>
