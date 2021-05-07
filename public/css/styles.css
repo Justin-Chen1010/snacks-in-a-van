@@ -39,101 +39,68 @@
 * {
   box-sizing: border-box;
 }
+
+html {
+  height: 100%;
+}
+
+main {
+  min-height: 100%;
+  display: flex;
+}
+
+a {
+  color: var(--color-black);
+  text-decoration: none; /* switch off underlining of anchors */
+}
+
+:target {
+  color: var(--color-white);
+}
+
+/* elements that are on every page */
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-medium);
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  margin: 0;
+  height: 100%;
+}
+
+:root {
+    --font-body: "Roboto", sans-serif;
+    --font-heading: "Cormorant SC", "Georgia", cursive;
+    --color-dark: #042046;
+    --color-medium: #d4b496;
+    --color-light: #f5e5d6;
+    --color-grey: #68798e;
+    --color-black: #042046;
+    --color-white: #ffffff;
+    --color-lighter: #f0eded;
+    --color-green: #00FF00;
+    --color-blue: #0500FF;
+    --color-orange: #FFA114;
+    --color-brown: #C3B39F;
+  }
+
+
 @media screen and (max-width: 768px){
   :root {
     --text-big: 15px;
     --text-medium: 12px;
     --text-small: 10px;
-    --font-body: "Roboto", sans-serif;
-    --font-heading: "Cormorant SC", "Georgia", cursive;
-    --color-dark: #042046;
-    --color-medium: #d4b496;
-    --color-light: #f5e5d6;
-    --color-grey: #68798e;
-    --color-black: #042046;
-    --color-white: #ffffff;
-    --color-lighter: #f0eded;
-    --color-green: #00FF00;
-    --color-blue: #0500FF;
-    --color-orange: #FFA114;
-    --color-brown: #C3B39F;
   }
 
-  html {
-    height: 100%;
-  }
-
-  main {
-    min-height: 100%;
-    display: flex;
-  }
-
-  /* elements that are on every page */
-  body {
-    font-family: var(--font-body);
-    font-size: var(--text-medium);
-    background-color: var(--color-light);
-    color: var(--color-dark);
-    margin: 0;
-    height: 100%;
-  }
-
-  a {
-    color: var(--color-black);
-    text-decoration: none; /* switch off underlining of anchors */
-  }
-
-  :target {
-    color: var(--color-white);
+  .copyright {
+    display: none;
   }
 }
 
 @media screen and (min-width: 769px){
-
   :root {
     --text-big: 36px;
     --text-medium: 22px;
     --text-small: 16px;
-    --font-body: "Roboto", sans-serif;
-    --font-heading: "Cormorant SC", "Georgia", cursive;
-    --color-dark: #042046;
-    --color-medium: #d4b496;
-    --color-light: #f5e5d6;
-    --color-grey: #68798e;
-    --color-black: #042046;
-    --color-white: #ffffff;
-    --color-lighter: #f0eded;
-    --color-green: #00FF00;
-    --color-blue: #0500FF;
-    --color-orange: #FFA114;
-    --color-brown: #C3B39F;
-  }
-
-  html {
-    height: 100%;
-  }
-
-  main {
-    min-height: 100%;
-    display: flex;
-  }
-
-  /* elements that are on every page */
-  body {
-    font-family: var(--font-body);
-    font-size: var(--text-medium);
-    background-color: var(--color-light);
-    color: var(--color-dark);
-    margin: 0;
-    height: 100%;
-  }
-
-  a {
-    color: var(--color-black);
-    text-decoration: none; /* switch off underlining of anchors */
-  }
-
-  :target {
-    color: var(--color-white);
   }
 }

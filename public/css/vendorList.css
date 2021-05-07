@@ -3,12 +3,19 @@
 	width: 100%;
 }
 
-#location-input {
-	border-radius: 8px;
-	width: 40%;
-	text-align: center;
-    /* padding-left: 8px; */
+#vendors h1 {
+    text-align: center;
+    font-size: 48px;
+    font-family: var(--font-heading);
+    margin: 0;
+}
 
+#location-input {
+    border-radius: 8px;
+    padding: 8px;
+    border: none;
+    font-size: 16px;
+    flex-grow: 1;
 }
 
 #location-icon {
@@ -16,27 +23,31 @@
 }
 
 .location {
-	text-align: center;
+    display: flex;
+    text-align: center;
+    font-size: 24px;
+    margin: 16px;
+    padding: 0 32px;
 }
 
-#vendors h1 {
-	text-align: center;
-	font-size: 64px;
-	font-family: var(--font-heading);
-}
 
 .vendors-list {
-	text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
 }
 
-#vendors-button {
-	border: none;
-	border-radius: 40px;
-	width: 40%;
-	text-align: left;
-	transition: all 0.1s;
+.vendor-button {
+    border: none;
+    border-radius: 40px;
+    text-align: left;
+    transition: all 0.1s;
     margin: 8px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 
@@ -47,24 +58,53 @@
 }
 
 .vendor-name {
-    
-    background-color: var(--color-brown);
-    /* padding-left: 10%; */
-    padding-right: 10%;
+    /* background-color: var(--color-brown); */
+    text-decoration: underline;
     margin: 16px;
-	font-family: var(--font-heading);
-    font-size: 24px;
-    
+    font-family: var(--font-heading);
 }
 
 .vendor-details {
     font-family: var(--font-body);
-	text-align: left;
-    font-size: 16px;
+    text-align: left;
     margin-left: 16px;
     margin-right: 16px;
 }
 
 .details {
-	margin-left: 16px;
+    margin-left: 16px;
+}
+
+@media screen and (max-width: 768px){
+    #vendors {
+        margin-top: 30px;
+        margin-bottom: 90px;
+    }
+    .vendors-wrapper {
+        padding: 0;
+    }
+    .vendors-list {
+        font-size: 100px;
+    
+    }
+    .vendor-icon {
+        font-size: 32px;
+        padding: 8px;
+    }
+}
+
+@media screen and (min-width: 768px){
+    #vendors {
+        margin-top: 90px;
+    }
+    .vendors-wrapper {
+        padding: 0 30%;
+    }
+    .vendors-list {
+        font-size: 64px;
+    }
+    .vendor-icon {
+        font-size: 64px;
+        padding: 32px;
+    }
 }

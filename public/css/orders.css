@@ -1,9 +1,19 @@
-.orders {
+#orders {
     margin-top: 128px;
+    width: 100%;
+}
+
+#orders h1 {
+    text-align: center;
+    font-size: 48px;
+    font-family: var(--font-heading);
+    margin: 0;
 }
 
 .orders-wrapper {
-    padding: 0 10vw;
+    /* padding: 0 10vw; */
+    width: 40vw;
+    margin: auto;
 }
 
 .order-item {

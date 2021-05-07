@@ -89,6 +89,7 @@ customerRouter.put("/orders/:orderId", async (req, res) =>
 
 
 // insert new customer
+
 customerRouter.post("/", async (req, res) =>
   customerController.addCustomer(req, res)
 );

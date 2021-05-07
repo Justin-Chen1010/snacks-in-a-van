@@ -1,11 +1,19 @@
 #home {
   overflow-x: hidden; /* Hide horizontal scrollbar */
-  flex-grow: 1;
   background-image: url("../static/home-background.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  padding-bottom: 64px;
+}
+
+.home-wrapper {
+  margin: 64px 0;
+  display: flex;
+  flex-grow: 1;
   flex-direction: column;
 }
 
@@ -29,6 +37,7 @@
 
 .home-top {
   flex-grow: 5;
+  text-align: center;
 }
 
 .welcome {
@@ -51,16 +60,16 @@
   color: var(--color-white);
   bottom: 64px;
   right: 128px;
-  margin-bottom: 64px;
+  margin-bottom: 16px;
   justify-content: center;
 }
 
 .text {
   left: 128px;
   flex-grow: 5;
-  font-size: 36px;
-  font-family: var(--font-heading);
+  font-size: 48px;
   text-align: center;
+  font-family: var(--font-heading);
   
 }
 
@@ -69,10 +78,11 @@
   animation-name: movingvan;
   animation-duration: 15s;
   animation-iteration-count: infinite;
-  margin-top: 36px;
+  /* margin-top: 36px;
   text-align: center;
   font-size: 64px;
-  
+  */
+  font-size: 500%;
 }
 
 @keyframes movingvan {
@@ -88,9 +98,22 @@
     transform: translateX(-10%);
   }
 }
+.welcome {
+  width: 400px;
+  margin: 136px;
+}
 
+@media screen and (max-width: 768px) {
+  .welcome {
+    display: none;
+  }
+}
 
 @media screen and (min-width: 768px){
+
+  .home-wrapper {
+    margin: 0;
+  }
 
   .welcome {
     display: flex;

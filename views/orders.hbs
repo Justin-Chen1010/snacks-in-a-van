@@ -1,32 +1,28 @@
-<section id="orderlist">
-    <div class="orders">
-        <div class="orders-wrapper">
-            {{#if isLoggedin}}
-                {{#each orders}}
-                    {{#if (orderNotCancelled this.status)}}
-                    <a class="order-item" href="/customer/orders/{{this.orderId}}">
-                        <div class="order-item-id">
-                            {{this.orderId}}
-                        </div>
-                        <div class="status-dot">
-                            {{#if this.timePickedUp}}
-                                <i class="fas fa-circle" id="blue-dot"></i>
-                            {{else if this.timeFulfilled}}
-                                <i class="fas fa-circle" id="green-dot"></i>
-                            {{else if this.timeOrdered}}
-                                <i class="fas fa-circle" id="orange-dot"></i>
-                            {{/if}}
-                        </div>
-                        <div>
-                            {{formatDateTime this.timeOrdered}}
-                        </div>
-                    </a>
-                    {{/if}}
-                {{/each}}
-            {{/if}}
-        </div>
+<section id="orders">
+    <h1>Orders</h1>
+    <div class="orders-wrapper">
+        {{#if isLoggedin}}
+            {{#each orders}}
+                {{#if (orderNotCancelled this.status)}}
+                <a class="order-item" href="/customer/orders/{{this.orderId}}">
+                    <div class="order-item-id">
+                        {{this.orderId}}
+                    </div>
+                    <div class="status-dot">
+                        {{#if this.timePickedUp}}
+                            <i class="fas fa-circle" id="blue-dot"></i>
+                        {{else if this.timeFulfilled}}
+                            <i class="fas fa-circle" id="green-dot"></i>
+                        {{else if this.timeOrdered}}
+                            <i class="fas fa-circle" id="orange-dot"></i>
+                        {{/if}}
+                    </div>
+                    <div>
+                        {{formatDateTime this.timeOrdered}}
+                    </div>
+                </a>
+                {{/if}}
+            {{/each}}
+        {{/if}}
     </div>
 </section>
-
-<script>
-</script>
