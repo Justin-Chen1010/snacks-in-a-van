@@ -1,4 +1,3 @@
-
 .small-screen-navbar{
   
   color: var(--color-dark);
@@ -39,7 +38,7 @@
 
 .navbar h1 {
   font-size: var(--text-big);
-  margin: 12;
+  margin: 16px;
   padding: 0px;
   display: none;
 }
@@ -56,10 +55,6 @@
 .navbar nav a {
   margin: 8px;
   padding: 0 28px;
-}
-.copyright{
-background-color: var(--color-light);
- 
 }
 .navbar nav a:hover {
   transform: scale(1.2);

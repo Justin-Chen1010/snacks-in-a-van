@@ -1,26 +1,25 @@
 <section id="vendors">
-   <div class="location">
-      <i class="fas fa-map-marker-alt" id="location-icon"></i><input id="location-input" placeholder="Current location">
-   </div>
+   <div class="vendors-wrapper">
    <h1 >Select A Van</h1>
+   <div class="location">
+      <i class="fas fa-map-marker-alt" id="location-icon"></i>
+      <input id="location-input" placeholder="Current location">
+   </div>
    <div class="vendors-list">
       {{#each vendors}}      
-      <div>
-         <button id="vendors-button" type="button" onclick="updateVendor('{{this.vendorName}}')">
-            <div class="details" >
-               <div style="display: table-cell; vertical-align: middle;"><i class="icon-SnackVan fa-7x" style=" "></i></div>
-               <div style="display: table-cell; vertical-align: middle; word-break: break-all;">
+         <button class="vendor-button" type="button" onclick="updateVendor('{{this.vendorName}}')">
+               <div class="vendor-icon"><i class="icon-SnackVan"></i></div>
+               <div>
                   <div class="vendor-name">{{this.vendorName}}</div>
                   <div class="vendor-details">
-                     {{this.address}}</p>
-                     <i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
-                     <u><i class="fas fa-directions"></i>Get Direction</u></p>
+                     <p>{{this.address}}</p>
+                     <p><i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
+                     <p><u><i class="fas fa-directions"></i>Get Direction</u></p>
                   </div>
                </div>
-            </div>
          </button>
-      </div>
       {{/each}}
+   </div>
    </div>
 </section>
 
