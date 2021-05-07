@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+ 
+=======
 @media screen and (max-width: 768px){
 
   #account {
@@ -77,6 +80,7 @@
     width: 100%;
     margin-top: 128px;
   }
+>>>>>>> a765a481729ceaa24c1fee8f5fa2db90f6430ff3
   
   #account h1 {
     font-family: var(--font-heading);
@@ -106,9 +110,10 @@
     width: auto;
     border-radius: 8px;
     border: none;
-    font-size: 16px;
     margin-left: 8px;
     margin-right: 8px;
+    font-size: 16px;
+    
     cursor: pointer;
   }
 
@@ -142,4 +147,60 @@
   #account #email{
     background-color: var(--color-lighter);
   }
+<<<<<<< HEAD
+  .van-icon{
+    
+    animation-duration: 4s;
+    animation-name: movingvan;
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+  }
+  @keyframes movingvan {
+    0% {
+      transform: translateX(-10%);
+    }
+  
+    50% {
+      transform: translateX(10%);
+    }
+  
+    100% {
+      transform: translateX(-10%);
+    }
+  }
+
+  @media screen and (max-width: 768px){
+    #account {
+      width: 100%;
+      margin-top: 1px;
+      font-size: small;
+    }
+      
+  #logout-button {
+    
+    font-size: 10px;
+    
+  
+  }
+  #update-button {
+    
+    font-size: 10px;
+    
+  
+  }
+}
+  
+  @media screen and (min-width: 768px){
+    #account {
+      width: 100%;
+      margin-top: 128px;
+    }
+    
+  #logout-button {
+    
+    font-size: 16px;
+    
+  }
+=======
+>>>>>>> a765a481729ceaa24c1fee8f5fa2db90f6430ff3
 }

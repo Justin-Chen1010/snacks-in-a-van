@@ -29,8 +29,34 @@
 
 .home-top {
   flex-grow: 5;
+  font-size: 300%;
 }
+.text {
+  left: 128px;
+  flex-grow: 5;
+  font-size: 65%;
+  font-family: var(--font-heading);
+  
+}
+.icon{
+  animation-duration: 4s;
+  animation-name: movingvan;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+}
+@keyframes movingvan {
+  0% {
+    transform: translateX(-10%);
+  }
 
+  50% {
+    transform: translateX(10%);
+  }
+
+  100% {
+    transform: translateX(-10%);
+  }
+}
 .welcome {
   position: relative;
   /* font-size: 2vw; */
@@ -38,9 +64,15 @@
   top: 128px;
   left: 128px;
   display: none;
+
 }
 
+
 .find-us {
+  
+  display: flex;
+  justify-content: center;
+ 
   position: relative;
   display: flex;
   justify-content: center;
