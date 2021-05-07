@@ -3,12 +3,12 @@
     <h1>Order Details</h1>
     <div>
       <div>
-          <i class="fas fa-shuttle-van"></i>
-          <span class="cart-van-name">Van name</span>
+        <i class="fas fa-shuttle-van"></i>
+        <span class="cart-van-name">Van name</span>
       </div>
       <div>
-          <i class="fas fa-map-marker-alt"></i>
-          <span class="cart-van-location">Van location</span>
+        <i class="fas fa-map-marker-alt"></i>
+        <span class="cart-van-location">Van location</span>
       </div>
     </div>
     {{> cart-table order=order}}
@@ -21,7 +21,7 @@
         <i class="fas fa-edit"></i>
         Update Order
       </button>
-      <button id="add-item-button" class="button" onclick="goToOrder('{{order.orderId}}')" type="button">
+      <button id="add-item-button" class="button" onclick="goToMenu('{{order.orderId}}')" type="button">
         <i class="fas fa-clipboard=list"></i> Add items from menu
       </button>
     </div>
@@ -30,38 +30,43 @@
 
 <script>
 
-  function goToOrder(orderId) {
+  // redirect to menu to add items to this current order
+  function goToMenu(orderId) {
     window.location = `/customer/menu?orderId=${orderId}`;
   }
 
   const vendor = JSON.parse(sessionStorage.getItem('vendor'));
   if (vendor) {
-      document.querySelector('.cart-van-name').textContent = vendor.vendorName;
-      document.querySelector('.cart-van-location').textContent = vendor.address;
+    document.querySelector('.cart-van-name').textContent = vendor.vendorName;
+    document.querySelector('.cart-van-location').textContent = vendor.address;
   }
 
+  // update the table view based on the current cart items, and modifies the
+  // order in the database
   async function updateOrder(orderId) {
     window.location.reload();
     const cart = JSON.parse(sessionStorage.getItem("cart"));
-    const order = {{{json order}}}
+    const order = {{{ json order }}}
     order.items = cart;
     fetch(`/customer/orders/${orderId}`, {
       method: "PUT",
       headers: {
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(order)
     });
   }
 
+  // sets the status of the order in the database as "cancelled", they will
+  // not be displayed on the orders page
   async function cancelOrder(orderId) {
-    const order = {{{json order}}}
-    order.items = {{{json (orderToCart order)}}};
+    const order = {{{ json order }}}
+    order.items = {{{ json (orderToCart order) }}};
     order.status = "cancelled";
     fetch(`/customer/orders/${orderId}`, {
       method: "PUT",
       headers: {
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(order)
     }).then(() => window.location.href = `/customer/orders`);

@@ -5,36 +5,44 @@ var register = function (Handlebars) {
     formatDateTime: function (dateString) {
       const date = new Date(dateString);
       return (
-        (date.getMonth() < 10 ? '0' : '') + (date.getMonth() + 1) +
+        (date.getMonth() < 10 ? "0" : "") +
+        (date.getMonth() + 1) +
         "/" +
-        (date.getDate() < 10 ? '0' : '') + date.getDate() +
+        (date.getDate() < 10 ? "0" : "") +
+        date.getDate() +
         "/" +
-        (date.getFullYear() < 10 ? '0' : '') + date.getFullYear() +
+        (date.getFullYear() < 10 ? "0" : "") +
+        date.getFullYear() +
         " " +
-        (date.getHours() < 10 ? '0' : '') + date.getHours() +
+        (date.getHours() < 10 ? "0" : "") +
+        date.getHours() +
         ":" +
-        (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
+        (date.getMinutes() < 10 ? "0" : "") +
+        date.getMinutes()
       );
     },
 
-    json: function(object) {
+    // stringify an object
+    json: function (object) {
       return JSON.stringify(object);
     },
 
-    orderToCart: function(order) {
+    // converts an order (as the DB schema) to the format that the local cart
+    // is stored in
+    orderToCart: function (order) {
       if (!order) {
         return null;
       }
       let cart = [];
       for (let item of order.items) {
-        cart.push({snackId: String(item.snack), quantity: item.quantity});
+        cart.push({ snackId: String(item.snack), quantity: item.quantity });
       }
       return cart;
     },
 
-    orderNotCancelled: function(status) {
-      return !(status === 'cancelled');
-    }
+    orderNotCancelled: function (status) {
+      return !(status === "cancelled");
+    },
   };
 
   if (Handlebars && typeof Handlebars.registerHelper === "function") {

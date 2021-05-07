@@ -19,7 +19,7 @@
 }
 
 .signup-form-header i {
-    font-size: 56px;
+  font-size: 56px;
 }
 
 .signup-form-submit {
@@ -40,7 +40,6 @@ label {
   display: block;
   margin: 8px;
   font-weight: lighter;
-
 }
 
 #signup input {

@@ -1,14 +1,15 @@
 <section id="menu" onload="showNumItems()">
     <header class="menu-bar">
         <h1 class="menu-logo">
-            <span class="header-logo"><a href="/customer/vendors" class="target"> <i class="icon-SnackVan"></i></a></span>
+            <span class="header-logo"><a href="/customer/vendors" class="target"> <i
+                        class="icon-SnackVan"></i></a></span>
             <span class="menu-text">Menu</span>
         </h1>
     </header>
     {{#each menu}}
     <div class="menu-item">
 
-        <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}} >
+        <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
         <h3 class="snack-name">
             {{this.snackName}}
         </h3>
@@ -16,9 +17,12 @@
             ${{this.price}}
         </span>
         <span class="buttons">
-            <button type="button" class="minus-button" style="border:none;" onclick="decrementAmount({{this.snackId}})"><i class="fas fa-minus-circle" id="decrement"></i></i></button>
+            <button type="button" class="minus-button" style="border:none;"
+                onclick="decrementAmount({{this.snackId}})"><i class="fas fa-minus-circle"
+                    id="decrement"></i></i></button>
             <span id="snack-{{this.snackId}}-count">1</span>
-            <button type="button" class="add-button" style="border:none;" onclick="incrementAmount({{this.snackId}})"><i class="fas fa-plus-circle" id="increment"></i></button>
+            <button type="button" class="add-button" style="border:none;" onclick="incrementAmount({{this.snackId}})"><i
+                    class="fas fa-plus-circle" id="increment"></i></button>
         </span>
         <div class="submit">
             <button class="submit-button" onclick="addToOrder(String({{this.snackId}}))">ADD TO CART</button>
@@ -26,25 +30,17 @@
     </div>
     {{/each}}
     {{#if order}}
-        <a
-            id="view-cart-button"
-            class="view-order-button"
-            onclick="viewOrder('{{order.orderId}}')"
-        >
-            <i class="fa fa-concierge-bell"></i>
-            <span class="view-cart-text">View order</span>
-            <span id="menu-cart-count" class="cart-amount"></span>
-        </a>
+    <a id="view-cart-button" class="view-order-button" onclick="viewOrder('{{order.orderId}}')">
+        <i class="fa fa-concierge-bell"></i>
+        <span class="view-cart-text">View order</span>
+        <span id="menu-cart-count" class="cart-amount"></span>
+    </a>
     {{else}}
-        <a
-            id="view-cart-button"
-            class="view-order-button"  
-            onclick="viewCart()"
-        >
-            <i class="fa fa-shopping-cart"></i>
-            <span class="view-cart-text">View cart</span>
-            <span id="menu-cart-count" class="cart-amount"></span>
-        </a>
+    <a id="view-cart-button" class="view-order-button" onclick="viewCart()">
+        <i class="fa fa-shopping-cart"></i>
+        <span class="view-cart-text">View cart</span>
+        <span id="menu-cart-count" class="cart-amount"></span>
+    </a>
     {{/if}}
 </section>
 
@@ -52,7 +48,7 @@
     const menu = {{{ json menu }}};
 
     let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-    let order = {{{json (orderToCart order)}}};
+    let order = {{{ json (orderToCart order) }}};
     if (order) {
         cart = order;
     }
@@ -61,12 +57,14 @@
     let cartCount = document.getElementById("menu-cart-count");
     showNumItems();
 
+    // increase the amount to add to the cart. This does not modify the cart
     function incrementAmount(snackId) {
         let count = document.getElementById(`snack-${snackId}-count`);
         let currAmount = parseInt(count.textContent);
         count.textContent = currAmount + 1;
     }
 
+    // decrease the amount to add to the cart. This does not modify the cart
     function decrementAmount(snackId) {
         let count = document.getElementById(`snack-${snackId}-count`);
         let currAmount = parseInt(count.textContent);
@@ -75,17 +73,19 @@
         }
     }
 
+    // add the current amount of items to the cart, modifying it in local
+    // storage
     function addToOrder(snackId) {
         let count = document.getElementById(`snack-${snackId}-count`);
-        let currAmount = parseInt(count.textContent); 
-        
+        let currAmount = parseInt(count.textContent);
+
         if (currAmount > 0) {
             const idx = cart.findIndex(item => item.snackId === snackId);
             if (idx !== -1) {
                 cart[idx].quantity += currAmount;
             }
             else {
-                cart.push({ snackId: String(snackId), quantity: currAmount});
+                cart.push({ snackId: String(snackId), quantity: currAmount });
             }
             count.textContent = 1;
             sessionStorage.setItem("cart", JSON.stringify(cart));
@@ -93,12 +93,13 @@
         showNumItems();
     }
 
-    function showNumItems(){
+    // update the total count of items in the cart
+    function showNumItems() {
         let totalNumItems = 0;
-        for (let item of cart){
+        for (let item of cart) {
             totalNumItems += item.quantity;
         }
-        if (totalNumItems > 0){
+        if (totalNumItems > 0) {
             cartCount.textContent = `(${totalNumItems})`;
         }
         else {
@@ -106,13 +107,16 @@
         }
     }
 
+    // redirect to cart page
     function viewCart() {
         window.location.href = "/customer/cart";
     }
 
+    // redirect to order page, after having updated the order currently being
+    // added to in this page
     function viewOrder(orderId) {
-        order = {{{json order}}};
-        let orderItems = {{{json (orderToCart order)}}};
+        order = {{{ json order }}}
+        let orderItems = {{{ json (orderToCart order)}}};
         order.items = orderItems;
         fetch(`/customer/orders/${orderId}`, {
             method: "PUT",

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
 const Customer = mongoose.model("Customer");
-// const bcrypt = require("bcrypt");
 
 // get all customers
 const getAllCustomers = async (req, res) => {
@@ -26,7 +25,7 @@ const getOneCustomer = async (req, res) => {
       return res.send("Customer not found");
     }
     // customer was found, return as response
-    return res.send(oneCustomer); 
+    return res.send(oneCustomer);
   } catch (err) {
     // error occurred
     res.status(400);
@@ -34,8 +33,7 @@ const getOneCustomer = async (req, res) => {
   }
 };
 
-
-// add an customer, given their email, family name, given name and password
+// add a customer, given their email, family name, given name and password
 const addCustomer = async (req, res) => {
   const customer = req.body;
   Customer.create(
@@ -64,4 +62,3 @@ module.exports = {
   getOneCustomer,
   addCustomer,
 };
-

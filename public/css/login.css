@@ -1,4 +1,3 @@
-
 .login-form {
   width: 50%;
   margin-left: auto;
@@ -48,8 +47,7 @@ label {
   font-weight: lighter;
 }
 
-.van-icon{
-    
+.van-icon {
   animation-duration: 4s;
   animation-name: movingvan;
   animation-duration: 15s;
@@ -69,7 +67,7 @@ label {
   }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
   #login {
     width: 100%;
     margin-top: 8px;
@@ -86,14 +84,12 @@ label {
     text-align: right;
     font-size: 11px;
   }
-  .login-no-account-yet{
+  .login-no-account-yet {
     font-size: 11px;
-
   }
-	
 }
-@media screen and (min-width: 768px){
-	#login {
+@media screen and (min-width: 768px) {
+  #login {
     width: 100%;
     margin-top: 128px;
   }
@@ -108,7 +104,4 @@ label {
     text-align: right;
     font-size: 16px;
   }
-  
-	
-	
 }

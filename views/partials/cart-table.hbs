@@ -2,16 +2,18 @@
 </div>
 
 <script>
+    // get the cart from local storage, or if an order is supplied then
+    // display the items of that order instead
     let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-    let orderItems = {{{json (orderToCart order)}}};
+    let orderItems = {{{ json (orderToCart order)}}};
     if (orderItems) {
         cart = orderItems;
     }
-    const menu = {{{json menu}}};
+    const menu = {{{ json menu }}};
 
-    // const menu = JSON.parse(sessionStorage.getItem("menu")) || {};
     let tableContents = [];
 
+    // update the table contents based on the current contents of the cart
     function updateTableContents() {
         tableContents = [];
         invalidSnackIds = [];
@@ -31,11 +33,13 @@
                 });
             }
         }
+        // delete items in cart but not in menu
         for (let snackId in invalidSnackIds) {
             deleteItem(snackId);
         }
     }
 
+    // remove an item from the cart and update the table to reflect this
     function deleteItem(snackId) {
         cart = cart.filter(item => item.snackId !== snackId);
         sessionStorage.setItem("cart", JSON.stringify(cart));
@@ -54,10 +58,12 @@
         const idx = cart.findIndex(item => item.snackId === snackId);
         cart[idx].quantity = parseInt(quantityField.value);
 
+        // update cart in local storage and the table view
         sessionStorage.setItem("cart", JSON.stringify(cart));
         updateTable();
     }
 
+    // update the cart total price based on the current table view
     function updateCartTotal() {
         let cartTotalField = document.querySelector(".cart-total");
         let sum = 0;
@@ -67,6 +73,7 @@
         cartTotalField.textContent = `$${sum}`;
     }
 
+    // generate the table head in `table`, given the cart data
     function generateTableHead(table, data) {
         let thead = table.createTHead();
         let row = thead.insertRow();
@@ -78,6 +85,7 @@
         }
     }
 
+    // generate a table displaying `data` in the given `table` element
     function generateTable(table, data) {
         for (let datum of data) {
             let row = table.insertRow();
@@ -86,10 +94,13 @@
         generateLastRow(table);
     }
 
+    // generate a table row in the given `row` node, based on the given row of
+    // cart data.
     function generateRow(row, datum) {
         for (key in datum) {
             let cell = row.insertCell();
             if (key === "Quantity") {
+                // quantities can be edited; they are a special field
                 let input = document.createElement("input");
                 input.id = `snack-${datum["Snack ID"]}-quantity`;
                 input.className = `count-input`;
@@ -113,6 +124,8 @@
         cell.appendChild(deleteButton);
     }
 
+    // generates the last row in the given `table` node, which contains the
+    // cart total field
     function generateLastRow(table) {
         let row = table.insertRow();
         row.insertCell();
@@ -129,12 +142,13 @@
         cell2.appendChild(text2);
     }
 
-
+    // update the table contents and the view. This function generates the
+    // table and replaces the current one.
     function updateTable() {
         updateTableContents();
         let wrapper = document.querySelector(".cart-table-wrapper");
-        // if cart is empty display message
         if (!cart || cart.length === 0) {
+            // if cart is empty display message
             let wrapper = document.querySelector(".cart-table-wrapper");
             let div = document.createElement("div");
             div.className = "empty-cart-message";
@@ -143,6 +157,7 @@
 
             wrapper.replaceChild(div, wrapper.childNodes[0]);
         } else {
+            // generate cart table
             let table = document.createElement("table");
             table.className = "cart-table";
             let data = Object.keys(tableContents[0]);

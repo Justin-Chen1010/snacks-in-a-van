@@ -6,8 +6,10 @@ const { v4: uuidv4 } = require("uuid");
 // get all vendors
 const getAllVendors = async (req, res) => {
   try {
-    const vendors = await Vendor.find({ open: true }).select({password: 0}).lean();
-    res.render('vendorList', {'vendors':vendors});
+    const vendors = await Vendor.find({ open: true })
+      .select({ password: 0 })
+      .lean();
+    res.render("vendorList", { vendors: vendors });
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");
@@ -118,7 +120,8 @@ const updateVanStatus = async (req, res) => {
           },
         }
       );
-    } else { //If it was open, close the store and set location to NULL
+    } else {
+      //If it was open, close the store and set location to NULL
       await Vendor.updateOne(
         { vendorName: oneVendor.vendorName },
         {
@@ -147,7 +150,7 @@ const markOrderAsFulfilled = async (req, res) => {
       status: "preparing",
       vendor: req.params.vendorName,
     };
-    
+
     const order = await Order.findOne(filter);
     if (order === null) {
       // no order that has status "preparing" with that id and for that vendor

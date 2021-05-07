@@ -9,9 +9,12 @@ const Snack = mongoose.model("Snack");
 const getAllOrders = async (req, res) => {
   try {
     // sort by timeOrdered, earlier orders first
-    const orders = await Order.find().sort('timeOrdered').lean();
+    const orders = await Order.find().sort("timeOrdered").lean();
     // return res.send(orders);
-    return res.render('orders', {'orders':orders, 'isLoggedin':req.isAuthenticated()});
+    return res.render("orders", {
+      orders: orders,
+      isLoggedin: req.isAuthenticated(),
+    });
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");
@@ -20,16 +23,17 @@ const getAllOrders = async (req, res) => {
 
 // find one order by their id
 const getOneOrder = async (req, res) => {
-  
   try {
-    const oneOrder = await Order.findOne({ orderId: req.params.orderId }).lean();
+    const oneOrder = await Order.findOne({
+      orderId: req.params.orderId,
+    }).lean();
     if (oneOrder === null) {
       // no order found in database
       res.status(404);
       return res.send("Order not found");
     }
     // order was found
-    res.render("order", {order: oneOrder, menu: req.menu});
+    res.render("order", { order: oneOrder, menu: req.menu });
   } catch (err) {
     // error occurred
     res.status(400);
@@ -37,8 +41,7 @@ const getOneOrder = async (req, res) => {
   }
 };
 
-
-// add order 
+// add order
 const addOrder = async (req, res) => {
   try {
     const customer = await Customer.findOne({
@@ -57,9 +60,11 @@ const addOrder = async (req, res) => {
     // get the food item Id
     let snackId = snack.snackId;
 
-    const vendor = await Vendor.findOne({vendorName: order.vendorName});
+    const vendor = await Vendor.findOne({ vendorName: order.vendorName });
     if (vendor === null || !vendor.open) {
-      return res.status(400).send(`No open vendor named ${order.vendorName} found...`);
+      return res
+        .status(400)
+        .send(`No open vendor named ${order.vendorName} found...`);
     }
     // To order items with specific quantity
     let newOrder = await Order.create({
@@ -68,7 +73,7 @@ const addOrder = async (req, res) => {
       items: [{ snack: snackId, quantity: order.quantity }],
     });
 
-    // get the id field of newly inserted order 
+    // get the id field of newly inserted order
     const id = newOrder.orderId;
 
     await Customer.updateOne(
@@ -95,17 +100,15 @@ const updateOrder = async (req, res) => {
       res.status(404);
       return res.send("Order not found");
     }
+    // update the order's status and items in that order
     oneOrder.status = newOrder.status;
-    oneOrder.items = newOrder.items.map(item => (
-      {
-        _id: mongoose.Types.ObjectId(),
-        snack: item.snackId,
-        quantity: item.quantity
-      }
-    ));
+    oneOrder.items = newOrder.items.map((item) => ({
+      _id: mongoose.Types.ObjectId(),
+      snack: item.snackId,
+      quantity: item.quantity,
+    }));
     let result = await oneOrder.save();
     return res.send(result);
-
   } catch (err) {
     // error occurred
     console.log(err);
@@ -121,10 +124,12 @@ const getOrdersForOneCustomer = async (req, res) => {
       customerId: req.params.customerId,
     });
 
-    const orders = await Promise.all(customer.orders.map(async (id) => {
-      var order = await Order.findOne({orderId: id}).lean();
-      return order;
-    }));
+    const orders = await Promise.all(
+      customer.orders.map(async (id) => {
+        var order = await Order.findOne({ orderId: id }).lean();
+        return order;
+      })
+    );
     orders.reverse();
 
     if (customer === null) {
@@ -133,7 +138,10 @@ const getOrdersForOneCustomer = async (req, res) => {
       return res.send("Customer not found");
     }
     // customer was found, return as response
-    return res.render('orders', {'orders': orders, 'isLoggedin':req.isAuthenticated()})
+    return res.render("orders", {
+      orders: orders,
+      isLoggedin: req.isAuthenticated(),
+    });
   } catch (err) {
     // error occurred
     res.status(400);
@@ -146,5 +154,5 @@ module.exports = {
   getOneOrder,
   addOrder,
   updateOrder,
-  getOrdersForOneCustomer
+  getOrdersForOneCustomer,
 };

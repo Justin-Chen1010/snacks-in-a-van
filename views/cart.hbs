@@ -17,18 +17,14 @@
                 <i class="fas fa-trash-alt"></i>
                 Clear Cart
             </button>
-            <button id="place-order-button" class="button"
-                {{#if isLoggedin}}
-                    onclick="placeOrder()"
-                {{else}}
-                    onclick="getLogin()"
-                {{/if}}>
+            <button id="place-order-button" class="button" {{#if isLoggedin}} onclick="placeOrder()" {{else}}
+                onclick="getLogin()" {{/if}}>
                 <i class="fas fa-concierge-bell"></i>
                 Place Order
             </button>
         </div>
     </div>
-    <a class="view-menu-button button" id= "view-menu" href="/customer/menu">
+    <a class="view-menu-button button" id="view-menu" href="/customer/menu">
         <i class="fa fa-clipboard-list"></i> View menu
     </a>
 </section>
@@ -46,10 +42,10 @@
         window.location = "/customer/login";
     }
 
+    // place an order based on the current cart items
     async function placeOrder() {
         const vendor = JSON.parse(sessionStorage.getItem("vendor"));
         const cart = JSON.parse(sessionStorage.getItem("cart"));
-        // name: snack_name, quantity: quantity, vendorName: vendorName
         const firstItem = cart[0];
         const newOrder = {
             snackId: firstItem.snackId,
@@ -57,12 +53,13 @@
             vendorName: vendor.vendorName
         };
         const order = await createOrder(newOrder);
-        order.items  = cart;
+        order.items = cart;
         const updatedOrder = await updateOrder(order);
         window.location = `/customer/${customerId}/orders`;
         sessionStorage.removeItem("cart");
     }
 
+    // create a new order by ordering one item
     async function createOrder(newOrder) {
         const res = await fetch(`/customer/${customerId}/orders/`,
             {
@@ -76,6 +73,7 @@
         return res.json();
     }
 
+    // update an order (can add more items to the order)
     async function updateOrder(order) {
         const res = await fetch(`/customer/orders/${order.orderId}`,
             {

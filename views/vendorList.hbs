@@ -1,30 +1,32 @@
 <section id="vendors">
    <div class="vendors-wrapper">
-   <h1 >Select A Van</h1>
-   <div class="location">
-      <i class="fas fa-map-marker-alt" id="location-icon"></i>
-      <input id="location-input" placeholder="Current location">
-   </div>
-   <div class="vendors-list">
-      {{#each vendors}}      
+      <h1>Select A Van</h1>
+      <div class="location">
+         <i class="fas fa-map-marker-alt" id="location-icon"></i>
+         <input id="location-input" placeholder="Current location">
+      </div>
+      <div class="vendors-list">
+         {{#each vendors}}
          <button class="vendor-button" type="button" onclick="updateVendor('{{this.vendorName}}')">
-               <div class="vendor-icon"><i class="icon-SnackVan"></i></div>
-               <div>
-                  <div class="vendor-name">{{this.vendorName}}</div>
-                  <div class="vendor-details">
-                     <p>{{this.address}}</p>
-                     <p><i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
-                     <p><u><i class="fas fa-directions"></i>Get Direction</u></p>
-                  </div>
+            <div class="vendor-icon"><i class="icon-SnackVan"></i></div>
+            <div>
+               <div class="vendor-name">{{this.vendorName}}</div>
+               <div class="vendor-details">
+                  <p>{{this.address}}</p>
+                  <p><i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
+                  <p><u><i class="fas fa-directions"></i>Get Direction</u></p>
                </div>
+            </div>
          </button>
-      {{/each}}
-   </div>
+         {{/each}}
+      </div>
    </div>
 </section>
 
 <script>
-   const vendors = {{{json vendors}}};
+   const vendors = {{{ json vendors }}};
+
+   // update the current selected vendor in local storage
    function updateVendor(vendorName) {
       const vendor = vendors.find(vendor => vendor.vendorName === vendorName);
       sessionStorage.setItem("vendor", JSON.stringify(vendor));

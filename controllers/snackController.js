@@ -8,19 +8,22 @@ const Order = mongoose.model("Order");
 const getAllSnacks = async (req, res) => {
   try {
     const snacks = await Snack.find().lean();
-    const currOrder = await Order.findOne({ orderId: req.query.orderId }).lean();
-    res.render("menu", { menu: snacks, order: currOrder});
+    const currOrder = await Order.findOne({
+      orderId: req.query.orderId,
+    }).lean();
+    res.render("menu", { menu: snacks, order: currOrder });
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");
   }
 };
 
+// attach info about all the snack in this request
 const getMenu = async (req, res, next) => {
   const snacks = await Snack.find().lean();
   req.menu = snacks;
   next();
-}
+};
 
 // find one snack by their id
 const getOneSnack = async (req, res) => {
