@@ -5,8 +5,8 @@
 @media screen and (max-width: 768px){
 
   .button {
-    padding: 8px 12px;
-    font-size: 12px;
+    padding: 8px 24px;
+    font-size: 24px;
     border: none;
     font-family: "Roboto", sans-serif;
     color: var(--color-white);
@@ -28,8 +28,8 @@
 @media screen and (min-width: 769px){
 
   .button {
-    padding: 8px 24px;
-    font-size: 24px;
+    padding: 8px 36px;
+    font-size: 36px;
     border: none;
     font-family: "Roboto", sans-serif;
     color: var(--color-white);

@@ -39,6 +39,7 @@
 #vendors-button:hover {
 	transform: scale(1.1);
 	-webkit-transform: scale(1.1);
+	cursor: pointer;
 }
 
 .vendor-name {

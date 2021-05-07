@@ -63,9 +63,8 @@
   width: 400px;
   top: 128px;
   left: 128px;
- 
   display: none;
-  
+
 }
 
 
@@ -75,22 +74,54 @@
   justify-content: center;
  
   position: relative;
-  bottom: 10%;
-  
-  
+  display: flex;
+  justify-content: center;
 }
 
 .find-us a {
-  border-radius: 40px;
-  font-family: cursive;
+  /* position: absolute; */
   color: var(--color-white);
- 
- 
-  font-size: 38px;
+  bottom: 64px;
+  right: 128px;
+  margin-bottom: 64px;
   justify-content: center;
-  
+}
+
+.text {
+  left: 128px;
+  flex-grow: 5;
+  font-size: 36px;
+  font-family: var(--font-heading);
+  text-align: center;
   
 }
+
+.icon{
+  animation-duration: 4s;
+  animation-name: movingvan;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  margin-top: 36px;
+  text-align: center;
+  font-size: 64px;
+  
+}
+
+@keyframes movingvan {
+  0% {
+    transform: translateX(-10%);
+  }
+
+  50% {
+    transform: translateX(10%);
+  }
+
+  100% {
+    transform: translateX(-10%);
+  }
+}
+
+
 @media screen and (min-width: 768px){
 
   .welcome {
