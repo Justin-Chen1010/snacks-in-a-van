@@ -1,6 +1,7 @@
 #signup {
   width: 100%;
-  margin-top: 128px;
+  margin-top: 0px;
+  margin-bottom: 100px;
 }
 
 #signup h1 {
@@ -48,4 +49,11 @@ label {
   border-radius: 8px;
   border: none;
   padding: 8px;
+}
+
+@media screen and (min-width: 768px){
+	#signup {
+    width: 100%;
+    margin-top: 128px;
+  }	
 }

@@ -1,8 +1,14 @@
 <section id="menu" onload="showNumItems()">
+    <header class="menu-bar">
+        <h1 class="menu-logo">
+            <span class="header-logo"><a href="/customer/vendors" class="target"> <i class="icon-SnackVan"></i></a></span>
+            <span class="menu-text">Menu</span>
+        </h1>
+    </header>
     {{#each menu}}
     <div class="menu-item">
 
-        <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}}>
+        <img src={{this.imageURL}} width="200" height="200" alt={{this.snackName}} >
         <h3 class="snack-name">
             {{this.snackName}}
         </h3>
@@ -32,12 +38,12 @@
     {{else}}
         <a
             id="view-cart-button"
-            class="button view-order-button"
+            class="view-order-button"  
             onclick="viewCart()"
         >
             <i class="fa fa-shopping-cart"></i>
-            View cart
-            <span id="menu-cart-count"></span>
+            <span class="view-cart-text">View cart</span>
+            <span id="menu-cart-count" class="cart-amount"></span>
         </a>
     {{/if}}
 </section>

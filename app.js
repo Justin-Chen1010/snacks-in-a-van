@@ -60,7 +60,7 @@ app.all("*", async (req, res) => {
     .render("error", { errorCode: "404", message: "that route is invalid." });
 });
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8010;
 
 app.listen(port, () => {
   console.log(`The app is listening on port ${port}!`);

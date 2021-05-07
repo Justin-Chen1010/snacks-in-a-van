@@ -1,51 +1,95 @@
 #home {
-  flex-grow: 1;
-  background-image: url("../static/home-background.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
+	overflow-x: hidden;
+	/* Hide horizontal scrollbar */
+	flex-grow: 1;
+	background-image: url("../static/home-background.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: flex;
+	flex-direction: column;
 }
+
 
 /* https://www.w3schools.com/cssref/css3_pr_animation.asp */
+
 @keyframes changeText {
-  0% { content:"SNACKS IN A VAN offers the best coffee in Melbourne"; }
-  20% { content: "SNACKS IN A VANへようこそ。メルボルンで最高のコーヒーを提供します"; }
-  40% { content:"SNACKS IN A VAN 提供墨爾本最好的咖啡"; }
-  60% { content:"SNACKS IN A VAN menawarkan kopi terbaik di Melbourne"; }
-  80% { content:"SNACKS IN A VAN предлагает лучший кофе в Мельбурне";}
-}
-#welcome-screen:after{
-  content:"SNACK IN A VAN offers the best coffee in Melbourne";
-  animation-name: changeText;
-  animation-duration: 25s;
-  animation-iteration-count: infinite;
-  animation-direction: normal;
-  animation-delay: 0ms;
+	0% {
+		content: "SNACKS IN A VAN offers the best coffee in Melbourne";
+	}
+	20% {
+		content: "SNACKS IN A VANへようこそ。メルボルンで最高のコーヒーを提供します";
+	}
+	40% {
+		content: "SNACKS IN A VAN 提供墨爾本最好的咖啡";
+	}
+	60% {
+		content: "SNACKS IN A VAN menawarkan kopi terbaik di Melbourne";
+	}
+	80% {
+		content: "SNACKS IN A VAN предлагает лучший кофе в Мельбурне";
+	}
 }
 
+#welcome-screen:after {
+	content: "SNACK IN A VAN offers the best coffee in Melbourne";
+	animation-name: changeText;
+	animation-duration: 25s;
+	animation-iteration-count: infinite;
+	animation-direction: normal;
+	animation-delay: 0ms;
+}
 
 .home-top {
-  flex-grow: 5;
+	flex-grow: 5;
+	font-size: 300%;
+	text-align: center;
+}
+
+.text {
+	text-align: center;
+	left: 128px;
+	flex-grow: 5;
+	font-size: 100%;
+	font-family: var(--font-heading);
+}
+
+.van-icon {
+	font-size: 200%;
 }
 
 .welcome {
-  position: relative;
-  /* font-size: 2vw; */
-  width: 400px;
-  top: 128px;
-  left: 128px;
+	position: relative;
+	/* font-size: 2vw; */
+	width: 400px;
+	top: 128px;
+	left: 128px;
+	display: none;
 }
 
 .find-us {
-  position: relative;
+	display: flex;
+	justify-content: center;
+	position: relative;
+	bottom: 10%;
 }
 
 .find-us a {
-  position: absolute;
-  color: var(--color-white);
-  bottom: 64px;
-  right: 128px;
-  font-size: 48px;
+	border-radius: 40px;
+	font-family: cursive;
+	color: var(--color-white);
+	font-size: 38px;
+	justify-content: center;
+}
+
+@media screen and (min-width: 768px) {
+	.welcome {
+		display: flex;
+	}
+	.van-icon {
+		display: none;
+	}
+	.text {
+		display: none;
+	}
 }
