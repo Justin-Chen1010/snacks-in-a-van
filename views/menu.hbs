@@ -1,12 +1,10 @@
 <section id="menu" onload="showNumItems()">
     <header class="menu-bar">
-
         <h1 class="menu-logo">
             <span class="header-logo"><a href="/customer/vendors" class="target"> <i class="icon-SnackVan"></i></a></span>
             <span class="menu-text">Menu</span>
         </h1>
     </header>
-
     {{#each menu}}
     <div class="menu-item">
 
@@ -27,7 +25,6 @@
         </div>
     </div>
     {{/each}}
-    
     {{#if order}}
         <a
             id="view-cart-button"
@@ -41,12 +38,12 @@
     {{else}}
         <a
             id="view-cart-button"
-            class="view-order-button"
+            class="button view-order-button"
             onclick="viewCart()"
         >
             <i class="fa fa-shopping-cart"></i>
-            <span class="view-cart-text">View cart</span>
-            <span id="menu-cart-count" class="cart-amount"></span>
+            View cart
+            <span id="menu-cart-count"></span>
         </a>
     {{/if}}
 </section>

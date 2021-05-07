@@ -1,9 +1,11 @@
-
+#vendors {
+	margin-top: 90px;
+	width: 100%;
+}
 
 #location-input {
 	border-radius: 8px;
 	width: 40%;
-	margin-top: 20px;
 	text-align: center;
     /* padding-left: 8px; */
 
@@ -23,7 +25,9 @@
 	font-family: var(--font-heading);
 }
 
-
+.vendors-list {
+	text-align: center;
+}
 
 #vendors-button {
 	border: none;
@@ -63,28 +67,4 @@
 
 .details {
 	margin-left: 16px;
-}
-
-@media screen and (max-width: 768px){
-	.vendors-list {
-		text-align: center;	
-		font-size: 10px;
-	
-	}
-	#vendors {
-		margin-top: 30px;
-		width: 100%;
-	}
-	
-}
-@media screen and (min-width: 768px){
-	.vendors-list {
-		text-align: center;	
-		font-size: 20px;
-	}
-	#vendors {
-		margin-top: 90px;
-		width: 100%;
-	}
-	
 }
