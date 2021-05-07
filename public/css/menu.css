@@ -68,6 +68,7 @@ span.buttons {
   font-family: var(--font-body);
 }
 
+
 @media screen and (min-width: 768px) {
 	.view-order-button {
 		position: fixed;
@@ -140,9 +141,9 @@ span.buttons {
 		justify-content: space-evenly;
 	}
 	.header-logo {
-		margin-right: 40%;
+		margin-right: 30%;
 		display: flex;
-		font-size: 110%;
+		font-size: 140%
 	}
 	.menu-text {
 		margin-right: 16%;

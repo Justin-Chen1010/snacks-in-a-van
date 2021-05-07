@@ -2,7 +2,6 @@
 </div>
 
 <script>
-    // TODO: don't forget to wipe cart when user logs out
     let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
     let orderItems = {{{json (orderToCart order)}}};
     if (orderItems) {
@@ -145,7 +144,6 @@
             wrapper.replaceChild(div, wrapper.childNodes[0]);
         } else {
             let table = document.createElement("table");
-            table.style.width = "32px";
             table.className = "cart-table";
             let data = Object.keys(tableContents[0]);
             generateTable(table, tableContents);

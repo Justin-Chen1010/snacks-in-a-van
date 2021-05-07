@@ -79,7 +79,7 @@ label {
     width: auto;
     border-radius: 8px;
     border: none;
-    font-size: 10px;
+    font-size: 16px;
     cursor: pointer;
   }
   .login-forgot-password {

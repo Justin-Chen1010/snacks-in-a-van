@@ -1,10 +1,15 @@
-
-<section id="cart">
-  <div class="cart-wrapper">
+<section id="order">
+  <div class="order-wrapper">
     <h1>Order Details</h1>
-    <div class="cart-van-details">
-      Van Name <br>
-      Van Location
+    <div>
+      <div>
+          <i class="fas fa-shuttle-van"></i>
+          <span class="cart-van-name">Van name</span>
+      </div>
+      <div>
+          <i class="fas fa-map-marker-alt"></i>
+          <span class="cart-van-location">Van location</span>
+      </div>
     </div>
     {{> cart-table order=order}}
     <div class="order-buttons">
@@ -16,16 +21,27 @@
         <i class="fas fa-edit"></i>
         Update Order
       </button>
+      <button id="add-item-button" class="button" onclick="goToOrder('{{order.orderId}}')" type="button">
+        <i class="fas fa-clipboard=list"></i> Add items from menu
+      </button>
     </div>
   </div>
-  <a class="button view-menu-button" href="/customer/menu?orderId={{order.orderId}}">
-    <i class="fas fa-clipboard=list"></i> Add items from menu
-  </a>
 </section>
 
 <script>
 
+  function goToOrder(orderId) {
+    window.location = `/customer/menu?orderId=${orderId}`;
+  }
+
+  const vendor = JSON.parse(sessionStorage.getItem('vendor'));
+  if (vendor) {
+      document.querySelector('.cart-van-name').textContent = vendor.vendorName;
+      document.querySelector('.cart-van-location').textContent = vendor.address;
+  }
+
   async function updateOrder(orderId) {
+    window.location.reload();
     const cart = JSON.parse(sessionStorage.getItem("cart"));
     const order = {{{json order}}}
     order.items = cart;

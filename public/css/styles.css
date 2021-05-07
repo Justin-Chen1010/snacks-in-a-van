@@ -1,17 +1,11 @@
 /*
  * TODO:
- * RESPONSIVE
-
- * single order
- * locations
  * timer
  * updating orders
- * single order auth
  * signup/login error message
  * 
  * NOTE:
  * Deleting all items from order details will not cancel the order
- * 
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@600&display=swap');
@@ -31,6 +25,7 @@
 @import "./order.css";
 @import "./account.css";
 @import "./vendorList.css";
+@import "./cart-table.css";
 
 * {
   box-sizing: border-box;

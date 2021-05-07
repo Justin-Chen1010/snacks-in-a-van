@@ -14,6 +14,9 @@
   - [Technologies](#technologies)
   - [Server Mockup](#server-mockup)
     - [Server URL](#server-url)
+    - [LOGIN DETAILS FOR FRONT-END WEBSITE](#login-details-for-front-end-website)
+    - [Login Details for MongoDB](#login-details-for-mongodb)
+    - [Secret for authentication (using passport.js):](#secret-for-authentication-using-passportjs)
     - [Postman](#postman)
       - [Viewing full menu of the snack](#viewing-full-menu-of-the-snack)
       - [View details of a snack](#view-details-of-a-snack)
@@ -62,7 +65,7 @@ This project was created with:
 - [x] Read the Project handouts carefully
 - [x] User Interface (UI)mockup
 - [x] App server mockup
-- [ ] Front-end + back-end (one feature)
+- [x] Front-end + back-end (one feature)
 - [ ] Complete system + source code
 - [ ] Report on your work(+ test1 feature)
 
@@ -71,6 +74,20 @@ This project was created with:
 ### Server URL
 
 Access the server via this [heroku link](https://snacks-in-a-van-roboto.herokuapp.com/)
+
+### LOGIN DETAILS FOR FRONT-END WEBSITE
+
+- Username: 123@4567.com
+- Password: 123456
+
+### Login Details for MongoDB
+
+- MONGO_USERNAME=vendorsnacks
+- MONGO_PASSWORD=vendorsnacks
+
+### Secret for authentication (using passport.js):
+
+- PASSPORT_KEY=vendorsnacks
 
 ### Postman
 

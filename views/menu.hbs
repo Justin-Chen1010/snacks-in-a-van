@@ -28,12 +28,12 @@
     {{#if order}}
         <a
             id="view-cart-button"
-            class="button view-order-button"
+            class="view-order-button"
             onclick="viewOrder('{{order.orderId}}')"
         >
-            <i class="fa fa-shopping-cart"></i>
-            View order
-            <span id="menu-cart-count"></span>
+            <i class="fa fa-concierge-bell"></i>
+            <span class="view-cart-text">View order</span>
+            <span id="menu-cart-count" class="cart-amount"></span>
         </a>
     {{else}}
         <a
@@ -49,7 +49,6 @@
 </section>
 
 <script>
-    // TODO: move init'ing code to onload function, so js can be separated
     const menu = {{{ json menu }}};
 
     let cart = JSON.parse(sessionStorage.getItem("cart")) || [];

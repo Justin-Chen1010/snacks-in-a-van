@@ -1,7 +1,7 @@
 <section id="cart">
     <div class="cart-wrapper">
         <h1>Order Details</h1>
-        <div class="cart-van-details">
+        <div>
             <div>
                 <i class="fas fa-shuttle-van"></i>
                 <span class="cart-van-name">Van name</span>
@@ -28,7 +28,7 @@
             </button>
         </div>
     </div>
-    <a class="button view-menu-button" href="/customer/menu">
+    <a class="view-menu-button button" id= "view-menu" href="/customer/menu">
         <i class="fa fa-clipboard-list"></i> View menu
     </a>
 </section>
@@ -60,6 +60,7 @@
         order.items  = cart;
         const updatedOrder = await updateOrder(order);
         window.location = `/customer/${customerId}/orders`;
+        sessionStorage.removeItem("cart");
     }
 
     async function createOrder(newOrder) {

@@ -1,113 +1,46 @@
-#cart {
+#order {
 	margin-top: 64px;
 	width: 100%;
-	font-size: large;
 }
 
-.cart-total {
-	font-weight: bold;
-}
-
-.cart-wrapper {
-	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#cart h1 {
+#order h1 {
 	text-align: center;
 	font-size: 64px;
 	font-family: var(--font-heading);
 }
 
-.cart-table {
-	border-collapse: collapse;
-	margin: 32px auto;
-	background-color: var(--color-light);
-	width : 100%;
-
+#order .order-buttons {
+    margin: 32px;
+    text-align: center;
 }
 
-.cart-table thead,
-.cart-table tr:nth-last-child(2) {
-	border-bottom: 2px solid var(--color-black);
+.order-wrapper {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
-.cart-table td {
-	font-weight: bold;
-	text-align: center;
-	padding: 16px 0;
-}
-
-.count-input {
-	background-color: var(--color-white);
-	border-radius: 8px;
-	border: none;
-	max-width: 30%;
-	text-align: center;
-	font-size: 16px;
-	padding: 8px;
-}
-
-
-/* Firefox */
-
-input[type=number] {
-	-moz-appearance: textfield;
-}
-
-#cancel-order-button,
-#update-order-button {
+#cancel-order-button, #update-order-button, #add-item-button {
 	margin: 16px;
 	font-size: 16px;
 	cursor: pointer;
 }
 
-.view-menu-button {
-	position: fixed;
-	bottom: 56px;
-	right: 56px;
-}
-
-.empty-cart-message {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 32px;
-	padding: 64px 0;
-}
 
 
-/* Chrome, Safari, Edge, Opera */
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-
-/* Smaller then standard tablet size*/
-
+/* Smaller than standard tablet size*/
 @media screen and (max-width: 768px) {
-	#cart h1 {
+	#order h1 {
 		font-size: 32px;
 	}
-	#cart {
+	#order {
 		font-size: 12px;
 		margin-top: 64px;
 		width: 100%;
 		margin-top: 60px;
 	}
-	.cart-wrapper {
+	.order-wrapper {
 		width: 95%;
-	}
-	.view-menu-button {
-		font-size: small;
-	}
-	.count-input {
-		font-size: 12px;
-		padding: 4px;
 	}
 }
 
@@ -115,5 +48,10 @@ input::-webkit-inner-spin-button {
 	.order-buttons {
 		margin: 32px 0;
 		text-align: center;
+	}
+	#add-item-button {
+		position: fixed;
+		bottom: 56px;
+		right: 56px;
 	}
 }

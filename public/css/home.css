@@ -60,6 +60,8 @@
   bottom: 64px;
   right: 128px;
   margin-bottom: 16px;
+  font-size: 30px;
+  padding: 16px;
   justify-content: center;
 }
 
