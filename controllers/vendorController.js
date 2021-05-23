@@ -9,7 +9,9 @@ const getAllVendors = async (req, res) => {
     const vendors = await Vendor.find({ open: true })
       .select({ password: 0 })
       .lean();
-    res.render("vendorList", { vendors: vendors });
+    res.render("vendorList", { vendors: vendors ,layout :'main.hbs'
+
+    });
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");

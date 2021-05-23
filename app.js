@@ -1,5 +1,6 @@
 require("./models");
 require('./config/customerPassport');
+require('./config/vendorPassport');
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");

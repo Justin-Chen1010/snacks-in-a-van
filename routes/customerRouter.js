@@ -25,12 +25,14 @@ customerRouter.get("/menu/:snackId", async (req, res) => {
 // insert an order, specifying the name of the first snack and the assigned
 // vendor
 customerRouter.post("/:customerId/orders", async (req, res) => {
+ 
   if (req.isAuthenticated()) {
     // place order
     if (req.session.userId === req.params.customerId) {
       // current user is authenticated and is requesting their page
       orderController.addOrder(req, res);
     } else {
+
       // authenticated user, but not the right one
       res.redirect(`/customer/${req.session.userId}/orders`);
     }
@@ -44,13 +46,15 @@ customerRouter.post("/:customerId/orders", async (req, res) => {
 // Get all the orders for a given customer, the customer must be logged in
 // and the requested orders page must be theirs
 customerRouter.get("/:customerId/orders", async (req, res) => {
-  if (req.isAuthenticated()) {
-    if (req.session.userId === req.params.customerId) {
+
+  if (req.isAuthenticated()&& req.session.role==="customer") {
+    if (req.session.userId === req.params.customerId ) {
       orderController.getOrdersForOneCustomer(req, res);
     } else {
       res.redirect(`/customer/${req.session.userId}/orders`);
     }
   } else {
+    
     req.session.returnTo = `/customer/cart`;
     res.redirect(`/customer/login`);
   }
@@ -59,10 +63,12 @@ customerRouter.get("/:customerId/orders", async (req, res) => {
 // redirect unauthenticated customer
 // NavBar Check orders
 customerRouter.get("/orders", async (req, res) => {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated()&& req.session.role==="customer") {
+    
     res.redirect(`/customer/${req.session.userId}/orders`);
   } else {
     req.session.returnTo = "/orders";
+
     res.redirect("/customer/login");
   }
 });
@@ -86,20 +92,28 @@ customerRouter.post("/", async (req, res) =>
 
 // get the cart page
 customerRouter.get("/cart", snackController.getMenu, async (req, res) => {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated()&& req.session.role==="customer") {
     res.render("cart", {
       menu: req.menu,
       isLoggedin: req.isAuthenticated(),
       customerId: req.session.userId,
     });
   } else {
+    if (req.session.role==="customer"){
     res.render("cart", { menu: req.menu, isLoggedin: req.isAuthenticated() });
+    
   }
+  else{
+    req.logout();
+  req.flash("");
+  res.redirect("/customer/login");
+  }
+}
 });
 
 // get the account page, user must be authenticated
 customerRouter.get("/account", async (req, res) => {
-  if (req.isAuthenticated()) {
+  if (req.isAuthenticated()&& req.session.role==="customer") {
     res.render("account", { email: req.session.email });
   } else {
     req.session.returnTo = "/customer/account";
@@ -116,9 +130,8 @@ customerRouter.post(
     failureRedirect: "/customer/login", //redirect to the login page after failed
     failureFlash: true,
   })
+  
 );
-
-// signup page
 customerRouter.get("/signup", (req, res) => {
   res.render("signup");
 });
@@ -133,6 +146,7 @@ customerRouter.post(
 
 // logout function, users are redirected to login after
 customerRouter.post("/logout", function (req, res) {
+  
   req.logout();
   req.flash("");
   res.redirect("/customer/login");

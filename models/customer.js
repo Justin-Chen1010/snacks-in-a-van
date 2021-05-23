@@ -9,6 +9,7 @@ const customerSchema = new mongoose.Schema({
   givenName: { type: String, required: true },
   password: { type: String, required: true },
   orders: [{ type: String }],
+  role : {type: String, default: "customer"}
 });
 
 // customerSchema

@@ -1,0 +1,74 @@
+
+
+.title{
+
+  text-align: center;
+  align-items: center;
+  background-color: black;
+  font-size: xx-large;
+  color: white;
+}
+
+#vendorhome {
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    padding-bottom: 64px;
+  }
+  
+  .home-wrapper {
+    margin: 64px 0;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+  }
+#loginform{
+
+    background-image:  url("../static/wall.png");
+    width: 100%;
+    color: black;
+    text-align: center;
+    
+  margin-left: auto;
+  margin-right: auto
+
+      
+}
+.vendor-login-form {
+  
+    margin-top: 5%;
+
+    font-size: 18px;
+}
+
+.vendor-forgot-password {
+    margin: 3%;
+
+    font-size: 16px;
+  }
+
+
+#vendorName, #password{
+
+    width: 50%;
+}
+ 
+
+label {
+  margin-left: auto;
+
+  width: 100%;
+
+  
+
+}
+.submit-button{
+background-color: black;
+color: white;
+font-family: inherit;
+}

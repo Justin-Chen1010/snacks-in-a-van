@@ -1,0 +1,33 @@
+
+  {{!-- <header class="vendor-navbar">
+    <h1 class="navbar-logo">
+      <i class="icon-SnackVan"></i>
+      Snacks in a Van
+
+    </h1>
+
+     
+  </header> --}}
+
+<section id="loginform">
+        <header class="title">
+      <i class="icon-SnackVan"></i>
+      Snacks in a Van
+    </header>
+    <form method="post" action="/vendor/login" class="vendor-login-form">
+        <label for="VanId"> Van Id </label>
+          <input placeholder="vendorName" name='vendorName' id='vendorName' value=""/>
+        
+        <label for="Password"> Password</label>
+          <input placeholder="*******" type="password" name='password' id='password' value=""/>
+        
+        <div class="vendor-forgot-password">
+            <a href="/vendor/forgot-password"><u>Forgot password?</u></a>
+        </div>
+        
+        <input type="submit" class="submit-button"value="log in"/>
+              
+    </form>
+
+
+</section>
