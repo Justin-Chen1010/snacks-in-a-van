@@ -22,6 +22,27 @@ const getAllOrders = async (req, res) => {
     });
   }
 };
+
+
+// get all orders for a specific vendor that have status "preparing"
+const getOrdersForOneVendor = async (req, res) => {
+  try {
+    // default status is "preparing"
+    const orderStatus = req.query.status ? req.query.status : "preparing";
+    const vendor = await Vendor.findOne({ vendorName: req.session.vendorName });
+    // Get unfulfilled orders and sort them by time ordered, earlier ones first
+    const orders = await Order.find({
+      vendor: vendor.vendorName,
+      status: orderStatus,
+    }).sort("timeOrdered").lean();
+    res.render("vendor/orders", {orders: orders, layout:"vendorMain.hbs"});
+  } catch (err) {
+    res.status(400);
+    return res.send("Database query failed");
+  }
+}
+
+
 const getAllPreparingOrder=async(req, res)=>{
   try {
     
@@ -58,12 +79,42 @@ const getOneOrder = async (req, res) => {
     // order was found
     res.render("order", { order: oneOrder, menu: req.menu });
   } catch (err) {
+    console.log(err);
     // error occurred
     res.status(400);
     return res.render("error", {
       errorCode: 400,
       message: "Database query failed",
       backTo: "/customer",
+    });
+  }
+};
+
+// find one order by their id
+const getOneOrderForVendor = async (req, res) => {
+  try {
+    const oneOrder = await Order.findOne({
+      orderId: req.params.orderId,
+    }).lean();
+    if (oneOrder === null) {
+      // no order found in database
+      res.status(404);
+      return res.render("error", {
+        errorCode: 404,
+        message: `Order ${req.params.orderId} not found.`,
+        backTo: "/vendor",
+      });
+    }
+    // order was found
+    res.render("order", { order: oneOrder });
+  } catch (err) {
+    console.log(err);
+    // error occurred
+    res.status(400);
+    return res.render("error", {
+      errorCode: 400,
+      message: "Database query failed",
+      backTo: "/vendor",
     });
   }
 };
@@ -188,5 +239,6 @@ module.exports = {
   getOneOrder,
   addOrder,
   updateOrder,
+  getOrdersForOneVendor,
   getOrdersForOneCustomer, getAllPreparingOrder
 };

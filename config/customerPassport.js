@@ -22,7 +22,7 @@ module.exports = (passport) => {
 
   passport.deserializeUser(function (user, done) {
 
-    if (user.role=== 'customer'){
+    if (user.role === 'customer'){
       Customer.findById(user._id, function(err, user){
         done(err, user);
       });
@@ -57,6 +57,7 @@ module.exports = (passport) => {
               return done(
                 null,
                 false,
+                req.session.loginError = true,
                 req.flash("loginMessage", "No user found.")
               );
 
@@ -64,6 +65,7 @@ module.exports = (passport) => {
               return done(
                 null,
                 false,
+                req.session.loginError = true,
                 req.flash("loginMessage", "Oops! Wrong password.")
               );
             } else {
@@ -72,7 +74,7 @@ module.exports = (passport) => {
               // console.log(req.session.type);
               req.session.email = email;
               req.session.userId = user.customerId;
-              req.session.role='customer';
+              req.session.role = 'customer';
 
               // if (req.session.returnTo === "/orders") {
               //   req.session.returnTo = `/customer/${user.customerId}/orders`;
@@ -80,6 +82,7 @@ module.exports = (passport) => {
               return done(
                 null,
                 user,
+                req.session.loginError = false,
                 req.flash("loginMessage", "Login successful")
               );
             }

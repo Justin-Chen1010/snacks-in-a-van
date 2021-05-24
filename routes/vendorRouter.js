@@ -74,10 +74,15 @@ vendorRouter.get("/location", authenticate.isVendorLoggedIn, async (req, res) =>
   }
 });
 
-// get outstanding orders for a vendor
-vendorRouter.get("/orders", authenticate.isVendorLoggedIn,async (req, res) => {
-  // TODO: Render it on a template
-  vendorController.getOutstandingOrders(req, res);
+// get outstanding ('preparing') orders for a vendor, can query status
+// ?status=preparing is default, but status=fulfilled or completed
+vendorRouter.get("/orders", authenticate.isVendorLoggedIn, async (req, res) => {
+  orderController.getOrdersForOneVendor(req, res);
+});
+
+vendorRouter.get("/orders/:orderId", authenticate.isVendorLoggedIn, async (req, res) => {
+  console.log("asd");
+  orderController.getOneOrder(req, res);
 });
 
 // mark item as fulfilled
@@ -91,12 +96,6 @@ vendorRouter.put("/orders/:orderId/status", authenticate.isVendorLoggedIn, (req,
 vendorRouter.put("/status", authenticate.isVendorLoggedIn, (req, res) =>
   vendorController.updateVanStatus(req, res)
 );
-
-vendorRouter.get("/preparingorder", async (req, res) =>
-  orderController.getAllPreparingOrder(req, res)
-);
-
-
 
 // create new vendor
 vendorRouter.post("/", (req, res) => vendorController.addVendor(req, res));

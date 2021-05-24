@@ -74,6 +74,7 @@
    --color-blue: #0500ff;
    --color-orange: #ffa114;
    --color-brown: #c3b39f;
+   --color-red: #FF0000;
  }
  
  @media screen and (max-width: 768px) {

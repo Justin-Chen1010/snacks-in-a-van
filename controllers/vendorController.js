@@ -4,7 +4,7 @@ const Order = mongoose.model("Order");
 const { v4: uuidv4 } = require("uuid");
 
 
-// get all vendors
+// get all open vendors
 const getAllVendors = async (req, res) => {
   try {
     const vendors = await Vendor.find({ open: true })
@@ -19,7 +19,7 @@ const getAllVendors = async (req, res) => {
   }
 };
 
-const getAllopwnVendors = async (req, res) => {
+const getAllOpenVendors = async (req, res) => {
   try {
     const vendors = await Vendor.find({ open: true })
       .select({ password: 0 })
@@ -96,23 +96,6 @@ const addVendor = async (req, res) => {
   );
 };
 
-// get all orders for a specific vendor that have status "preparing"
-const getOutstandingOrders = async (req, res) => {
-  try {
-    const vendor = await Vendor.findOne({ vendorName: req.session.vendorName });
-    // Get unfulfilled orders and sort them by time ordered, earlier ones first
-    const outstanding = await Order.find({
-      vendor: vendor.vendorName,
-      status: "preparing",
-    }).sort("timeOrdered");
-    console.log(outstanding);
-    res.render("vendor/orders", {orders: outstanding});
-  } catch (err) {
-    res.status(400);
-    return res.send("Database query failed");
-  }
-};
-
 // Mark van status as open with lat, lon, and address, or close
 const updateVanStatus = async (req, res) => {
   try {
@@ -161,6 +144,7 @@ const updateVanStatus = async (req, res) => {
 };
 
 // mark an order as "fulfilled"
+// TODO: this should probably be in orderController
 const markOrderAsFulfilled = async (req, res) => {
   // find only the 'preparing' status
   try {
@@ -193,7 +177,6 @@ module.exports = {
   getOneVendor,
   updateVendor,
   addVendor,
-  getOutstandingOrders,
   updateVanStatus,
   markOrderAsFulfilled,
 };

@@ -3,15 +3,19 @@
   width: 100%;
 }
 
-#order h1 {
-  text-align: center;
-  font-size: 64px;
-  font-family: var(--font-heading);
-}
-
 #order .order-buttons {
   margin: 32px;
   text-align: center;
+}
+
+.order-header {
+  text-align: center;
+}
+
+.order-header h1 {
+  text-align: center;
+  font-size: 64px;
+  font-family: var(--font-heading);
 }
 
 .order-wrapper {

@@ -45,19 +45,38 @@
   font-size: 16px;
 }
 
+@media screen and (min-width: 768px) {
 
-input[name="password"],
-input[name="vendorName"],
-label {
-  width: 50%;
-  padding: 8px;
-  border-radius: 8px;
-  border: none;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  font-weight: lighter;
+  input[name="password"],
+  input[name="vendorName"],
+  label {
+    width: 20%;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: lighter;
+  }
 }
+
+@media screen and (max-width: 768px) {
+  input[name="password"],
+  input[name="vendorName"],
+  label {
+    width: 50%;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: lighter;
+    
+  }
+}
+
 
 .submit-button {
   background-color: black;

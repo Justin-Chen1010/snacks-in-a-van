@@ -1,0 +1,30 @@
+<section id="order">
+  <div class="order-wrapper">
+    <i class="icon-SnackVan"></i>
+    <h1>Order Details</h1>
+    <div>
+      <div>
+        <i class="fas fa-shuttle-van"></i>
+        <span class="cart-van-name">Van name</span>
+      </div>
+      <div>
+        <i class="fas fa-map-marker-alt"></i>
+        <span class="cart-van-location">Van location</span>
+      </div>
+    </div>
+    {{> cart-table order=order}}
+    <div class="order-buttons">
+      <button id="cancel-order-button" class="button" onclick="cancelOrder('{{order.orderId}}')">
+        <i class="fas fa-trash-alt"></i>
+        Cancel Order
+      </button>
+      <button id="update-order-button" class="button" onclick="updateOrder('{{order.orderId}}')">
+        <i class="fas fa-edit"></i>
+        Update Order
+      </button>
+      <button id="add-item-button" class="button" onclick="goToMenu('{{order.orderId}}')" type="button">
+        <i class="fas fa-clipboard=list"></i> Add items from menu
+      </button>
+    </div>
+  </div>
+</section>

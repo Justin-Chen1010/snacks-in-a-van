@@ -69,15 +69,19 @@ customerRouter.get("/account", authenticate.isCustomerLoggedIn, async (req, res)
 });
 
 // login page
-customerRouter.get("/login", async (req, res) => res.render("login"));
+customerRouter.get("/login", async (req, res) => {
+  res.render("login", { "loginFailed": req.session.loginError })
+  req.session.loginError = false;
+});
+
 customerRouter.post(
   "/login",
   passport.authenticate("local-login", {
     successReturnToOrRedirect: "/customer/cart", //redirect to cart after login if success
     failureRedirect: "/customer/login", //redirect to the login page after failed
     failureFlash: true,
+    
   })
-  
 );
 customerRouter.get("/signup", (req, res) => {
   res.render("signup");
