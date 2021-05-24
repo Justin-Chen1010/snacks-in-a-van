@@ -1,4 +1,6 @@
-.vendor-navbar {
+@import "../css/navbar.css";
+
+/* .vendor-navbar {
     color: var(--color-white);
     background-color: var(--color-dark);
     text-align: center;
@@ -9,5 +11,4 @@
     position: fixed;
     top: 0;
     width: 100%;
-    display: none
-}
+} */

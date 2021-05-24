@@ -10,13 +10,11 @@ const vendorSchema = new mongoose.Schema({
   lon: { type: Number },
   address: { type: String },
   role:{ type: String, default: "vendor"},
-  vendoremail:{ type: String}
+  vendorEmail:{ type: String}
 
 });
 
 vendorSchema.methods.generateHash = function(password) {
-
-
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
 

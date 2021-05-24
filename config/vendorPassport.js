@@ -13,54 +13,57 @@ module.exports = function(passport) {
     // should match of those in the login form
     
     
-  passport.use("local-password-management",
+    passport.use(
+        "local-password-management",
+        new LocalStrategy({ 
+        usernameField:"vendorEmail",
+        passwordField: "vendorConfirmEmail",
+        passReqToCallback: true},
 
-  new LocalStrategy({ 
-
-    usernameField:"vendoremail",
-    passwordField: "vendorconfirmemail",
-    passReqToCallback: true,},
-    function(req, vendoremail, vendorconfirmemail,done){
-        process.nextTick(function() {
-        Vendor.findOne({vendoremail: vendoremail }, function(err, user){
-            req.session.message=null;
-            if (err){
-               
-                return done(err);
-            }if (!user){
-                console.log("no email found");
-                req.session.message='please insert an existing email';
-                   
-                return done(null, false, req.flash('local-password-management', 'No email found.'));
-            }if (vendoremail!==vendorconfirmemail){
-               
-                //req.session.message='email and confirm email not the same';
+        function(req, vendorEmail, vendorConfirmEmail,done){
+            process.nextTick(function() {
+            Vendor.findOne({vendorEmail: vendorEmail }, function(err, user){
+                req.session.message=null;
+                if (err){
                 
-                // false in done() indicates to the strategy that authentication has
-                // failed
-                return done(null, false, req.flash('local-password-management', 'Oops! email and confirm email not the same .'));
-            }else {
+                    return done(err);
+                }
+                if (!user){
+                    console.log("no email found");
+                    req.session.message='please insert an existing email';
+                    
+                    return done(null, false, req.flash('local-password-management', 'No email found.'));
+                }
+                if (vendorEmail!==vendorConfirmEmail){
                 
-              
-                // for demonstration of using express-session
-                req.session.role="vendor";
-                req.session.vendoremail= vendoremail;
-                // done() is used by the strategy to set the authentication status with
-                // details of the user who was authenticated
-                return done(null, user, req.flash('local-password-management', 'successful email and confirm email correct and found'));
-            }
+                    //req.session.message='email and confirm email not the same';
+                    
+                    // false in done() indicates to the strategy that authentication has
+                    // failed
+                    return done(null, false, req.flash('local-password-management', 'Oops! email and confirm email not the same .'));
+                } else {
+                    
+                
+                    // for demonstration of using express-session
+                    req.session.role="vendor";
+                    req.session.vendorEmail= vendorEmail;
+                    // done() is used by the strategy to set the authentication status with
+                    // details of the user who was authenticated
+                    return done(null, user, req.flash('local-password-management', 'successful email and confirm email correct and found'));
+                }
 
 
+            });
         });
-    });
+    }));
 
-      
+    passport.use(
+        'vendor-login', 
+        new LocalStrategy({
+        usernameField : 'vendorName', 
+        passwordField : 'password',
+        passReqToCallback : true}, // pass the req as the first arg to the callback for verification 
 
-     }));
-    passport.use('vendor-login', new LocalStrategy({
-            usernameField : 'vendorName', 
-            passwordField : 'password',
-            passReqToCallback : true}, // pass the req as the first arg to the callback for verification 
         function(req, vendorName, password, done) {
             
 

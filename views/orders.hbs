@@ -1,7 +1,6 @@
 <section id="orders">
     <h1>Orders</h1>
     <div class="orders-wrapper">
-        {{#if isLoggedin}}
         {{#each orders}}
         {{#if (orderNotCancelled this.status)}}
         <a class="order-item" href="/customer/orders/{{this.orderId}}">
@@ -23,6 +22,5 @@
         </a>
         {{/if}}
         {{/each}}
-        {{/if}}
     </div>
 </section>

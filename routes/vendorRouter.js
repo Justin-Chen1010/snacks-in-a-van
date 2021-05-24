@@ -3,42 +3,50 @@ const vendorRouter = express.Router();
 const snackController = require("../controllers/snackController");
 const vendorController = require("../controllers/vendorController");
 const passport = require('passport');
+const authenticate = require("./authenticate");
+const orderController = require("../controllers/orderController");
+
 require('../config/vendorPassport')(passport);
 
 // get all vendors
 //vendorRouter.get("/", (req, res) => vendorController.getAllVendors(req, res));
 
-vendorRouter.get("/", (req, res) =>  res.render("vendor/login",{title: "VENDOR", layout: 'vendormain.hbs'}));
+vendorRouter.get("/", (req, res) =>  res.render("vendor/login",{title: "VENDOR", layout: 'vendorMain.hbs'}));
+vendorRouter.get("/location", async (req, res) =>
+  vendorController.getAllVendors(req, res)
+);
+
 
 vendorRouter.get("/login", (req, res) => {
-  res.render('vendor/login',{layout:"vendormain.hbs"});
+  res.render('vendor/login',{layout:"vendorMain.hbs"});
 });
+
 
 vendorRouter.get("/forgot-password", (req, res) => {
 //{message: req.session.message,
 if (req.session.vendoremail!==req.body.vendoremail){
   req.flash("message","email not found");
 }
-  res.render('vendor/passwordmanagement',{layout:"vendormain.hbs"});
+  res.render('vendor/passwordManagement',{layout:"vendorMain.hbs"});
 
 });
 vendorRouter.get("/reset-password", (req, res) => {
 
-  res.render('vendor/resetpassword',{layout:"vendormain.hbs"});
+  res.render('vendor/resetPassword',{layout:"vendorMain.hbs"});
   
 
 });
 
-vendorRouter.get("/home", (req, res) => {
-  if (req.isAuthenticated()&& req.session.role==="vendor") {
-    res.render("vendor/home", {layout:"vendormain.hbs"});
+vendorRouter.get("/home", authenticate.isVendorLoggedIn, (req, res) => {
+  if (req.isAuthenticated() && req.session.role==="vendor") {
+    res.render("vendor/home", {layout:"vendorMain.hbs"});
   } else {
     req.session.returnTo = "/vendor/home";
     res.redirect("/vendor/login");
   }
 });
 // vendorRouter.get("/signup", (req, res) => {
-//   res.render('vendor/signup',{layout:"vendormain.hbs"});
+//   res.render('vendor/signup',{layout:"vendorMain.hbs"});
 // // });
 // vendorRouter.post('/signup', passport.authenticate('local-signup', {
 //   successRedirect : '/', // redirect to the homepage
@@ -63,20 +71,28 @@ vendorRouter.post('/login', passport.authenticate('vendor-login', {
   
 }));
 
-
+// get the available vendors
+vendorRouter.get("/location", authenticate.isVendorLoggedIn, async (req, res) => {
+  if (req.session.role==="vendor") {
+    res.render("vendor/location", {layout:"vendorMain.hbs"});
+  }
+});
 
 // get outstanding orders for a vendor
-vendorRouter.get("/:vendorName/order", (req, res) =>
-  vendorController.getOutstandingOrders(req, res)
-);
+vendorRouter.get("/orders", authenticate.isVendorLoggedIn,async (req, res) => {
+  // TODO: Render it on a template
+  res.send(getOutstandingOrders(req, res));
+});
 
 // mark item as fulfilled
-vendorRouter.put("/:vendorName/order/:orderId/status", (req, res) =>
-  vendorController.markOrderAsFulfilled(req, res)
-);
+vendorRouter.put("/orders/:orderId/status", authenticate.isVendorLoggedIn, (req, res) => {
+    
+  vendorController.markOrderAsFulfilled(req, res);
+    
+});
 
 // set van status
-vendorRouter.put("/:vendorName/status", (req, res) =>
+vendorRouter.put("/status", authenticate.isVendorLoggedIn, (req, res) =>
   vendorController.updateVanStatus(req, res)
 );
 

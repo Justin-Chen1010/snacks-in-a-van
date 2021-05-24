@@ -4,10 +4,6 @@ const LocalStrategy = require("passport-local").Strategy;
 const Customer = require("../models/customer");
 const Vendor = require("../models/vendor");
 
-const passportJWT = require("passport-jwt");
-const JwtStrategy = passportJWT.Strategy;
-const ExtractJwt = passportJWT.ExtractJwt;
-
 module.exports = (passport) => {
   passport.serializeUser(function (user, done) {
    
@@ -25,15 +21,15 @@ module.exports = (passport) => {
   });
 
   passport.deserializeUser(function (user, done) {
- 
+
     if (user.role=== 'customer'){
       Customer.findById(user._id, function(err, user){
         done(err, user);
       });
 
 
-    }else{
-    Vendor.findById(user._id, function (err, user) {
+    } else{
+      Vendor.findById(user._id, function (err, user) {
       
 
       done(err, user);
@@ -78,12 +74,9 @@ module.exports = (passport) => {
               req.session.userId = user.customerId;
               req.session.role='customer';
 
-
-
-
-              if (req.session.returnTo === "/orders") {
-                req.session.returnTo = `/customer/${user.customerId}/orders`;
-              }
+              // if (req.session.returnTo === "/orders") {
+              //   req.session.returnTo = `/customer/${user.customerId}/orders`;
+              // }
               return done(
                 null,
                 user,

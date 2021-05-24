@@ -5,6 +5,7 @@ const vendorController = require("../controllers/vendorController");
 const snackController = require("../controllers/snackController");
 const orderController = require("../controllers/orderController");
 const passport = require("passport");
+const authenticate = require("./authenticate");
 require("../config/customerPassport")(passport);
 
 // get the available vendors
@@ -24,65 +25,29 @@ customerRouter.get("/menu/:snackId", async (req, res) => {
 
 // insert an order, specifying the name of the first snack and the assigned
 // vendor
-customerRouter.post("/:customerId/orders", async (req, res) => {
- 
-  if (req.isAuthenticated()) {
+customerRouter.post("/orders", authenticate.isCustomerLoggedIn, async (req, res) => {
     // place order
-    if (req.session.userId === req.params.customerId) {
-      // current user is authenticated and is requesting their page
-      orderController.addOrder(req, res);
-    } else {
-
-      // authenticated user, but not the right one
-      res.redirect(`/customer/${req.session.userId}/orders`);
-    }
-  } else {
-    // unauthenticated users are redirected to login, then back to cart
-    req.session.returnTo = `/customer/cart`;
-    res.redirect(`/customer/login`);
-  }
+    orderController.addOrder(req, res);
 });
 
 // Get all the orders for a given customer, the customer must be logged in
 // and the requested orders page must be theirs
-customerRouter.get("/:customerId/orders", async (req, res) => {
-
-  if (req.isAuthenticated()&& req.session.role==="customer") {
-    if (req.session.userId === req.params.customerId ) {
-      orderController.getOrdersForOneCustomer(req, res);
-    } else {
-      res.redirect(`/customer/${req.session.userId}/orders`);
-    }
-  } else {
-    
-    req.session.returnTo = `/customer/cart`;
-    res.redirect(`/customer/login`);
-  }
-});
-
-// redirect unauthenticated customer
-// NavBar Check orders
-customerRouter.get("/orders", async (req, res) => {
-  if (req.isAuthenticated()&& req.session.role==="customer") {
-    
-    res.redirect(`/customer/${req.session.userId}/orders`);
-  } else {
-    req.session.returnTo = "/orders";
-
-    res.redirect("/customer/login");
-  }
+customerRouter.get("/orders", authenticate.isCustomerLoggedIn, async (req, res) => {
+    orderController.getOrdersForOneCustomer(req, res);
 });
 
 // get an order detail that belongs to the customer
 customerRouter.get(
   "/orders/:orderId",
+  authenticate.isCustomerLoggedIn,
   snackController.getMenu,
   async (req, res) => orderController.getOneOrder(req, res)
 );
 
 // update an order that belongs to the customer
-customerRouter.put("/orders/:orderId", async (req, res) =>
-  orderController.updateOrder(req, res)
+customerRouter.put("/orders/:orderId",
+  authenticate.isCustomerLoggedIn,
+  async (req, res) => orderController.updateOrder(req, res)
 );
 
 // insert new customer
@@ -92,33 +57,15 @@ customerRouter.post("/", async (req, res) =>
 
 // get the cart page
 customerRouter.get("/cart", snackController.getMenu, async (req, res) => {
-  if (req.isAuthenticated()&& req.session.role==="customer") {
-    res.render("cart", {
-      menu: req.menu,
-      isLoggedin: req.isAuthenticated(),
-      customerId: req.session.userId,
-    });
-  } else {
-    if (req.session.role==="customer"){
-    res.render("cart", { menu: req.menu, isLoggedin: req.isAuthenticated() });
-    
-  }
-  else{
-    req.logout();
-  req.flash("");
-  res.redirect("/customer/login");
-  }
-}
+  res.render("cart", {
+    menu: req.menu,
+    isLoggedin: req.isAuthenticated(),
+  });
 });
 
 // get the account page, user must be authenticated
-customerRouter.get("/account", async (req, res) => {
-  if (req.isAuthenticated()&& req.session.role==="customer") {
-    res.render("account", { email: req.session.email });
-  } else {
-    req.session.returnTo = "/customer/account";
-    res.redirect("/customer/login");
-  }
+customerRouter.get("/account", authenticate.isCustomerLoggedIn, async (req, res) => {
+  res.render("account", { email: req.session.email });
 });
 
 // login page
@@ -135,6 +82,7 @@ customerRouter.post(
 customerRouter.get("/signup", (req, res) => {
   res.render("signup");
 });
+
 customerRouter.post(
   "/signup",
   passport.authenticate("local-signup", {
