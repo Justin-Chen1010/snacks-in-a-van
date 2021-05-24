@@ -1,7 +1,4 @@
-
-
-.title{
-
+.title {
   text-align: center;
   align-items: center;
   background-color: black;
@@ -10,65 +7,71 @@
 }
 
 #vendorhome {
-    overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
 
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    padding-bottom: 64px;
-  }
-  
-  .home-wrapper {
-    margin: 64px 0;
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-  }
-#loginform{
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  padding-bottom: 64px;
+}
 
-    background-image:  url("../static/wall.png");
-    width: 100%;
-    color: black;
-    text-align: center;
-    
+.home-wrapper {
+  margin: 64px 0;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+#loginform {
+  width: 100%;
+  color: black;
+  text-align: center;
+
   margin-left: auto;
-  margin-right: auto
-
-      
+  margin-right: auto;
 }
 .vendor-login-form {
-  
-    margin-top: 5%;
-
-    font-size: 18px;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 18px;
 }
 
 .vendor-forgot-password {
-    margin: 3%;
+  margin: 3%;
 
-    font-size: 16px;
-  }
-
-
-#vendorName, #password{
-
-    width: 50%;
+  font-size: 16px;
 }
- 
 
+
+input[name="password"],
+input[name="vendorName"],
 label {
+  width: 50%;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  display: block;
   margin-left: auto;
-
-  width: 100%;
-
-  
-
+  margin-right: auto;
+  font-weight: lighter;
 }
-.submit-button{
-background-color: black;
-color: white;
-font-family: inherit;
+
+.submit-button {
+  background-color: black;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-family: inherit;
+}
+
+#vendor-login-button {
+  width: auto;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
 }

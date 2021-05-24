@@ -3,6 +3,7 @@ const Vendor = mongoose.model("Vendor");
 const Order = mongoose.model("Order");
 const { v4: uuidv4 } = require("uuid");
 
+
 // get all vendors
 const getAllVendors = async (req, res) => {
   try {
@@ -50,6 +51,7 @@ const getOneVendor = async (req, res) => {
     return res.send("Database query failed");
   }
 };
+
 
 // change an vendor (POST)
 const updateVendor = async (req, res) => {
@@ -103,7 +105,8 @@ const getOutstandingOrders = async (req, res) => {
       vendor: vendor.vendorName,
       status: "preparing",
     }).sort("timeOrdered");
-    res.send(outstanding);
+    console.log(outstanding);
+    res.render("vendor/orders", {orders: outstanding});
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");

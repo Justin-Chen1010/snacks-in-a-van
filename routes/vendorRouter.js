@@ -12,10 +12,6 @@ require('../config/vendorPassport')(passport);
 //vendorRouter.get("/", (req, res) => vendorController.getAllVendors(req, res));
 
 vendorRouter.get("/", (req, res) =>  res.render("vendor/login",{title: "VENDOR", layout: 'vendorMain.hbs'}));
-vendorRouter.get("/location", async (req, res) =>
-  vendorController.getAllVendors(req, res)
-);
-
 
 vendorRouter.get("/login", (req, res) => {
   res.render('vendor/login',{layout:"vendorMain.hbs"});
@@ -81,7 +77,7 @@ vendorRouter.get("/location", authenticate.isVendorLoggedIn, async (req, res) =>
 // get outstanding orders for a vendor
 vendorRouter.get("/orders", authenticate.isVendorLoggedIn,async (req, res) => {
   // TODO: Render it on a template
-  res.send(getOutstandingOrders(req, res));
+  vendorController.getOutstandingOrders(req, res);
 });
 
 // mark item as fulfilled
@@ -95,6 +91,12 @@ vendorRouter.put("/orders/:orderId/status", authenticate.isVendorLoggedIn, (req,
 vendorRouter.put("/status", authenticate.isVendorLoggedIn, (req, res) =>
   vendorController.updateVanStatus(req, res)
 );
+
+vendorRouter.get("/preparingorder", async (req, res) =>
+  orderController.getAllPreparingOrder(req, res)
+);
+
+
 
 // create new vendor
 vendorRouter.post("/", (req, res) => vendorController.addVendor(req, res));

@@ -1,9 +1,89 @@
 <section id="location">
    <div class="location-wrapper">
-      <h1>Select A Van</h1>
+      <h1>Update your location</h1>
       <div class="location">
          <i class="fas fa-map-marker-alt" id="location-icon"></i>
-         <input id="location-input" placeholder="Current Location">
+         <input id="location-input" placeholder="Description of current location">
+         <button type="button" onclick="updateLocation()">Update Location</button>
+         <button type="button" onclick="geoFindMe()">USE CURRENT LOCATION</button>
+         <div id="status">
+         </div>
+          <input placeholder="latitude" name='latitude' id='latitude-input' type="number" value="" required />
+          <input placeholder="longitude" name='longitude' id='longitude-input' type="number" value="" required />
+         <div id="map-view">
+            <iframe 
+               id="map-frame"
+               width="500" 
+               height="500" 
+               frameborder="0" 
+               scrolling="yes" 
+               marginheight="0" 
+               marginwidth="0"
+               src="https://maps.google.com/maps?q=-37.8136,144.9631&hl=en&z=14&amp;output=embed"
+            >
+            </iframe>
+         </div>
       </div>
    </div>
 </section>
+
+<script>
+   async function updateLocation() {
+      const location = document.getElementById("location-input").value;
+      const lon = parseFloat(document.getElementById("longitude-input").value);
+      const lat = parseFloat(document.getElementById("latitude-input").value);
+
+      const res = await fetch(`/vendor/status/`,
+         {
+            method: "PUT",
+            headers: {
+               'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+               open: true,
+               lat: lat,
+               lon: lon,
+               address: location
+            })
+         }
+      );
+      console.log(res);
+      
+      return res.json();
+   }
+
+   function updateMapView(lat, lon) {
+      const mapFrame = document.getElementById("map-frame");
+      mapFrame.setAttribute("src",
+      `https://maps.google.com/maps?q=${lat},${lon}&hl=en&z=14&amp;output=embed`);
+      const lonInput = document.getElementById("longitude-input");
+      const latInput = document.getElementById("latitude-input");
+      
+      latInput.value = lat.toFixed(4);
+      lonInput.value = lon.toFixed(4);
+   }
+
+   function geoFindMe() {
+
+      const status = document.querySelector('#status');
+
+      function success(position) {
+         const latitude = position.coords.latitude;
+         const longitude = position.coords.longitude;
+
+         status.textContent = '';
+         updateMapView(latitude, longitude);
+      }
+
+      function error() {
+         status.textContent = 'Unable to retrieve your location';
+      }
+
+      if (!navigator.geolocation) {
+         status.textContent = 'Geolocation is not supported by your browser';
+      } else {
+         status.textContent = 'Locating…';
+         navigator.geolocation.getCurrentPosition(success, error);
+      }
+   }
+</script>

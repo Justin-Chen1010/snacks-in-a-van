@@ -24,18 +24,18 @@ const getAllOrders = async (req, res) => {
 };
 const getAllPreparingOrder=async(req, res)=>{
   try {
-
-      const PreparingOrder =await Order.find({status: "preparing"});
-     if (PreparingOrder===null){
+    
+    const PreparingOrder =await Order.find({status: "preparing"});
+    if (PreparingOrder===null){
       res.status(400).send(`no preparing food....`);
-     }
+    }
   return res.send(PreparingOrder);
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");
   }
-
 };
+
 
 
 
