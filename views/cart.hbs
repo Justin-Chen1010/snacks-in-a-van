@@ -30,8 +30,6 @@
 </section>
 
 <script>
-    const customerId = "{{{customerId}}}";
-
     const vendor = JSON.parse(sessionStorage.getItem('vendor'));
     if (vendor) {
         document.querySelector('.cart-van-name').textContent = vendor.vendorName;
@@ -55,13 +53,13 @@
         const order = await createOrder(newOrder);
         order.items = cart;
         const updatedOrder = await updateOrder(order);
-        window.location = `/customer/${customerId}/orders`;
+        window.location = `/customer/orders`;
         sessionStorage.removeItem("cart");
     }
 
     // create a new order by ordering one item
     async function createOrder(newOrder) {
-        const res = await fetch(`/customer/${customerId}/orders/`,
+        const res = await fetch(`/customer/orders/`,
             {
                 method: "POST",
                 headers: {

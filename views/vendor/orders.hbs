@@ -1,9 +1,14 @@
 <section id="orders">
     <h1>Orders</h1>
+    <div class="orders-buttons">
+        <button>Hello</button>
+        <button>Hello</button>
+        <button>Hello</button>
+    </div>
     <div class="orders-wrapper">
         {{#each orders}}
         {{#if (orderNotCancelled this.status)}}
-        <a class="order-item" href="/customer/orders/{{this.orderId}}">
+        <a class="order-item" href="/vendor/orders/{{this.orderId}}">
             <div class="order-item-id">
                 {{this.orderId}}
             </div>

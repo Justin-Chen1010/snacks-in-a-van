@@ -17,7 +17,7 @@ const getAllCustomers = async (req, res) => {
 const getOneCustomer = async (req, res) => {
   try {
     const oneCustomer = await Customer.findOne({
-      customerId: req.params.customerId,
+      customerId: req.session.userId,
     });
     if (oneCustomer === null) {
       // no customer found in database: 404

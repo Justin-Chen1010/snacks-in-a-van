@@ -1,32 +1,16 @@
-/*
- * TODO:
- * timer
- * updating orders
- * signup/login error message
- * 
- * NOTE:
- * Deleting all items from order details will not cancel the order
- */
+
 
  @import url("https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@600&display=swap");
  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
  @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
  
- @import "./navbar.css";
- @import "./footer.css";
  @import "./home.css";
- @import "./menu.css";
- @import "./cart.css";
- @import "./orders.css";
- @import "./button.css";
- @import "./error.css";
+ @import "./vendornavbar.css";
+ @import "./icomoon.css";
  @import "./login.css";
- @import "./signup.css";
- @import "./order.css";
- @import "./account.css";
- @import "./vendorList.css";
- @import "./cart-table.css";
- 
+ @import "./location.css";
+ @import "./resetpassword.css";
+ @import "./passwordmanagement.css";
  
  * {
    box-sizing: border-box;
@@ -54,7 +38,8 @@
  body {
    font-family: var(--font-body);
    font-size: var(--text-medium);
-   background-color: var(--color-light);
+   
+  background-color: var(--color-light);
    color: var(--color-dark);
    margin: 0;
    height: 100%;
@@ -74,7 +59,6 @@
    --color-blue: #0500ff;
    --color-orange: #ffa114;
    --color-brown: #c3b39f;
-   --color-red: #FF0000;
  }
  
  @media screen and (max-width: 768px) {

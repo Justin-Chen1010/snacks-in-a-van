@@ -1,5 +1,6 @@
 require("./models");
 require('./config/customerPassport');
+require('./config/vendorPassport');
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -57,7 +58,7 @@ app.get("/customer", (req, res) => {
 app.all("*", async (req, res) => {
   res
     .status(404)
-    .render("error", { errorCode: "404", message: "that route is invalid." });
+    .render("error", { errorCode: "404", message: "That route is invalid.", backTo: req.baseUrl.split("/")[0]});
 });
 
 const port = process.env.PORT || 8080;

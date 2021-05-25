@@ -3,13 +3,30 @@ const Vendor = mongoose.model("Vendor");
 const Order = mongoose.model("Order");
 const { v4: uuidv4 } = require("uuid");
 
-// get all vendors
+
+// get all open vendors
 const getAllVendors = async (req, res) => {
   try {
     const vendors = await Vendor.find({ open: true })
       .select({ password: 0 })
       .lean();
-    res.render("vendorList", { vendors: vendors });
+    res.render("vendorList", { vendors: vendors ,layout :'main.hbs'
+
+    });
+  } catch (err) {
+    res.status(400);
+    return res.send("Database query failed");
+  }
+};
+
+const getAllOpenVendors = async (req, res) => {
+  try {
+    const vendors = await Vendor.find({ open: true })
+      .select({ password: 0 })
+      .lean();
+    res.render("vendorList", { vendors: vendors ,layout :'main.hbs'
+
+    });
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");
@@ -20,7 +37,7 @@ const getAllVendors = async (req, res) => {
 const getOneVendor = async (req, res) => {
   try {
     const oneVendor = await Vendor.findOne({
-      vendorId: req.params.vendorId,
+      vendorName: req.session.vendorName,
     });
     if (oneVendor === null) {
       // no vendor found in database
@@ -39,7 +56,7 @@ const getOneVendor = async (req, res) => {
 const updateVendor = async (req, res) => {
   try {
     const oneVendor = await Vendor.findOne({
-      vendorId: req.params.vendorId,
+      vendorName: req.session.vendorName,
     });
     if (oneVendor === null) {
       // no vendor found in database
@@ -47,7 +64,7 @@ const updateVendor = async (req, res) => {
       return res.send("Vendor not found");
     }
     // actually update the vendor
-    Vendor.updateOne({ vendorId: oneVendor.vendorId });
+    Vendor.updateOne({ vendorName: oneVendor.vendorName });
     // db.foods.updateOne( {name: "Apple"}, {$set: {description: "Apples are cool" }}
     return res.send(oneVendor); // vendor was found
   } catch (err) {
@@ -78,27 +95,11 @@ const addVendor = async (req, res) => {
   );
 };
 
-// get all orders for a specific vendor that have status "preparing"
-const getOutstandingOrders = async (req, res) => {
-  try {
-    const vendor = await Vendor.findOne({ vendorName: req.params.vendorName });
-    // Get unfulfilled orders and sort them by time ordered, earlier ones first
-    const outstanding = await Order.find({
-      vendor: vendor.vendorName,
-      status: "preparing",
-    }).sort("timeOrdered");
-    res.send(outstanding);
-  } catch (err) {
-    res.status(400);
-    return res.send("Database query failed");
-  }
-};
-
 // Mark van status as open with lat, lon, and address, or close
 const updateVanStatus = async (req, res) => {
   try {
     const oneVendor = await Vendor.findOne({
-      vendorName: req.params.vendorName,
+      vendorName: req.session.vendorName,
     });
     const status = req.body;
 
@@ -142,13 +143,14 @@ const updateVanStatus = async (req, res) => {
 };
 
 // mark an order as "fulfilled"
+// TODO: this should probably be in orderController
 const markOrderAsFulfilled = async (req, res) => {
   // find only the 'preparing' status
   try {
     const filter = {
       orderId: req.params.orderId,
       status: "preparing",
-      vendor: req.params.vendorName,
+      vendor: req.session.vendorName,
     };
 
     const order = await Order.findOne(filter);
@@ -174,7 +176,6 @@ module.exports = {
   getOneVendor,
   updateVendor,
   addVendor,
-  getOutstandingOrders,
   updateVanStatus,
   markOrderAsFulfilled,
 };

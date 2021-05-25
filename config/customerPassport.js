@@ -2,20 +2,40 @@ require("dotenv").config();
 const { v4: uuidv4 } = require("uuid");
 const LocalStrategy = require("passport-local").Strategy;
 const Customer = require("../models/customer");
-const passportJWT = require("passport-jwt");
-const JwtStrategy = passportJWT.Strategy;
-const ExtractJwt = passportJWT.ExtractJwt;
+const Vendor = require("../models/vendor");
 
 module.exports = (passport) => {
-  passport.serializeUser(function (customer, done) {
-    done(null, customer._id);
+  passport.serializeUser(function (user, done) {
+   
+    done(null,user);
+    // i dont understand why when i change the done(null, {'id':user._id ,'role': user.role}) , this gives me error the next time im going to log inm i wonder why, is it becasue of the two things that i have passed or is it bcause
+    //in the req.session.userid something? or is it on the log in ithe customer router like passport authenticate ther
+    //like if (req.session.userId === req.params.customerId) {
+      // current user is authenticated and is requesting their page
+    //   orderController.addOrder(req, res);
+    // } else {
+
+    //   // authenticated user, but not the right one
+    //   res.redirect(`/customer/${req.session.userId}/orders`);
+    
   });
 
-  passport.deserializeUser(function (_id, done) {
-    Customer.findById(_id, function (err, customer) {
-      done(err, customer);
+  passport.deserializeUser(function (user, done) {
+
+    if (user.role === 'customer'){
+      Customer.findById(user._id, function(err, user){
+        done(err, user);
+      });
+
+
+    } else{
+      Vendor.findById(user._id, function (err, user) {
+      
+
+      done(err, user);
     });
-  });
+  }
+});
 
   // strategy to login
   // this method only takes in username and password, and the field names
@@ -37,6 +57,7 @@ module.exports = (passport) => {
               return done(
                 null,
                 false,
+                req.session.loginError = true,
                 req.flash("loginMessage", "No user found.")
               );
 
@@ -44,17 +65,24 @@ module.exports = (passport) => {
               return done(
                 null,
                 false,
+                req.session.loginError = true,
                 req.flash("loginMessage", "Oops! Wrong password.")
               );
             } else {
+
+              // req.session.type="customer";
+              // console.log(req.session.type);
               req.session.email = email;
               req.session.userId = user.customerId;
-              if (req.session.returnTo === "/orders") {
-                req.session.returnTo = `/customer/${user.customerId}/orders`;
-              }
+              req.session.role = 'customer';
+
+              // if (req.session.returnTo === "/orders") {
+              //   req.session.returnTo = `/customer/${user.customerId}/orders`;
+              // }
               return done(
                 null,
                 user,
+                req.session.loginError = false,
                 req.flash("loginMessage", "Login successful")
               );
             }
@@ -99,6 +127,7 @@ module.exports = (passport) => {
               newUser.email = email;
               newUser.familyName = req.body.familyName;
               newUser.givenName = req.body.givenName;
+              newUser.role="customer";
               if (password === req.body.confirmPassword) {
                 newUser.password = newUser.generateHash(password);
               } else {

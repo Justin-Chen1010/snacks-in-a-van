@@ -1,6 +1,9 @@
 <section id="order">
   <div class="order-wrapper">
-    <h1>Order Details</h1>
+    <div class="order-header">
+      <i class="icon-SnackVan"></i>
+      <h1>Order Details</h1>
+    </div>
     <div>
       <div>
         <i class="fas fa-shuttle-van"></i>
@@ -73,16 +76,20 @@
   }
 </script>
 
-
-{{!-- <section id="cart">
-  <p id="days"></p>
-  <p id="hours"></p>
-  <p id="mins"></p>
-  <p id="secs"></p>
+<section id="cart">
+  <span id="mins_change"></span>
+  <span id="secs_change"></span>
+  <meter id="discount-cd" min="0" max="100" low="33" high="66" value="0"></meter>
+  <h2 id="end_change"></h2>
+  <span id="mins"></span>
+  <span id="secs"></span>
+  <meter id="order-fixed-cd" min="0" max="100" low="33" high="66" value="0"></meter>
   <h2 id="end"></h2>
 </section>
 
 <script>
+
+  const order = {{{ json order }}}
   // The data/time we want to countdown to
   //var countDownDate = new Date("Jul 25, 2021 16:37:52").getTime();
 
@@ -93,50 +100,94 @@
   //var timeleft = countDownDate - now;
 
   // The data/time we want to countdown to
-  var countDownDate = new Date("Jul 25, 2021 16:37:52").getTime();
+  //var countDownDate = new Date("Jul 25, 2021 16:37:52").getTime();
 
   function addMinutes(date, minutes) {
     var discount_time = (date + minutes * 60000);
     return discount_time;
   }
+  // Progress bar for the timer
+  var discount_pb = document.getElementById("discount-cd");
+  var order_fixed_pb = document.getElementById("order-fixed-cd");
   var discount_timer = 0;
-  var time_order = new Date().getTime();
+  var reorder_timer = 0;
+  var initial_discount_timer = 0;
+  var time_order = new Date(order.timeOrdered).getTime();
 
   if (discount_timer == 0) {
-    discount_timer = addMinutes(time_order, 1);
+    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(), 15);
+    //This should work? but it should pull from time-ordered not the current itme
+
     //var discount_timer = now + (15*60000);
     //Convert 15 minutes to milliseconds
+  }
+  if (reorder_timer == 0){
+    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), 10);
+  }
+
+  if (initial_discount_timer ==0){
+    initial_discount_timer = discount_timer;
   }
 
   // Run myfunc every second
   var myfunc = setInterval(function () {
-
+    
+    // Instead of now it should pull from time-ordered
     var now = new Date().getTime();
     var timeleft = discount_timer - now;
     //var timeleft = countDownDate - now;
+    var timeleft_change = reorder_timer - now;
 
+    // Update progress bar
+    //discount_pb.setAttribute("value", 100 - Math.floor((timeleft % (1000 * 60)) / 1000));
+    discount_pb.setAttribute("value", 100*(1- timeleft_change/(10*60000)));
+    //order_fixed_pb.setAttribute("value", 100 - 100 * Math.floor((timeleft_change / reorder_timer ))); 
+    order_fixed_pb.setAttribute("value", 100*(1- timeleft/(15*60000)));
+    //console.log(((Math.floor((timeleft % (1000 * 60)) / 1000))/(Math.floor((discount_timer % (1000 * 60)) / 1000)))); Not sure what is happening
+    
     // Calculating the days, hours, minutes and seconds left
-    var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+   // var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+   // var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
 
+    var minutes_change = Math.floor((timeleft_change % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds_change = Math.floor((timeleft_change % (1000 * 60)) / 1000);
     // Result is output to the specific element
-    document.getElementById("days").innerHTML = days + "d "
-    document.getElementById("hours").innerHTML = hours + "h "
-    document.getElementById("mins").innerHTML = minutes + "m "
+    //document.getElementById("days").innerHTML = days + "d "
+    //document.getElementById("hours").innerHTML = hours + "h "
+    document.getElementById("mins_change").innerHTML = "Order lock in: " + minutes_change + "m "
+    document.getElementById("secs_change").innerHTML = seconds_change + "s "
+
+    document.getElementById("mins").innerHTML = "Discount apply in: " + minutes + "m "
     document.getElementById("secs").innerHTML = seconds + "s "
+    
+    
 
     // Display the message when countdown is over
+
+    if (timeleft_change < 0) {
+      //clearInterval(myfunc);
+      //document.getElementById("days").innerHTML = ""
+      //document.getElementById("hours").innerHTML = ""
+      document.getElementById("mins_change").innerHTML = ""
+      document.getElementById("secs_change").innerHTML = ""
+      document.getElementById("end_change").innerHTML = "Order Locked in!";
+    }
+
+
     if (timeleft < 0) {
       clearInterval(myfunc);
-      document.getElementById("days").innerHTML = ""
-      document.getElementById("hours").innerHTML = ""
+      //document.getElementById("days").innerHTML = ""
+      //document.getElementById("hours").innerHTML = ""
       document.getElementById("mins").innerHTML = ""
       document.getElementById("secs").innerHTML = ""
-      document.getElementById("end").innerHTML = "Discount Applied!!";
+      document.getElementById("end").innerHTML = "15% Discount Applied!!";
     }
+
+    
+
   }, 1000);
 
 
-</script> --}}
+</script>

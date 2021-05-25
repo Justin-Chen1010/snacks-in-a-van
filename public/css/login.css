@@ -1,7 +1,17 @@
-.login-form {
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+@media screen and (max-width: 768px) {
+  .login-form {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .login-form {
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .login-form-header {
@@ -22,6 +32,12 @@
 .login-forgot-password {
   text-align: right;
   font-size: 16px;
+}
+
+.login-error-message {
+  text-align: right;
+  font-size: 16px;
+  color: var(--color-red);
 }
 
 .login-no-account-yet {
@@ -47,6 +63,8 @@ label {
   font-weight: lighter;
 }
 
+
+
 .van-icon {
   animation-duration: 4s;
   animation-name: movingvan;
@@ -55,15 +73,15 @@ label {
 }
 @keyframes movingvan {
   0% {
-    transform: translateX(-10%);
+    transform: translateX(-20%);
   }
 
   50% {
-    transform: translateX(10%);
+    transform: translateX(20%);
   }
 
   100% {
-    transform: translateX(-10%);
+    transform: translateX(-20%);
   }
 }
 
@@ -84,6 +102,11 @@ label {
     text-align: right;
     font-size: 11px;
   }
+  .login-error-message {
+    text-align: right;
+    font-size: 11px;
+    color: var(--color-red);
+  }
   .login-no-account-yet {
     font-size: 11px;
   }
@@ -103,5 +126,10 @@ label {
   .login-forgot-password {
     text-align: right;
     font-size: 16px;
+  }
+  .login-error-message {
+    text-align: right;
+    font-size: 16px;
+    color: var(--color-red);
   }
 }
