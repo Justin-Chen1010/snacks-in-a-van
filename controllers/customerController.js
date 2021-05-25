@@ -56,9 +56,40 @@ const addCustomer = async (req, res) => {
   );
 };
 
+const updateCustomer = async (req, res) => {
+  try {
+    const oneCustomer = await Customer.findOne({
+      email: req.session.email,
+    });
+    if (oneCustomer === null) {
+      // no customer found in database
+      res.status(404);
+      return res.send("Customer not found");
+    }
+    const newDetails = req.body;
+    // actually update the customer
+    console.log(newDetails);
+    Customer.updateOne(
+      { email: oneCustomer.email },
+      {
+        $set: {
+          givenName: newDetails.givenName,
+          familyName: newDetails.familyName,
+          password: newDetails.password,
+        },
+      });
+    return res.render("account", {email: req.session.email}); // customer was found
+  } catch (err) {
+    // error occurred
+    res.status(400);
+    return res.send("Database query failed");
+  }
+}
+
 // remember to export the functions
 module.exports = {
   getAllCustomers,
   getOneCustomer,
   addCustomer,
+  updateCustomer,
 };

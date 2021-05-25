@@ -1,0 +1,67 @@
+<section id="vendor-account">
+  <form method="post" action="/vendor/account" class="password-update">
+    <div class="password-update-header">
+      <div class="van-icon"><i class="icon-SnackVan"></i></div>
+      <h1>Profile</h1>
+    </div>
+    <label for="vendorName">Vendor Name</label>
+    <input placeholder="vendor name" name='vendorName' id='vendorName' type="text" value="{{vendorName}}" readonly="readonly" />
+    <label for="vendorPassword">Password</label>
+    <input placeholder="***************" name='vendorPassword' id='vendorPassword' type="password" value="" />
+    <label for="vendorConfirmPassword">Confirm Password</label>
+    <input placeholder="***************" name='vendorConfirmPassword' id='vendorConfirmPassword' type="password" value="" />
+    <div class="password-update-submit">
+      <button id="password-update-button" onsubmit="return validate()" class="button" formaction="/vendor/login">
+        <i class="fas fa-edit"></i>
+        UPDATE
+      </button>
+      <button id="vendor-logout-button" class="button" formaction="/vendor/logout">
+        <i class="fas fa-sign-out-alt"></i>
+        LOG OUT
+      </button>
+    </div>
+  </form>
+</section>
+
+<script>
+
+
+  function validate() {
+    const password = document.getElementById("vendorPassword").value;
+    const confirmPassword = document.getElementById("vendorConfirmPassword").value;
+    if (confirmPassword !== password) {
+      alert("Passwords do not match.");
+      return false;
+    }
+    if (!passwordPolicy(password)) {
+      alert("Invalid password\n\n" +
+            "1. At least one alphabet character (upper or lower caseA-Z)\n" +
+             "2. At least one numerical digit (0-9)\n" +
+             "3. A length of at least 8 characters");
+      return false;
+    }
+  }
+
+  function passwordPolicy(password) {
+    const regexNum = /\d/;
+    const regexChar = /[a-zA-Z]/;
+    
+    const hasAlphabet = regexChar.test(password);
+    const hasNum = regexNum.test(password);
+    const length = password.length;
+    let validLen;
+    if(length >= 8 ){
+      validLen = 1;
+    }
+    else{
+      validLen = 0;
+    }
+
+    if((hasAlphabet == 1) && (hasNum == 1) && (validLen == 1)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+</script>

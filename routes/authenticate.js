@@ -1,6 +1,6 @@
 // middleware to ensure user is logged in
 function isCustomerLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.session.role === "customer") {
         return next();
     }
     // if not logged in, redirect to login form
@@ -9,8 +9,9 @@ function isCustomerLoggedIn(req, res, next) {
 }
 
 function isVendorLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated() && req.session.role === "vendor") {
         return next();
+    }
     // if not logged in, redirect to login form
     req.session.returnTo = `/vendor${req.url}`;
     res.redirect('/vendor/login');

@@ -68,6 +68,10 @@ customerRouter.get("/account", authenticate.isCustomerLoggedIn, async (req, res)
   res.render("account", { email: req.session.email });
 });
 
+customerRouter.post("/account", authenticate.isCustomerLoggedIn, async (req, res) =>
+  customerController.updateCustomer(req, res)
+);
+
 // login page
 customerRouter.get("/login", async (req, res) => {
   res.render("login", { "loginFailed": req.session.loginError })

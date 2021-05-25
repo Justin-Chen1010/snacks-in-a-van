@@ -1,0 +1,15 @@
+@import "../css/orders.css";
+
+.orders-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 32px;
+}
+
+.orders-buttons button {
+    margin: 0 16px;
+}
+
+.orders-buttons button.selected {
+    background-color: var(--color-black);
+}

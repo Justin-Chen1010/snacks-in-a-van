@@ -4,11 +4,11 @@
         <div>
             <div>
                 <i class="fas fa-shuttle-van"></i>
-                <span class="cart-van-name">Van name</span>
+                <span class="cart-van-name">No van selected!</span>
             </div>
             <div>
                 <i class="fas fa-map-marker-alt"></i>
-                <span class="cart-van-location">Van location</span>
+                <span class="cart-van-location">No van selected!</span>
             </div>
         </div>
         {{> cart-table order=null}}
@@ -43,6 +43,9 @@
     // place an order based on the current cart items
     async function placeOrder() {
         const vendor = JSON.parse(sessionStorage.getItem("vendor"));
+        if (vendor === null) {
+            window.location = "/customer/vendors";
+        }
         const cart = JSON.parse(sessionStorage.getItem("cart"));
         const firstItem = cart[0];
         const newOrder = {

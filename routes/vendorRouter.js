@@ -16,6 +16,14 @@ vendorRouter.get("/", (req, res) =>  res.render("vendor/login",{title: "VENDOR",
 vendorRouter.get("/login", (req, res) => {
   res.render('vendor/login',{layout:"vendorMain.hbs"});
 });
+vendorRouter.get("/signup", (req, res) => {
+  res.render('vendor/signup',{layout:"vendorMain.hbs"});
+});
+
+
+vendorRouter.get("/account", authenticate.isVendorLoggedIn, async (req, res) => {
+  res.render("vendor/account", { vendorName: req.session.vendorName, layout:"vendorMain.hbs" });
+});
 
 
 vendorRouter.get("/forgot-password", (req, res) => {
@@ -66,6 +74,24 @@ vendorRouter.post('/login', passport.authenticate('vendor-login', {
   failureFlash : true // allow flash messages
   
 }));
+
+vendorRouter.post('/signup', passport.authenticate('local-signup-vendor', {
+  successRedirect : '/vendor/login', // redirect to the homepage
+  failureRedirect : '/vendor/signup', // redirect back to the login page if there is an error
+  failureFlash : true // allow flash messages
+  
+}));
+
+// logout function, users are redirected to login after
+vendorRouter.post("/logout", function (req, res) {
+  
+  req.logout();
+  req.flash("");
+  res.redirect("/vendor/login");
+});
+
+
+
 
 // get the available vendors
 vendorRouter.get("/location", authenticate.isVendorLoggedIn, async (req, res) => {

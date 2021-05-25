@@ -8,9 +8,13 @@
  @import "./vendornavbar.css";
  @import "./icomoon.css";
  @import "./login.css";
+ @import "./orders.css";
  @import "./location.css";
  @import "./resetpassword.css";
  @import "./passwordmanagement.css";
+ @import "../css/button.css";
+ @import "./account.css";
+ @import"./signup.css";
  
  * {
    box-sizing: border-box;
@@ -59,6 +63,7 @@
    --color-blue: #0500ff;
    --color-orange: #ffa114;
    --color-brown: #c3b39f;
+   --color-red: #FF0000;
  }
  
  @media screen and (max-width: 768px) {

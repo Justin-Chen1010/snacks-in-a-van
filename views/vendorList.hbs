@@ -3,9 +3,10 @@
       <h1>Select A Van</h1>
       <div class="location">
          <i class="fas fa-map-marker-alt" id="location-icon"></i>
-         <input id="location-input" placeholder="Current location">
+         <input type="Number" min="1" max="20" step="1" value="5" id="num-van-input" placeholder="# Vans">
+         <button id="find-nearest" type="button" onClick="getNearestVans()">FIND NEAREST</button>
       </div>
-      <div class="vendors-list">
+      <div id="vendors-list">
          {{#each vendors}}
          <button class="vendor-button" type="button" onclick="updateVendor('{{this.vendorName}}')">
             <div class="vendor-icon"><i class="icon-SnackVan"></i></div>
@@ -14,7 +15,7 @@
                <div class="vendor-details">
                   <p>{{this.address}}</p>
                   <p><i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
-                  <p><u><i class="fas fa-directions"></i>Get Direction</u></p>
+                  <p class="get-direction"><u><i class="fas fa-directions"></i>Get Direction</u></p>
                </div>
             </div>
          </button>
@@ -26,10 +27,121 @@
 <script>
    const vendors = {{{ json vendors }}};
 
+
    // update the current selected vendor in local storage
    function updateVendor(vendorName) {
       const vendor = vendors.find(vendor => vendor.vendorName === vendorName);
       sessionStorage.setItem("vendor", JSON.stringify(vendor));
       window.location = "/customer/menu";
    }
+
+   function dist(lat, lon, vanLat, vanLon){
+      return Math.sqrt(Math.pow((lat - vanLat), 2) - Math.pow((lon - vanLon), 2));
+   }
+
+   function buildVanList(vendor){
+      const button = document.createElement("button");
+      button.setAttribute("class", "vendor-button");
+      button.setAttribute("type", "button");
+      button.addEventListener("click", () => updateVendor(vendor.vendorName));
+
+      // DIV for the icon
+      const vendorIcon = document.createElement("div");
+      vendorIcon.setAttribute("class", "vendor-icon");
+      // Set icon
+      const icon = document.createElement("i");
+      icon.setAttribute("class", "icon-SnackVan");
+      // Insert the icon into the DIV
+      vendorIcon.appendChild(icon);
+      // Insert the icon wrapper into the parent button
+      button.appendChild(vendorIcon);
+
+      // DIV for the wrapper
+      const contentWrapper = document.createElement("div");
+      
+      // Wrapper for the vendor name
+      const nameWrapper = document.createElement("div");
+      nameWrapper.setAttribute("class", "vendor-name");
+      contentWrapper.appendChild(nameWrapper);
+      nameWrapper.textContent = vendor.vendorName;
+
+      // Wrapper for the vendor details
+      const detailWrapper = document.createElement("div");
+      detailWrapper.setAttribute("class", "vendor-details");
+      // The detail elements
+      // Address
+      const address = document.createElement("p");
+      address.textContent = vendor.address;
+      // Phone num
+      const phone = document.createElement("p");
+      const phoneIcon = document.createElement("i");
+      phoneIcon.setAttribute("class", "fas fa-phone");
+      phone.appendChild(phoneIcon);
+      phone.appendChild(document.createTextNode(vendor.phoneNumber));
+      // Direction
+      const direction = document.createElement("p");
+      const underline = document.createElement("u");
+      const dirIcon = document.createElement("i");
+      dirIcon.setAttribute("class", "fas fa-directions");
+      underline.appendChild(dirIcon);
+      underline.appendChild(document.createTextNode("Get Direction"));
+      direction.appendChild(underline);
+
+      // Insert the details into the wrapper
+      detailWrapper.appendChild(address);
+      detailWrapper.appendChild(phone);
+      detailWrapper.appendChild(direction);
+
+      // Insert the detail into content
+      contentWrapper.appendChild(detailWrapper);
+
+      // Insert the content into button
+      button.appendChild(contentWrapper);
+
+      return button;
+   }
+
+   function getNearestVans() {
+
+      // Get the input field value
+      const numVan = parseInt(document.getElementById("num-van-input").value);
+
+      function success(position) {
+         const lat = position.coords.latitude;
+         const lon = position.coords.longitude;
+
+         // Clear the vendor list
+         const vendorList = document.getElementById("vendors-list");
+         while (vendorList.firstChild) {
+            vendorList.firstChild.remove();
+         }
+
+         let openVendors  = vendors.filter((vendor) => {
+            return vendor.open && vendor.lat && vendor.lon;
+         });
+         // Sort based on current distance to the vans
+         openVendors = openVendors.sort((v1, v2) => dist(lat, lon, v1.lat, v1.lon) - dist(lat, lon, v2.lat, v2.lon))
+                                 .slice(0, Math.min(vendors.length, numVan));
+
+         for (let vendor of openVendors){
+            let button = buildVanList(vendor);
+            vendorList.appendChild(button);
+         }
+      }
+
+      function error() {
+         return;   
+      }
+
+      if (!navigator.geolocation) {
+         return;
+
+      } else {
+         navigator.geolocation.getCurrentPosition(success, error);
+      }
+   }
+
+   
+
+
 </script>

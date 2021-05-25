@@ -10,12 +10,27 @@
   margin: 0;
 }
 
-#location-input {
+#num-van-input {
   border-radius: 8px;
   padding: 8px;
   border: none;
   font-size: 16px;
-  flex-grow: 1;
+  /* flex-grow: 1; */
+  margin-right: 8px;
+  width: 20%; 
+}
+
+#find-nearest{
+  border-radius: 15%;
+}
+
+#find-nearest:hover{
+  background-color:#4095c6;
+  cursor: pointer;
+}
+
+.get-direction:hover{
+  background-color:#4095c6;
 }
 
 #location-icon {
@@ -45,6 +60,7 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
   display: flex;
+  width: 100%;
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;

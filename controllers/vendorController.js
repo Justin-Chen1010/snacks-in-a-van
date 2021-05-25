@@ -7,11 +7,25 @@ const { v4: uuidv4 } = require("uuid");
 // get all open vendors
 const getAllVendors = async (req, res) => {
   try {
+    if (req.body.hasOwnProperty("filter") && req.body.filter){
+      res.render("vendorList", {vendors: req.body.vans, layout :'main.hbs'});
+    }
     const vendors = await Vendor.find({ open: true })
       .select({ password: 0 })
       .lean();
     res.render("vendorList", { vendors: vendors ,layout :'main.hbs'
 
+    });
+  } catch (err) {
+    res.status(400);
+    return res.send("Database query failed");
+  }
+};
+
+// get all open vendors
+const getNearVendors = async (req, res) => {
+  try {
+    res.render("vendorList", { vendors: req.body, layout :'main.hbs'
     });
   } catch (err) {
     res.status(400);

@@ -40,8 +40,13 @@ var register = function (Handlebars) {
       return cart;
     },
 
+    // returns true if (order) status is not cancelled 
     orderNotCancelled: function (status) {
       return !(status === "cancelled");
+    },
+
+    statusEqualTo: function(status1, status2) {
+      return status1 === status2;
     },
   };
 

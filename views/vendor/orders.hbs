@@ -1,9 +1,12 @@
 <section id="orders">
     <h1>Orders</h1>
     <div class="orders-buttons">
-        <button>Hello</button>
-        <button>Hello</button>
-        <button>Hello</button>
+        <button class="button {{#if (statusEqualTo status 'preparing')}}selected{{/if}}"
+            onclick="getUnfulfilled()">Unfulfilled</button>
+        <button class="button {{#if (statusEqualTo status 'fulfilled')}}selected{{/if}}"
+            onclick="getFulfilled()">Fulfilled</button>
+        <button class="button {{#if (statusEqualTo status 'completed')}}selected{{/if}}"
+            onclick="getCompleted()">Completed</button>
     </div>
     <div class="orders-wrapper">
         {{#each orders}}
@@ -29,3 +32,15 @@
         {{/each}}
     </div>
 </section>
+
+<script>
+    function getUnfulfilled() {
+        window.location = "/vendor/orders?status=preparing";
+    }
+    function getFulfilled() {
+        window.location = "/vendor/orders?status=fulfilled";
+    }
+    function getCompleted() {
+        window.location = "/vendor/orders?status=completed";
+    }
+</script>
