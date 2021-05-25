@@ -54,6 +54,10 @@ app.get("/customer", (req, res) => {
   res.render("index");
 });
 
+app.get("/vendor", (req, res) => {
+  res.redirect("/vendor/home");
+});
+
 // Invalid path, return status 404
 app.all("*", async (req, res) => {
   res

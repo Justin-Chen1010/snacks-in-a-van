@@ -92,7 +92,7 @@ module.exports = (passport) => {
     )
   );
 
-  // for signup, confirm password is ignored for now
+  // for signup
   passport.use(
     "local-signup",
     new LocalStrategy(
@@ -154,4 +154,5 @@ module.exports = (passport) => {
       }
     )
   );
+
 };

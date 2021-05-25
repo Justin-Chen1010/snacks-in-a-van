@@ -121,6 +121,75 @@ module.exports = function(passport) {
         )
       );
 
+
+
+      passport.use(
+        "local-update-password",
+        new LocalStrategy(
+          {
+            usernameField: "vendorName",
+            passwordField: "password",
+            passReqToCallback: true,
+          }, // pass the req as the first arg to the callback for verification
+    
+          function (req, vendorName, password, done) {
+            process.nextTick(function () {
+              Vendor.findOne({ vendorName: vendorName }, function (err, existingUser) {
+                // search a user by the username (email in our case)
+                // if user is not found or exists, exit with false indicating
+                // authentication failure
+                if (err) {
+                  console.log(err);
+                  return done(err);
+                }
+                if (existingUser) {
+                  return done(
+                    null,
+                    false,
+                    req.flash("signupMessage", "That vendorname is already taken.")
+                  );
+                } else {
+                  // otherwise
+                  // create a new user
+                  console.log('this is user', existingUser);
+                  // var newUser = new Vendor();
+                  
+                  // newUser.vendorName = req.body.vendorName;
+                  
+                  // newUser.open =false;
+                  // newUser.role="vendor";
+                  // newUser.vendoremail= req.body.vendoremail;
+        
+                  // newUser.lat= req.body.lat;
+                  // newUser.lon= req.body.lon;
+                  // newUser.address= req.body.address;
+                  // if (password === req.body.vendorconfirmPassword) {
+                  //   newUser.password = newUser.generateHash(password);
+                  // } else {
+                  //   return done(
+                  //     null,
+                  //     false,
+                  //     req.flash("signupMessage", "Passwords must be identical.")
+                  //   );
+                  // }
+                  // // and save the user
+                  // newUser.save(function (err) {
+                  //   if (err) throw err;
+    
+                  //   return done(null, newUser);
+                  // });
+                  return done(null, user, req.flash('loginMessage', 'Login successful'));
+    
+                  // put the user's email in the session so that it can now be used for all
+                  // communications between the client (browser) and the FoodBuddy app
+                  req.session.vendorName = vendorName;
+                }
+              });
+            });
+          }
+        )
+      );
+
     passport.use(
         'vendor-login', 
         new LocalStrategy({

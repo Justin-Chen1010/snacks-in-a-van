@@ -24,6 +24,22 @@
   margin-right: auto;
 }
 
+.progress-bars {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+
+#discount-cd, #order-fixed-cd {
+  /* width: 50%; */
+}
+
+#van-name, #van-location {
+  display: flex;
+  width: 32px;
+  height: auto;
+}
+
 #cancel-order-button,
 #update-order-button,
 #add-item-button {

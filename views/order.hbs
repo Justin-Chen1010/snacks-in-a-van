@@ -1,21 +1,39 @@
 <section id="order">
   <div class="order-wrapper">
     <div class="order-header">
-      <i class="icon-SnackVan"></i>
-      <h1>Order Details</h1>
+      <h1>
+        <div>
+          <i class="icon-SnackVan"></i>
+        </div>
+        Order Details
+      </h1>
     </div>
     <div>
+      <div class="progress-bars">
+        <div class="order-timer">
+          <span id="mins_change"></span>
+          <span id="secs_change"></span>
+          <meter id="discount-cd" min="0" max="100" low="33" high="66" value="0"></meter>
+          <h2 id="end_change"></h2>
+        </div>
+        <div class="discount-timer">
+          <span id="mins"></span>
+          <span id="secs"></span>
+          <meter id="order-fixed-cd" min="0" max="100" low="33" high="66" value="0"></meter>
+          <h2 id="end"></h2>
+        </div>
+      </div>
       <div>
-        <i class="fas fa-shuttle-van"></i>
+        <i id="van-name" class="fas fa-shuttle-van"></i>
         <span class="cart-van-name">Van name</span>
       </div>
       <div>
-        <i class="fas fa-map-marker-alt"></i>
+        <i id="van-location" class="fas fa-map-marker-alt"></i>
         <span class="cart-van-location">Van location</span>
       </div>
     </div>
     {{> cart-table order=order}}
-    <div class="order-buttons">
+    <div id="order-buttons" class="order-buttons">
       <button id="cancel-order-button" class="button" onclick="cancelOrder('{{order.orderId}}')">
         <i class="fas fa-trash-alt"></i>
         Cancel Order
@@ -76,31 +94,10 @@
   }
 </script>
 
-<section id="cart">
-  <span id="mins_change"></span>
-  <span id="secs_change"></span>
-  <meter id="discount-cd" min="0" max="100" low="33" high="66" value="0"></meter>
-  <h2 id="end_change"></h2>
-  <span id="mins"></span>
-  <span id="secs"></span>
-  <meter id="order-fixed-cd" min="0" max="100" low="33" high="66" value="0"></meter>
-  <h2 id="end"></h2>
-</section>
-
 <script>
 
   const order = {{{ json order }}}
-  // The data/time we want to countdown to
-  //var countDownDate = new Date("Jul 25, 2021 16:37:52").getTime();
 
-  // Run myfunc every second
-  //var myfunc = setInterval(function() {
-
-  //var now = new Date().getTime();
-  //var timeleft = countDownDate - now;
-
-  // The data/time we want to countdown to
-  //var countDownDate = new Date("Jul 25, 2021 16:37:52").getTime();
 
   function addMinutes(date, minutes) {
     var discount_time = (date + minutes * 60000);
@@ -131,61 +128,55 @@
 
   // Run myfunc every second
   var myfunc = setInterval(function () {
-    
-    // Instead of now it should pull from time-ordered
+
     var now = new Date().getTime();
     var timeleft = discount_timer - now;
-    //var timeleft = countDownDate - now;
     var timeleft_change = reorder_timer - now;
 
     // Update progress bar
-    //discount_pb.setAttribute("value", 100 - Math.floor((timeleft % (1000 * 60)) / 1000));
     discount_pb.setAttribute("value", 100*(1- timeleft_change/(10*60000)));
-    //order_fixed_pb.setAttribute("value", 100 - 100 * Math.floor((timeleft_change / reorder_timer ))); 
     order_fixed_pb.setAttribute("value", 100*(1- timeleft/(15*60000)));
-    //console.log(((Math.floor((timeleft % (1000 * 60)) / 1000))/(Math.floor((discount_timer % (1000 * 60)) / 1000)))); Not sure what is happening
+
     
     // Calculating the days, hours, minutes and seconds left
-   // var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-   // var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
 
     var minutes_change = Math.floor((timeleft_change % (1000 * 60 * 60)) / (1000 * 60));
     var seconds_change = Math.floor((timeleft_change % (1000 * 60)) / 1000);
+
     // Result is output to the specific element
-    //document.getElementById("days").innerHTML = days + "d "
-    //document.getElementById("hours").innerHTML = hours + "h "
     document.getElementById("mins_change").innerHTML = "Order lock in: " + minutes_change + "m "
     document.getElementById("secs_change").innerHTML = seconds_change + "s "
 
     document.getElementById("mins").innerHTML = "Discount apply in: " + minutes + "m "
     document.getElementById("secs").innerHTML = seconds + "s "
-    
-    
 
     // Display the message when countdown is over
 
+    
+
     if (timeleft_change < 0) {
-      //clearInterval(myfunc);
-      //document.getElementById("days").innerHTML = ""
-      //document.getElementById("hours").innerHTML = ""
       document.getElementById("mins_change").innerHTML = ""
       document.getElementById("secs_change").innerHTML = ""
       document.getElementById("end_change").innerHTML = "Order Locked in!";
+      
+      // Remove the buttons allowing to change orders
+      const buttons = document.getElementById("order-buttons");
+      while (buttons.firstChild) buttons.firstChild.remove();
+      // TODO: Remove all trash buttons 
+      const trashButtons = dodcument.getElementsByClassName("trash-button");
+      for (ele of trashButtons) ele.remove();
+      // TODO: Disable the inputs to edit amount
     }
-
 
     if (timeleft < 0) {
       clearInterval(myfunc);
-      //document.getElementById("days").innerHTML = ""
-      //document.getElementById("hours").innerHTML = ""
       document.getElementById("mins").innerHTML = ""
       document.getElementById("secs").innerHTML = ""
       document.getElementById("end").innerHTML = "15% Discount Applied!!";
+      
     }
-
-    
 
   }, 1000);
 

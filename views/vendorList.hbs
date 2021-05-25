@@ -15,7 +15,7 @@
                <div class="vendor-details">
                   <p>{{this.address}}</p>
                   <p><i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
-                  <p class="get-direction"><u><i class="fas fa-directions"></i>Get Direction</u></p>
+                  <p class="get-direction" onClick="openMap(event, `{{this}}`)"><u><i class="fas fa-directions"></i>Get Direction</u></p>
                </div>
             </div>
          </button>
@@ -25,8 +25,7 @@
 </section>
 
 <script>
-   const vendors = {{{ json vendors }}};
-
+   const vendors = {{{json vendors}}};
 
    // update the current selected vendor in local storage
    function updateVendor(vendorName) {
@@ -80,6 +79,7 @@
       phone.appendChild(document.createTextNode(vendor.phoneNumber));
       // Direction
       const direction = document.createElement("p");
+      direction.setAttribute("onClick", () => openMap(event, vendor));
       const underline = document.createElement("u");
       const dirIcon = document.createElement("i");
       dirIcon.setAttribute("class", "fas fa-directions");
@@ -141,7 +141,17 @@
       }
    }
 
-   
+   function openMap(event, van){
+      if (!(van.lat && van.lon)){
+         alert("This Van has not located yet!");
+         // Don't trigger parent event
+         event.stopPropagation();
+         return;
+      }
+      window.open(`http://maps.google.com/?q=${van.lat},${van.lon}`);
+      // Don't trigger parent event
+      event.stopPropagation();
+   }
 
 
 </script>

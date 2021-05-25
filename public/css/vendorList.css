@@ -21,7 +21,7 @@
 }
 
 #find-nearest{
-  border-radius: 15%;
+  border-radius: 8px;
 }
 
 #find-nearest:hover{
@@ -29,8 +29,8 @@
   cursor: pointer;
 }
 
-.get-direction:hover{
-  background-color:#4095c6;
+.get-direction:hover u{
+  color:var(--color-blue);
 }
 
 #location-icon {

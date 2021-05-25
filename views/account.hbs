@@ -30,20 +30,6 @@
 
 <script>
 
-  // update a customer (can add more items to the order)
-  async function updateCustomer(customer) {
-      const res = await fetch(`/customer/account`,
-          {
-              method: "PUT",
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(customer)
-          }
-      );
-      return res.json();
-  }
-
   async function logout() {
     const res = await fetch(`/customer/logout/`,
       {

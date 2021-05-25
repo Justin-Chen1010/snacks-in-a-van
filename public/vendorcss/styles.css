@@ -14,7 +14,8 @@
  @import "./passwordmanagement.css";
  @import "../css/button.css";
  @import "./account.css";
- @import"./signup.css";
+ @import "./signup.css";
+ @import "./footer.css";
  
  * {
    box-sizing: border-box;

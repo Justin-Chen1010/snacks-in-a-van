@@ -68,8 +68,18 @@ customerRouter.get("/account", authenticate.isCustomerLoggedIn, async (req, res)
   res.render("account", { email: req.session.email });
 });
 
-customerRouter.post("/account", authenticate.isCustomerLoggedIn, async (req, res) =>
-  customerController.updateCustomer(req, res)
+customerRouter.post("/account", authenticate.isCustomerLoggedIn,
+  // passport.authenticate("local-update",
+  // {
+  //   successRedirect: "/customer/login", //redirect to the login page if sign up succeed
+  //   failureFlash: true
+  // }), async (req, res) => {
+  //   customerController.updateCustomer(req, res);
+  // }
+
+  async (req, res) => {
+    customerController.updateCustomer(req, res);
+  }
 );
 
 // login page
@@ -99,6 +109,7 @@ customerRouter.post(
     failureFlash: true,
   })
 );
+
 
 // logout function, users are redirected to login after
 customerRouter.post("/logout", function (req, res) {

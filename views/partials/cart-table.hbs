@@ -116,7 +116,7 @@
         }
         let cell = row.insertCell();
         let deleteButton = document.createElement("button");
-        deleteButton.className = "button";
+        deleteButton.classList.add("button", "trash-button")
         let xIcon = document.createElement("i");
         xIcon.classList.add("fas", "fa-trash-alt")
         deleteButton.appendChild(xIcon);

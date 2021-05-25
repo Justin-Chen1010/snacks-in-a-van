@@ -2,20 +2,18 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snacks in a Van</title>
-    <link rel="icon" href="/static/iconVendor.png" type="image/png" />
-    <link rel="stylesheet" href="/vendorcss/styles.css">
-
-    <link rel="shortcut icon" href="/static/iconVendor.png" type="image/png" />
-    
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
-    
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snacks in a Van</title>
+  <link rel="icon" href="/static/iconVendor.png" type="image/png" />
+  <link rel="shortcut icon" href="/static/iconVendor.png" type="image/png" />
+  <link rel="stylesheet" href="/vendorcss/styles.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
 </head>
+
 <body>
-  
+
   <header class="navbar">
     <h1 class="navbar-logo">
       <i class="icon-SnackVan"></i>
@@ -23,18 +21,85 @@
     </h1>
     <nav class="navbar-links">
       <a href="/vendor/orders">Orders</a>
-      <a href="/vendor/location">Location</a>
+      {{!-- <a href="/vendor/location">Location</a> --}}
       <a href="/vendor/account">Account</a>
+      <div id="van-button-wrapper">
+      </div>
     </nav>
   </header>
-    <main>
-        {{{body}}}
-    </main>
-    {{!-- <footer>
-        <div class="copyright"></div>
-        <p><span>&#169;</span>Snacks in a Van 2021</p>
-    </footer> --}}
+  <main>
+    {{{body}}}
+  </main>
+  <footer>
+    <div class="copyright"></div>
+    <p><span>&#169;</span>Snacks in a Van 2021</p>
+  </footer>
 </body>
 
 </html>
- 
+
+<script>
+  function openVan() {
+    if (window.confirm('Please update your location before opening to customers!')) {
+      window.location = "/vendor/location";
+      updateVanButton();
+    }
+  }
+
+  async function getVan() {
+    const res = await fetch("/vendor/status/");
+    return res.json();
+  }
+
+  async function closeVan() {
+    await fetch(`/vendor/status/`,
+      {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          open: false,
+          lat: null,
+          lon: null,
+          address: null
+        })
+      }
+    );
+    updateVanButton();
+  }
+
+  function defaultButton() {
+    const wrapper = document.getElementById("van-button-wrapper");
+    const button = document.createElement("button");
+    button.setAttribute("class", "button");
+    const buttonText = document.createTextNode("Open");
+    button.appendChild(buttonText);
+    button.style.backgroundColor = "grey";
+    wrapper.replaceChild(button, wrapper.childNodes[0]);
+  }
+
+  function updateVanButton() {
+    const wrapper = document.getElementById("van-button-wrapper");
+    const button = document.createElement("button");
+    button.setAttribute("class", "button");
+
+    getVan().then((vendor) => {
+      if (vendor.open) {
+        const buttonText = document.createTextNode("Close");
+        button.appendChild(buttonText);
+        button.style.backgroundColor = "red";
+        button.addEventListener("click", () => closeVan());
+      } else {
+        const buttonText = document.createTextNode("Open");
+        button.appendChild(buttonText);
+        button.style.backgroundColor = "green";
+        button.addEventListener("click", () => openVan()); 
+      }
+      wrapper.replaceChild(button, wrapper.childNodes[0]);
+    });
+  }
+
+  defaultButton();
+  updateVanButton();
+</script>

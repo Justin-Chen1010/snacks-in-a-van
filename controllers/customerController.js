@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
+const { once } = require("../models/vendor");
 const Customer = mongoose.model("Customer");
 
 // get all customers
@@ -58,7 +59,7 @@ const addCustomer = async (req, res) => {
 
 const updateCustomer = async (req, res) => {
   try {
-    const oneCustomer = await Customer.findOne({
+    let oneCustomer = await Customer.findOne({
       email: req.session.email,
     });
     if (oneCustomer === null) {
@@ -68,16 +69,24 @@ const updateCustomer = async (req, res) => {
     }
     const newDetails = req.body;
     // actually update the customer
-    console.log(newDetails);
-    Customer.updateOne(
+    var currentCustomer = new Customer();
+    currentCustomer.customerId = oneCustomer.customerId;
+    currentCustomer.email = newDetails.email;
+    currentCustomer.familyName = req.body.familyName;
+    currentCustomer.givenName = req.body.givenName;
+    currentCustomer.role="customer";
+    currentCustomer.password = currentCustomer.generateHash(req.body.password);
+
+    await Customer.updateOne(
       { email: oneCustomer.email },
       {
         $set: {
-          givenName: newDetails.givenName,
-          familyName: newDetails.familyName,
-          password: newDetails.password,
-        },
-      });
+          familyName: currentCustomer.familyName,
+          givenName: currentCustomer.givenName,
+          password: currentCustomer.password
+        }
+      }
+    );
     return res.render("account", {email: req.session.email}); // customer was found
   } catch (err) {
     // error occurred

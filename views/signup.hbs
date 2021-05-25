@@ -23,6 +23,7 @@
 <script>
 
   function validate() {
+    //Passwords MUST be hashedbefore storing them in the database.
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     if (confirmPassword !== password) {
@@ -37,7 +38,7 @@
       return false;
     }
   }
-
+ // Check if it contains a "@" in the email part maybe its automatic?
   function passwordPolicy(password) {
     const regexNum = /\d/;
     const regexChar = /[a-zA-Z]/;

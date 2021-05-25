@@ -1,5 +1,5 @@
 <section id="vendor-account">
-  <form method="post" action="/vendor/account" class="password-update">
+  <form method="post" action="/vendor/account" onsubmit="return validate()" class="password-update">
     <div class="password-update-header">
       <div class="van-icon"><i class="icon-SnackVan"></i></div>
       <h1>Profile</h1>
@@ -11,11 +11,12 @@
     <label for="vendorConfirmPassword">Confirm Password</label>
     <input placeholder="***************" name='vendorConfirmPassword' id='vendorConfirmPassword' type="password" value="" />
     <div class="password-update-submit">
-      <button id="password-update-button" onsubmit="return validate()" class="button" formaction="/vendor/login">
+      <button id="password-update-button" class="button" type="submit">
+
         <i class="fas fa-edit"></i>
         UPDATE
       </button>
-      <button id="vendor-logout-button" class="button" formaction="/vendor/logout">
+      <button id="vendor-logout-button" class="button" type="button" onclick="logout()">
         <i class="fas fa-sign-out-alt"></i>
         LOG OUT
       </button>
@@ -24,6 +25,14 @@
 </section>
 
 <script>
+
+    async function logout() {
+        const res = await fetch(`/vendor/logout/`,
+        {
+            method: "POST",
+        });
+        window.location = "/vendor/login";
+    }
 
 
   function validate() {

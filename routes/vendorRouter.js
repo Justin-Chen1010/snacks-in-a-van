@@ -11,20 +11,54 @@ require('../config/vendorPassport')(passport);
 // get all vendors
 //vendorRouter.get("/", (req, res) => vendorController.getAllVendors(req, res));
 
-vendorRouter.get("/", (req, res) =>  res.render("vendor/login",{title: "VENDOR", layout: 'vendorMain.hbs'}));
+vendorRouter.get("/", (req, res) =>  {
+  res.render("vendor/home", {layout: 'vendorMain.hbs'})
+  res.redirect("/vendor/home")
+});
 
 vendorRouter.get("/login", (req, res) => {
   res.render('vendor/login',{layout:"vendorMain.hbs"});
 });
 vendorRouter.get("/signup", (req, res) => {
-  res.render('vendor/signup',{layout:"vendorMain.hbs"});
+  res.render('vendor/signup', {vendorName: req.session.vendorName, layout:"vendorMain.hbs"});
 });
 
+
+// vendorRouter.get("/account", async (req, res) => {
+//   res.render("vendor/account", { vendorName: req.session.vendorName, layout:"vendorMain.hbs" })
+// });
+
+
+// vendorRouter.post("/account", passport.authenticate('local-update-password',{
+
+//   successRedirect : '/vendor/login', // redirect to the homepage
+//   failureRedirect : '/vendor/update', // redirect back to the login page if there is an error
+//   failureFlash : true // allow flash messages
+
+// }));
 
 vendorRouter.get("/account", authenticate.isVendorLoggedIn, async (req, res) => {
-  res.render("vendor/account", { vendorName: req.session.vendorName, layout:"vendorMain.hbs" });
+  res.render("vendor/account", { vendorName: req.session.vendorName, layout:"vendorMain.hbs" })
 });
 
+
+
+
+vendorRouter.post("/account", authenticate.isVendorLoggedIn, 
+
+
+  
+    //  successRedirect: "/vendor/login", //redirect to the login page if sign up succeed
+    //  failureRedirect : '/vendor/account',
+    //  failureFlash: true},
+  // }), async (req, res) => {
+  //   customerController.updateCustomer(req, res);
+  // }
+  async (req, res) => {
+    vendorController.updateVendor(req, res);
+    // res.render("vendor/account", { layout:"vendorMain.hbs" });
+  }
+);
 
 vendorRouter.get("/forgot-password", (req, res) => {
 //{message: req.session.message,
@@ -34,6 +68,9 @@ if (req.session.vendoremail!==req.body.vendoremail){
   res.render('vendor/passwordManagement',{layout:"vendorMain.hbs"});
 
 });
+
+
+
 vendorRouter.get("/reset-password", (req, res) => {
 
   res.render('vendor/resetPassword',{layout:"vendorMain.hbs"});
@@ -41,13 +78,11 @@ vendorRouter.get("/reset-password", (req, res) => {
 
 });
 
-vendorRouter.get("/home", authenticate.isVendorLoggedIn, (req, res) => {
-  if (req.isAuthenticated() && req.session.role==="vendor") {
-    res.render("vendor/home", {layout:"vendorMain.hbs"});
-  } else {
-    req.session.returnTo = "/vendor/home";
-    res.redirect("/vendor/login");
-  }
+
+
+vendorRouter.get("/home", authenticate.isVendorLoggedIn, async (req, res) => {
+  
+  res.render("vendor/home", {layout:"vendorMain.hbs"});
 });
 // vendorRouter.get("/signup", (req, res) => {
 //   res.render('vendor/signup',{layout:"vendorMain.hbs"});
@@ -95,9 +130,7 @@ vendorRouter.post("/logout", function (req, res) {
 
 // get the available vendors
 vendorRouter.get("/location", authenticate.isVendorLoggedIn, async (req, res) => {
-  if (req.session.role==="vendor") {
-    res.render("vendor/location", {layout:"vendorMain.hbs"});
-  }
+  res.render("vendor/location", {layout:"vendorMain.hbs"});
 });
 
 // get outstanding ('preparing') orders for a vendor, can query status
@@ -107,7 +140,6 @@ vendorRouter.get("/orders", authenticate.isVendorLoggedIn, async (req, res) => {
 });
 
 vendorRouter.get("/orders/:orderId", authenticate.isVendorLoggedIn, async (req, res) => {
-  console.log("asd");
   orderController.getOneOrder(req, res);
 });
 
@@ -119,11 +151,15 @@ vendorRouter.put("/orders/:orderId/status", authenticate.isVendorLoggedIn, (req,
 });
 
 // set van status
-vendorRouter.put("/status", authenticate.isVendorLoggedIn, (req, res) =>
+vendorRouter.put("/status", authenticate.isVendorLoggedIn, async (req, res) =>
   vendorController.updateVanStatus(req, res)
 );
 
-// create new vendor
-vendorRouter.post("/", (req, res) => vendorController.addVendor(req, res));
+vendorRouter.get("/status", authenticate.isVendorLoggedIn, async (req, res) =>
+  vendorController.getOneVendor(req, res)
+);
+
+// // create new vendor
+// vendorRouter.post("/", (req, res) => vendorController.addVendor(req, res));
 
 module.exports = vendorRouter;

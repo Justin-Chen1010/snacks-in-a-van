@@ -22,16 +22,7 @@ const getAllVendors = async (req, res) => {
   }
 };
 
-// get all open vendors
-const getNearVendors = async (req, res) => {
-  try {
-    res.render("vendorList", { vendors: req.body, layout :'main.hbs'
-    });
-  } catch (err) {
-    res.status(400);
-    return res.send("Database query failed");
-  }
-};
+
 
 const getAllOpenVendors = async (req, res) => {
   try {
@@ -66,27 +57,60 @@ const getOneVendor = async (req, res) => {
   }
 };
 
-// change an vendor (POST)
+// // change an vendor (POST)
+// const updateVendor = async (req, res) => {
+//   try {
+//     const oneVendor = await Vendor.findOne({
+//       vendorName: req.session.vendorName,
+//     });
+//     if (oneVendor === null) {
+//       // no vendor found in database
+//       res.status(404);
+//       return res.send("Vendor not found");
+//     }
+//     // actually update the vendor
+//     Vendor.updateOne({ vendorName: oneVendor.vendorName });
+//     // db.foods.updateOne( {name: "Apple"}, {$set: {description: "Apples are cool" }}
+//     return res.send(oneVendor); // vendor was found
+//   } catch (err) {
+//     // error occurred
+//     res.status(400);
+//     return res.send("Database query failed");
+//   }
+// };
+
 const updateVendor = async (req, res) => {
   try {
-    const oneVendor = await Vendor.findOne({
+    let oneVendor = await Vendor.findOne({
       vendorName: req.session.vendorName,
     });
     if (oneVendor === null) {
-      // no vendor found in database
+      // no customer found in database
       res.status(404);
-      return res.send("Vendor not found");
+      return res.send("Customer not found");
     }
-    // actually update the vendor
-    Vendor.updateOne({ vendorName: oneVendor.vendorName });
-    // db.foods.updateOne( {name: "Apple"}, {$set: {description: "Apples are cool" }}
-    return res.send(oneVendor); // vendor was found
+    // actually update the customer
+    var currentVendor = new Vendor();
+    currentVendor.vendorName = oneVendor.vendorName;
+    currentVendor.open = false;
+    currentVendor.password = currentVendor.generateHash(req.body.vendorPassword);
+
+    await Vendor.updateOne(
+      { vendorName: oneVendor.vendorName },
+      {
+        $set: {
+          open: currentVendor.open,
+          password: currentVendor.password
+        }
+      }
+    );
+    return res.render("vendor/account", {vendorName: req.session.vendorName, layout:"vendorMain.hbs"}); // customer was found
   } catch (err) {
     // error occurred
     res.status(400);
     return res.send("Database query failed");
   }
-};
+}
 
 // add an vendor (POST)
 const addVendor = async (req, res) => {
