@@ -1,5 +1,10 @@
 @import "../css/navbar.css";
 
+.van-button-wrapper{
+
+    background-color: var(--color-dark); 
+}
+
 /* .vendor-navbar {
     color: var(--color-white);
     background-color: var(--color-dark);

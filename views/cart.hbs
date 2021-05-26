@@ -36,6 +36,29 @@
         document.querySelector('.cart-van-location').textContent = vendor.address;
     }
 
+    function renderTrashButtons() {
+        const trashButtons = document.getElementsByClassName("trash-button");
+        for (let i = 0; i < trashButtons.length; i++) {
+            trashButtons[i].style.display = "inline-block";
+            trashButtons[i].style.visibility = "visible";
+            trashButtons[i].addEventListener("click", render);
+        }
+    }
+
+    function enableCountInput() {
+        const countInputs = document.getElementsByClassName("count-input");
+        for (let i = 0; i < countInputs.length; i++) {
+            countInputs[i].disabled = false
+            countInputs[i].addEventListener("change", render);
+        }
+    }
+
+    function render() {
+        renderTrashButtons();
+        enableCountInput();
+    }
+    render();
+
     function getLogin() {
         window.location = "/customer/login";
     }

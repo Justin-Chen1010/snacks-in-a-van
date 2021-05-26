@@ -1,18 +1,20 @@
 /*
  *  TODO:
  * - vendor can mark order as fulfilled, then as picked up.
- *   Customer will see this, and they won't be able to update
- * - customer can change order if within time or not yet fulfilled,
- *   resetting the timer. Vendor will see this
- * - vendor should be able to see who ordered what
+ *   Customer will see this, and they won't be able to update **
+ * - customer can change order if within time or not yet fulfilled, **
+ *   resetting the timer. Vendor will see this 
  * - REPORT
  * - do not hardcode discount time (10 min and 15 min) and maybe the rate (20%)
  *   as well
- * - responsive design
+ * - responsive design 
  * - bug fixes, especially for the redirects
  * - make sure euclidean distance calculation works
+ * - check if an open vendor is selected when user is about to place order,
+ *   if not, alert **
  *
  * Bonus:
+ * - vendor should be able to see who ordered what
  * - rating
  * - live reload of orders page for both customers and vendors
  * - see vendors on map

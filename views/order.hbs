@@ -42,7 +42,7 @@
         <span class="cart-van-location">Van location</span>
       </div>
     </div>
-    {{> cart-table order=order}}
+    {{> cart-table order=null }}
     {{#if (statusEqualTo order.status 'preparing')}}
     <div id="order-buttons" class="order-buttons">
       <button id="cancel-order-button" class="button" onclick="cancelOrder('{{order.orderId}}')">
@@ -62,6 +62,30 @@
 </section>
 
 <script>
+  const order = {{{ json order }}}
+
+ // reload, but only once, avoids infinite loop
+ async function reloadOnce() {
+  if (window.localStorage){
+    if (!localStorage.getItem('firstReload')){
+     localStorage['firstReload'] = true;
+     window.location.reload();
+    } else {
+     localStorage.removeItem('firstReload');
+    }
+  }
+ };
+
+  function loadCart() {
+    const cart = JSON.parse(sessionStorage.getItem('cart'));
+    // if there is a local cart then cart table will load from that, otherwise,
+    // load it from order instead.
+    if (!(cart && String(document.referrer).indexOf("menu") !== -1)) {
+      sessionStorage.setItem("cart", JSON.stringify({{{ json (orderToCart order)}}}));
+      reloadOnce();
+    }
+  }
+  loadCart();
 
   // redirect to menu to add items to this current order
   function goToMenu(orderId) {
@@ -72,14 +96,16 @@
   if (vendor) {
     document.querySelector('.cart-van-name').textContent = vendor.vendorName;
     document.querySelector('.cart-van-location').textContent = vendor.address;
+  } else {
+    window.location = "/customer/vendors";
   }
 
   // update the table view based on the current cart items, and modifies the
   // order in the database
   async function updateOrder(orderId) {
-    window.location.reload();
     const cart = JSON.parse(sessionStorage.getItem("cart"));
     const order = {{{ json order }}}
+    order.timeOrdered = new Date();
     order.items = cart;
     fetch(`/customer/orders/${orderId}`, {
       method: "PUT",
@@ -87,7 +113,7 @@
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(order)
-    });
+    }).then(() => window.location.reload());
   }
 
   // sets the status of the order in the database as "cancelled", they will
@@ -105,60 +131,65 @@
     }).then(() => window.location.href = `/customer/orders`);
   }
 
-  
 
-</script>
-
-<script>
-
-  const order = {{{ json order }}}
-
-  function renderTrashButtons(order,renderIn) {
+  function renderTrashButtons(order) {
     if (order.status === "preparing") {
       const trashButtons = document.getElementsByClassName("trash-button");
       for (let i=0; i<trashButtons.length; i++) {
-        if (renderIn){
-          trashButtons[i].style.display = "inline-block";
-          trashButtons[i].style.visibility = "visible";
-        }
-        else {
-          trashButtons[i].style.display = "none";
-          trashButtons[i].style.visibility = "hidden";
-        }
-      }
-    }
-    else if (!renderIn) {
-      for (let i=0; i<trashButtons.length; i++) {
-          trashButtons[i].style.display = "none";
-          trashButtons[i].style.visibility = "hidden";
+        trashButtons[i].style.display = "inline-block";
+        trashButtons[i].style.visibility = "visible";
+        trashButtons[i].addEventListener("click", render);
       }
     }
   }
 
-  function renderOrderEditButtons(order, renderIn){
+  function renderOrderEditButtons(order){
     if (order.status === "preparing") {
       const buttonsWrapper = document.getElementById("order-buttons");
-      if (renderIn){
-        buttonsWrapper.style.display = "block";
-        buttonsWrapper.style.visibility = "visible";
+      buttonsWrapper.style.display = "block";
+      buttonsWrapper.style.visibility = "visible";
+      for (let ele of buttonsWrapper.childNodes) {
+        ele.addEventListener("click", render);
       }
-      else {
-        buttonsWrapper.style.display = "none";
-        buttonsWrapper.style.visibility = "hidden";
-      }
-    }
-    else if (!renderIn) {
-      buttonsWrapper.style.display = "none";
-      buttonsWrapper.style.visibility = "hidden";
     }
   }
 
-  function enableCountInput(order, renderIn) {
-    if (order.status === "preparing" || !renderIn) {
+  function enableCountInput(order) {
+    if (order.status === "preparing") {
       const countInputs = document.getElementsByClassName("count-input");
       for (let i=0; i<countInputs.length; i++) {
-        countInputs[i].enabled = renderIn;
+        countInputs[i].disabled = false;
+        countInputs[i].addEventListener("change", render);
       }
+    }
+  }
+
+  function render() {
+    var now = new Date().getTime();
+    
+    var timeleft_change = reorder_timer - now;
+    if (timeleft_change > 0){
+      renderTrashButtons(order);
+      renderOrderEditButtons(order);
+      enableCountInput(order);
+    }
+  }
+  render();
+
+
+  function disableOrderEdit(){
+    const trashButtons = document.getElementsByClassName("trash-button");
+    const buttonsWrapper = document.getElementById("order-buttons");
+    const countInputs = document.getElementsByClassName("count-input");
+
+    buttonsWrapper.style.display = "none";
+    buttonsWrapper.style.visibility = "hidden";
+    for (let i=0; i<trashButtons.length; i++) {
+        trashButtons[i].style.display = "none";
+        trashButtons[i].style.visibility = "hidden";
+    }
+    for (let i=0; i<countInputs.length; i++) {
+        countInputs[i].disabled = true;
     }
   }
 
@@ -189,10 +220,9 @@
   if (initial_discount_timer == 0){
     initial_discount_timer = discount_timer;
   }
-
   
-  var buttonsUpdated = false
-
+  var buttonsUpdated = false;
+  
   // Run myfunc every second
   var myfunc = setInterval(function () {
 
@@ -202,9 +232,9 @@
 
     if (!buttonsUpdated && timeleft_change > 0) {
       // Render the buttons
-      renderTrashButtons(order, true);
-      renderOrderEditButtons(order, true);
-      enableCountInput(order, true);
+      renderTrashButtons(order);
+      renderOrderEditButtons(order);
+      enableCountInput(order);
       buttonsUpdated = !buttonsUpdated;
     }
 
@@ -232,15 +262,15 @@
       document.getElementById("mins_change").innerHTML = ""
       document.getElementById("secs_change").innerHTML = ""
       document.getElementById("end_change").innerHTML = "Order Locked in!";
-      // hide the cuttons
-      renderTrashButtons(order, false);
-      renderOrderEditButtons(order, false);
-      enableCountInput(order, false);
+      // hide the buttons
+      disableOrderEdit();
       
       // remove the meter
-      document.getElementById("order-fixed-cd").remove();
+      const cd = document.getElementById("order-fixed-cd");
+      if (cd !== null) {
+        cd.remove();
+      }
     }
-
   
     if (timeleft <= 0) {
       document.getElementById("mins").innerHTML = ""

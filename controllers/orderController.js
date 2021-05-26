@@ -106,7 +106,7 @@ const getOneOrderForVendor = async (req, res) => {
       });
     }
     // order was found
-    res.render("vendor/order", { order: oneOrder, layout: "vendorMain.hbs"});
+    res.render("vendor/order", { order: oneOrder, menu: req.menu, layout: "vendorMain.hbs"});
   } catch (err) {
     console.log(err);
     // error occurred
@@ -180,6 +180,7 @@ const updateOrder = async (req, res) => {
     }
     // update the order's status and items in that order
     oneOrder.status = newOrder.status;
+    oneOrder.timeOrdered = newOrder.timeOrdered;
     oneOrder.items = newOrder.items.map((item) => ({
       _id: mongoose.Types.ObjectId(),
       snack: item.snackId,

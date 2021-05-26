@@ -1,22 +1,31 @@
-<section id="loginform">
-  <header class="title">
-    <i class="icon-SnackVan"></i>
-    Snacks in a Van
-    {{error}}
-  </header>
+<section id="login-form">
   <form method="post" action="/vendor/login" class="vendor-login-form">
-    <label for="VanId"> Van ID</label>
-    <input placeholder="vendor name" name='vendorName' id='vendorName' value="" required />
+    <div class="vendor-login-form-header">
+      <div class="van-icon"><i class="icon-SnackVan"></i></div>
+      <h1>Login Form</h1>
+    </div>
+    <label for="vendor-name"> Van ID</label>
+    <input placeholder="vendor name" type="text" name='vendorName' id='vendorName' required />
 
-    <label for="Password"> Password</label>
-    <input placeholder="*******" type="password" name='password' id='password' value="" required />
+    <label for="vendor-pw"> Password</label>
+    <input placeholder="***************" type="password" name='password' id='password' required />
 
-    <div class="vendor-forgot-password">
+    <div class="vendor-login-forgot-password">
       <a href="/vendor/forgot-password"><u>Forgot password?</u></a>
     </div>
 
-    <input type="submit" id="vendor-login-button" class="submit-button" value="Log in" />
+    <div class="vendor-login-error-message">
+      {{#if vendorLoginFailed}}
+        <p>Incorrect Email or Password</p>
+      {{/if}}
+    </div>
 
+    <div class="vendor-login-form-submit">
+      <button type="submit" class="button" id="vendor-login-button"><i class="fas fa-sign-in-alt"></i>&nbsp;LOG IN</button>
+    </div>
+    <div class="vendor-no-account-yet">
+      Don't have an account yet? <a href="/vendor/signup"><u>Register</u></a>
+    </div>
   </form>
 
 

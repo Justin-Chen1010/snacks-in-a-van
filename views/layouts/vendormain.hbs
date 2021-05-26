@@ -21,7 +21,7 @@
     </h1>
     <nav class="navbar-links">
       <a href="/vendor/orders">Orders</a>
-      {{!-- <a href="/vendor/location">Location</a> --}}
+    
       <a href="/vendor/account">Account</a>
       <div id="van-button-wrapper">
       </div>
@@ -31,6 +31,17 @@
     {{{body}}}
   </main>
   <footer>
+
+        <div class="small-screen-navbar">
+            <nav class="small-screen-navbar-logo">
+                <a href="/vendor"><i class="fas fa-home"></i></a>
+                <a href="/vendor/orders" class="target"><i class="fas fa-history"></i></a>
+                <div id="van-button-wrapper">
+        </div>
+                <a href="/vendor/account" class="target"><i class="fas fa-user-cog"></i></a>
+            </nav>
+        </div>
+
     <div class="copyright"></div>
     <p><span>&#169;</span>Snacks in a Van 2021</p>
   </footer>
@@ -47,16 +58,18 @@
   }
 
   async function getVan() {
-    const res = await fetch("/vendor/status/");
+    const res = await fetch("/vendor/status");
     return res.json();
+    // Uncaught (in promise) SyntaxError: Unexpected token < in JSON at position 0
+    // caused by parsing none-json object to json format
   }
 
   async function closeVan() {
-    await fetch(`/vendor/status/`,
+    await fetch(`/vendor/status`,
       {
         method: "PUT",
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           open: false,
@@ -97,6 +110,8 @@
         button.addEventListener("click", () => openVan()); 
       }
       wrapper.replaceChild(button, wrapper.childNodes[0]);
+    }).catch((err) => { 
+      // do nothing
     });
   }
 

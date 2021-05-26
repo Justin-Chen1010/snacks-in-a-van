@@ -62,7 +62,7 @@
         sessionStorage.setItem("cart", JSON.stringify(cart));
         updateTable();
     }
-
+  
     // update the cart total price based on the current table view
     function updateCartTotal() {
         let cartTotalField = document.querySelector(".cart-total");
@@ -71,6 +71,8 @@
             sum += parseFloat(row["Price"].substring(1));
         }
         cartTotalField.textContent = `$${sum}`;
+        //setTimeout(sum, 5*1000)
+
     }
 
     // generate the table head in `table`, given the cart data
@@ -136,6 +138,11 @@
         let cell = row.insertCell();
         let text = document.createTextNode("Cart Total:");
         cell.appendChild(text);
+        
+        let cell3 = row.insertCell();
+        let text3 = document.createTextNode(" Now the Cart Total:");
+        cell3.appendChild(text3);
+
 
         let cell2 = row.insertCell();
         cell2.className = "cart-total";

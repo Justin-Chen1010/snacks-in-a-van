@@ -40,6 +40,14 @@ var register = function (Handlebars) {
       return cart;
     },
 
+    combineWithCart: function (order) {
+      const cart = JSON.parse(sessionStorage.getItem('cart'));
+      if (!cart) {
+        return order;
+      }
+      return cart;
+    },
+
     // returns true if (order) status is not cancelled 
     orderNotCancelled: function (status) {
       return !(status === "cancelled");

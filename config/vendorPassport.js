@@ -195,41 +195,29 @@ module.exports = function(passport) {
         new LocalStrategy({
         usernameField : 'vendorName', 
         passwordField : 'password',
-        passReqToCallback : true}, // pass the req as the first arg to the callback for verification 
+        passReqToCallback : true},
 
         function(req, vendorName, password, done) {
-            
-
             process.nextTick(function() {
-                // see if the user with the email exists
                 Vendor.findOne({ vendorName :  vendorName }, function(err, user) {
                    
                     if (err){
-                        return done(err);
-                    }if (!user){
+                      return done(err);
+                    }
+                    if (!user){
                         console.log("no user found");
-                        return done(null, false, req.flash('loginMessage', 'No user found.'));
+                        return done(null, false, req.session.vendorLoginErr = true, req.flash('loginMessage', 'No user found.'));
                     }
                     if (!user.validPassword(password)){
                         console.log("found user but invalid password")
-                       
-                        // false in done() indicates to the strategy that authentication has
-                        // failed
-                        return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+                        return done(null, false, req.session.vendorLoginErr = true, req.flash('loginMessage', 'Oops! Wrong password.'));
                     }
-                    // otherwise, we put the user's email in the session
                     else {
-                        // in app.js, we have indicated that we will be using sessions
-                        // the server uses the included modules to create and manage
-                        // sessions. each client gets assigned a unique identifier and the
-                        // server uses that identifier to identify different clients
-                        // all this is handled by the session middleware that we are using 
-                        req.session.vendorName = vendorName; // for demonstration of using express-session
+
+                        req.session.vendorName = vendorName;
                         req.session.role="vendor";
 
-                        // done() is used by the strategy to set the authentication status with
-                        // details of the user who was authenticated
-                        return done(null, user, req.flash('loginMessage', 'Login successful'));
+                        return done(null, user, req.session.vendorLoginErr = false, req.flash('loginMessage', 'Login successful'));
                     }
                 });
             });

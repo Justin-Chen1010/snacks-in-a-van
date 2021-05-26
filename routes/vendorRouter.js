@@ -12,9 +12,6 @@ vendorRouter.get("/", (req, res) =>  {
   res.redirect("/vendor/home")
 });
 
-vendorRouter.get("/login", (req, res) => {
-  res.render('vendor/login',{layout:"vendorMain.hbs"});
-});
 vendorRouter.get("/signup", (req, res) => {
   res.render('vendor/signup', {vendorName: req.session.vendorName, layout:"vendorMain.hbs"});
 });
@@ -98,6 +95,12 @@ vendorRouter.post("/forgot-password", passport.authenticate('local-password-mana
   failureFlash : true // allow flash messages
 
 }));
+
+vendorRouter.get("/login", async (req, res) => {
+  res.render("vendor/login", { "vendorLoginFailed" : req.session.vendorLoginErr, layout:"vendorMain.hbs" });
+  req.session.vendorLoginErr = false;
+});
+
 vendorRouter.post('/login', passport.authenticate('vendor-login', {
   successRedirect : '/vendor/home', // redirect to the homepage
   failureRedirect : '/vendor/login', // redirect back to the login page if there is an error
@@ -155,8 +158,10 @@ vendorRouter.put("/status", authenticate.isVendorLoggedIn, async (req, res) =>
   vendorController.updateVanStatus(req, res)
 );
 
-vendorRouter.get("/status", authenticate.isVendorLoggedIn, async (req, res) =>
-  vendorController.getOneVendor(req, res)
+vendorRouter.get("/status", authenticate.isVendorLoggedIn, async (req, res) => {
+  console.log('ASDJSADl');
+  vendorController.getOneVendor(req, res);
+}
 );
 
 // // create new vendor
