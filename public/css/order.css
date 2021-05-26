@@ -20,6 +20,18 @@
   font-family: var(--font-heading);
 }
 
+/* Hide the trash button by default */
+.trash-button {
+  display: none;
+  visibility: hidden;
+}
+
+/* Hide the buttons allowing change order by default */
+#order-buttons {
+  display: none;
+  visibility: hidden;
+}
+
 .order-header h3 {
   margin: 0;
 }

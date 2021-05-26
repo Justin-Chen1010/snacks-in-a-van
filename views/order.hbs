@@ -44,7 +44,7 @@
     </div>
     {{> cart-table order=order}}
     {{#if (statusEqualTo order.status 'preparing')}}
-    <div id="order-buttons" class="order-buttons">
+    <div id="order-buttons" class="order-buttons" onload="renderTrashButtons(`${order}`)">
       <button id="cancel-order-button" class="button" onclick="cancelOrder('{{order.orderId}}')">
         <i class="fas fa-trash-alt"></i>
         Cancel Order
@@ -104,13 +104,34 @@
       body: JSON.stringify(order)
     }).then(() => window.location.href = `/customer/orders`);
   }
+
+  
+
 </script>
 
 <script>
 
   const order = {{{ json order }}}
 
-  function addMinutes(date, minutes) {
+  function renderTrashButtons(order) {
+    if (order.status === "preparing") {
+      const trashButtons = document.getElementsByClassName("trash-button");
+      for (let i=0; i<trashButtons.length; i++) {
+        trashButtons[i].style.display = "inline-block";
+        trashButtons[i].style.visibility = "visible";
+      }
+    }
+  }
+
+  function enableCountInput(order) {
+    if (order.status === "preparing") {
+      const countInputs = document.getElementsByClassName("count-input");
+      for (let i=0; i<countInputs.length; i++) {
+        countInputs[i].e  }
+    }
+  }
+
+  f, trueu;nction addMinutes(date, minutes) {
     var discount_time = (date + minutes * 60000);
     return discount_time;
   }
@@ -137,12 +158,22 @@
     initial_discount_timer = discount_timer;
   }
 
+  // Render the buttons when there's still
+  var now = new Date().getTime();
+  var timeleft = discount_timer - now;
+  var timeleft_change = reorder_timer - now;
+  if (timelet_change > 0) {
+    renderTrashButtons(order);
+    enableCountInput(order);
+  }
+
+
   // Run myfunc every second
   var myfunc = setInterval(function () {
 
-    var now = new Date().getTime();
-    var timeleft = discount_timer - now;
-    var timeleft_change = reorder_timer - now;
+    now = new Date().getTime();
+    timeleft = discount_timer - now;
+    timeleft_change = reorder_timer - now;
 
     // Update progress bar
     order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(10*60000)));

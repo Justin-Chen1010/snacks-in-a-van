@@ -25,7 +25,7 @@ const getAllOrders = async (req, res) => {
 
 
 // get all orders for a specific vendor that have status "preparing"
-const getOrdersForOneVendor = async (req, res) => {
+const getOrdersForVendor = async (req, res) => {
   try {
     // default status is "preparing"
     const orderStatus = req.query.status ? req.query.status : "preparing";
@@ -106,7 +106,7 @@ const getOneOrderForVendor = async (req, res) => {
       });
     }
     // order was found
-    res.render("order", { order: oneOrder });
+    res.render("vendor/order", { order: oneOrder, layout: "vendorMain.hbs"});
   } catch (err) {
     console.log(err);
     // error occurred
@@ -196,7 +196,7 @@ const updateOrder = async (req, res) => {
 };
 
 // find all orders for specific customer
-const getOrdersForOneCustomer = async (req, res) => {
+const getOrdersForCustomer = async (req, res) => {
   try {
     const customer = await Customer.findOne({
       customerId: req.session.userId,
@@ -239,6 +239,7 @@ module.exports = {
   getOneOrder,
   addOrder,
   updateOrder,
-  getOrdersForOneVendor,
-  getOrdersForOneCustomer, getAllPreparingOrder
+  getOrdersForVendor,
+  getOneOrderForVendor,
+  getOrdersForCustomer, getAllPreparingOrder
 };

@@ -8,9 +8,6 @@ const orderController = require("../controllers/orderController");
 
 require('../config/vendorPassport')(passport);
 
-// get all vendors
-//vendorRouter.get("/", (req, res) => vendorController.getAllVendors(req, res));
-
 vendorRouter.get("/", (req, res) =>  {
   res.redirect("/vendor/home")
 });
@@ -134,19 +131,24 @@ vendorRouter.get("/location", authenticate.isVendorLoggedIn, async (req, res) =>
 // get outstanding ('preparing') orders for a vendor, can query status
 // ?status=preparing is default, but status=fulfilled or completed
 vendorRouter.get("/orders", authenticate.isVendorLoggedIn, async (req, res) => {
-  orderController.getOrdersForOneVendor(req, res);
+  orderController.getOrdersForVendor(req, res);
 });
 
-vendorRouter.get("/orders/:orderId", authenticate.isVendorLoggedIn, async (req, res) => {
-  orderController.getOneOrder(req, res);
+vendorRouter.get("/orders/:orderId", authenticate.isVendorLoggedIn, snackController.getMenu, async (req, res) => {
+  orderController.getOneOrderForVendor(req, res);
 });
+
+// update the status of an order
+vendorRouter.put("/orders/:orderId", authenticate.isCustomerLoggedIn,
+  async (req, res) => orderController.updateOrder(req, res)
+);
 
 // mark item as fulfilled
-vendorRouter.put("/orders/:orderId/status", authenticate.isVendorLoggedIn, (req, res) => {
+// vendorRouter.put("/orders/:orderId/status", authenticate.isVendorLoggedIn, (req, res) => {
     
-  vendorController.markOrderAsFulfilled(req, res);
+//   vendorController.markOrderAsFulfilled(req, res);
     
-});
+// });
 
 // set van status
 vendorRouter.put("/status", authenticate.isVendorLoggedIn, async (req, res) =>

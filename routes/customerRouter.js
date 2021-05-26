@@ -33,7 +33,7 @@ customerRouter.post("/orders", authenticate.isCustomerLoggedIn, async (req, res)
 // Get all the orders for a given customer, the customer must be logged in
 // and the requested orders page must be theirs
 customerRouter.get("/orders", authenticate.isCustomerLoggedIn, async (req, res) => {
-    orderController.getOrdersForOneCustomer(req, res);
+    orderController.getOrdersForCustomer(req, res);
 });
 
 // get an order detail that belongs to the customer

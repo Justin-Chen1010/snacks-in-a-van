@@ -182,31 +182,31 @@ const updateVanStatus = async (req, res) => {
 
 // mark an order as "fulfilled"
 // TODO: this should probably be in orderController
-const markOrderAsFulfilled = async (req, res) => {
-  // find only the 'preparing' status
-  try {
-    const filter = {
-      orderId: req.params.orderId,
-      status: "preparing",
-      vendor: req.session.vendorName,
-    };
+// const markOrderAsFulfilled = async (req, res) => {
+//   // find only the 'preparing' status
+//   try {
+//     const filter = {
+//       orderId: req.params.orderId,
+//       status: "preparing",
+//       vendor: req.session.vendorName,
+//     };
 
-    const order = await Order.findOne(filter);
-    if (order === null) {
-      // no order that has status "preparing" with that id and for that vendor
-      res.status(404);
-      return res.send("Order not found :^(");
-    }
-    await Order.updateOne(filter, {
-      $set: { status: "fulfilled", timeFulfilled: Date.now() },
-      //Set default date and time to the time fulfilled
-    });
-    res.send("Order status updated!");
-  } catch (err) {
-    res.status(400);
-    return res.send("Database query failed");
-  }
-};
+//     const order = await Order.findOne(filter);
+//     if (order === null) {
+//       // no order that has status "preparing" with that id and for that vendor
+//       res.status(404);
+//       return res.send("Order not found :^(");
+//     }
+//     await Order.updateOne(filter, {
+//       $set: { status: "fulfilled", timeFulfilled: Date.now() },
+//       //Set default date and time to the time fulfilled
+//     });
+//     res.send("Order status updated!");
+//   } catch (err) {
+//     res.status(400);
+//     return res.send("Database query failed");
+//   }
+// };
 
 // remember to export the functions
 module.exports = {
@@ -215,5 +215,5 @@ module.exports = {
   updateVendor,
   addVendor,
   updateVanStatus,
-  markOrderAsFulfilled,
+  // markOrderAsFulfilled,
 };

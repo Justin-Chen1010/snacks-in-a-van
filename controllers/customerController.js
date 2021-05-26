@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
-const { once } = require("../models/vendor");
 const Customer = mongoose.model("Customer");
 
 // get all customers
