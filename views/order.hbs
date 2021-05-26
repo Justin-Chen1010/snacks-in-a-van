@@ -44,7 +44,7 @@
     </div>
     {{> cart-table order=order}}
     {{#if (statusEqualTo order.status 'preparing')}}
-    <div id="order-buttons" class="order-buttons" onload="renderTrashButtons(`${order}`)">
+    <div id="order-buttons" class="order-buttons">
       <button id="cancel-order-button" class="button" onclick="cancelOrder('{{order.orderId}}')">
         <i class="fas fa-trash-alt"></i>
         Cancel Order
@@ -113,28 +113,60 @@
 
   const order = {{{ json order }}}
 
-  function renderTrashButtons(order) {
+  function renderTrashButtons(order,renderIn) {
     if (order.status === "preparing") {
       const trashButtons = document.getElementsByClassName("trash-button");
       for (let i=0; i<trashButtons.length; i++) {
-        trashButtons[i].style.display = "inline-block";
-        trashButtons[i].style.visibility = "visible";
+        if (renderIn){
+          trashButtons[i].style.display = "inline-block";
+          trashButtons[i].style.visibility = "visible";
+        }
+        else {
+          trashButtons[i].style.display = "none";
+          trashButtons[i].style.visibility = "hidden";
+        }
+      }
+    }
+    else if (!renderIn) {
+      for (let i=0; i<trashButtons.length; i++) {
+          trashButtons[i].style.display = "none";
+          trashButtons[i].style.visibility = "hidden";
       }
     }
   }
 
-  function enableCountInput(order) {
+  function renderOrderEditButtons(order, renderIn){
     if (order.status === "preparing") {
-      const countInputs = document.getElementsByClassName("count-input");
-      for (let i=0; i<countInputs.length; i++) {
-        countInputs[i].e  }
+      const buttonsWrapper = document.getElementById("order-buttons");
+      if (renderIn){
+        buttonsWrapper.style.display = "block";
+        buttonsWrapper.style.visibility = "visible";
+      }
+      else {
+        buttonsWrapper.style.display = "none";
+        buttonsWrapper.style.visibility = "hidden";
+      }
+    }
+    else if (!renderIn) {
+      buttonsWrapper.style.display = "none";
+      buttonsWrapper.style.visibility = "hidden";
     }
   }
 
-  f, trueu;nction addMinutes(date, minutes) {
+  function enableCountInput(order, renderIn) {
+    if (order.status === "preparing" || !renderIn) {
+      const countInputs = document.getElementsByClassName("count-input");
+      for (let i=0; i<countInputs.length; i++) {
+        countInputs[i].enabled = renderIn;
+      }
+    }
+  }
+
+  function addMinutes(date, minutes) {
     var discount_time = (date + minutes * 60000);
     return discount_time;
   }
+
   // Progress bar for the timer
   var discount_pb = document.getElementById("discount-cd");
   var order_fixed_pb = document.getElementById("order-fixed-cd");
@@ -158,22 +190,23 @@
     initial_discount_timer = discount_timer;
   }
 
-  // Render the buttons when there's still
-  var now = new Date().getTime();
-  var timeleft = discount_timer - now;
-  var timeleft_change = reorder_timer - now;
-  if (timelet_change > 0) {
-    renderTrashButtons(order);
-    enableCountInput(order);
-  }
-
+  
+  var buttonsUpdated = false
 
   // Run myfunc every second
   var myfunc = setInterval(function () {
 
-    now = new Date().getTime();
-    timeleft = discount_timer - now;
-    timeleft_change = reorder_timer - now;
+    var now = new Date().getTime();
+    var timeleft = discount_timer - now;
+    var timeleft_change = reorder_timer - now;
+
+    if (!buttonsUpdated && timeleft_change > 0) {
+      // Render the buttons
+      renderTrashButtons(order, true);
+      renderOrderEditButtons(order, true);
+      enableCountInput(order, true);
+      buttonsUpdated = !buttonsUpdated;
+    }
 
     // Update progress bar
     order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(10*60000)));
@@ -195,20 +228,24 @@
     document.getElementById("secs").innerHTML = seconds + "s "
 
     // Display the message when countdown is over
-
     if (timeleft_change <= 0) {
       document.getElementById("mins_change").innerHTML = ""
       document.getElementById("secs_change").innerHTML = ""
       document.getElementById("end_change").innerHTML = "Order Locked in!";
-
+      // hide the cuttons
+      renderTrashButtons(order, false);
+      renderOrderEditButtons(order, false);
+      enableCountInput(order, false);
+      
       // remove the meter
       document.getElementById("order-fixed-cd").remove();
     }
 
+  
     if (timeleft <= 0) {
       document.getElementById("mins").innerHTML = ""
       document.getElementById("secs").innerHTML = ""
-      document.getElementById("end").innerHTML = "15% Discount Applied!!";
+      document.getElementById("end").innerHTML = "20% Discount Applied!!";
       
       // remove the meter
       document.getElementById("discount-cd").remove();

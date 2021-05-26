@@ -1,8 +1,22 @@
 /*
- * TODO:
- * timer
- * updating orders
- * signup/login error message
+ *  TODO:
+ * - vendor can mark order as fulfilled, then as picked up.
+ *   Customer will see this, and they won't be able to update
+ * - customer can change order if within time or not yet fulfilled,
+ *   resetting the timer. Vendor will see this
+ * - vendor should be able to see who ordered what
+ * - REPORT
+ * - do not hardcode discount time (10 min and 15 min) and maybe the rate (20%)
+ *   as well
+ * - responsive design
+ * - bug fixes, especially for the redirects
+ * - make sure euclidean distance calculation works
+ *
+ * Bonus:
+ * - rating
+ * - live reload of orders page for both customers and vendors
+ * - see vendors on map
+ * - searching orders
  * 
  * NOTE:
  * Deleting all items from order details will not cancel the order

@@ -108,7 +108,7 @@
                 input.setAttribute("min", "1");
                 input.setAttribute("onchange", `updateQuantity(String(${datum["Snack ID"]}))`);
                 input.setAttribute("value", datum.Quantity);
-                input.setAttribute("disabled", true);
+                input.disabled = true;
                 cell.appendChild(input);
             } else {
                 let text = document.createTextNode(datum[key]);
