@@ -12,7 +12,6 @@ require('../config/vendorPassport')(passport);
 //vendorRouter.get("/", (req, res) => vendorController.getAllVendors(req, res));
 
 vendorRouter.get("/", (req, res) =>  {
-  res.render("vendor/home", {layout: 'vendorMain.hbs'})
   res.redirect("/vendor/home")
 });
 
@@ -80,8 +79,7 @@ vendorRouter.get("/reset-password", (req, res) => {
 
 
 
-vendorRouter.get("/home", authenticate.isVendorLoggedIn, async (req, res) => {
-  
+vendorRouter.get("/home", async (req, res) => {
   res.render("vendor/home", {layout:"vendorMain.hbs"});
 });
 // vendorRouter.get("/signup", (req, res) => {
