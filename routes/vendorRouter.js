@@ -142,7 +142,7 @@ vendorRouter.get("/orders/:orderId", authenticate.isVendorLoggedIn, snackControl
 });
 
 // update the status of an order
-vendorRouter.put("/orders/:orderId", authenticate.isCustomerLoggedIn,
+vendorRouter.put("/orders/:orderId", authenticate.isVendorLoggedIn,
   async (req, res) => orderController.updateOrder(req, res)
 );
 
@@ -159,7 +159,6 @@ vendorRouter.put("/status", authenticate.isVendorLoggedIn, async (req, res) =>
 );
 
 vendorRouter.get("/status", authenticate.isVendorLoggedIn, async (req, res) => {
-  console.log('ASDJSADl');
   vendorController.getOneVendor(req, res);
 }
 );

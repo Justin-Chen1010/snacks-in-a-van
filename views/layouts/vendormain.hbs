@@ -58,8 +58,12 @@
   }
 
   async function getVan() {
-    const res = await fetch("/vendor/status");
-    return res.json();
+    try {
+      const res = await fetch("/vendor/status");
+      return res.json();
+    } catch {
+      return {open: false};
+    }
     // Uncaught (in promise) SyntaxError: Unexpected token < in JSON at position 0
     // caused by parsing none-json object to json format
   }

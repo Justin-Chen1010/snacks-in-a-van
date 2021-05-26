@@ -33,28 +33,14 @@
           <span id="end"></span>
         </div>
       </div>
-      <div>
-        <i id="van-name" class="fas fa-shuttle-van"></i>
-        <span class="cart-van-name">Van name</span>
-      </div>
-      <div>
-        <i id="van-location" class="fas fa-map-marker-alt"></i>
-        <span class="cart-van-location">Van location</span>
-      </div>
+
     </div>
-    {{> cart-table order=order}}
+    {{> cart-table order=order }}
     {{#if (statusEqualTo order.status 'preparing')}}
-    <div id="order-buttons" class="order-buttons">
-      <button id="cancel-order-button" class="button" onclick="cancelOrder('{{order.orderId}}')">
-        <i class="fas fa-trash-alt"></i>
-        Cancel Order
-      </button>
-      <button id="update-order-button" class="button" onclick="updateOrder('{{order.orderId}}')">
-        <i class="fas fa-edit"></i>
-        Update Order
-      </button>
-      <button id="add-item-button" class="button" onclick="goToMenu('{{order.orderId}}')" type="button">
-        <i class="fas fa-clipboard=list"></i> Add items from menu
+    <div id="fulfill-button" class="fulfill-button">
+      <button id="fulfill-order-button" class="button" onclick="fulfillOrder('{{order.orderId}}')">
+        <i class="fas fa-check"></i>
+        Fulfill Order
       </button>
     </div>
     {{/if}}
@@ -62,103 +48,28 @@
 </section>
 
 <script>
-
-  // redirect to menu to add items to this current order
-  function goToMenu(orderId) {
-    window.location = `/customer/menu?orderId=${orderId}`;
-  }
-
-  const vendor = JSON.parse(sessionStorage.getItem('vendor'));
-  if (vendor) {
-    document.querySelector('.cart-van-name').textContent = vendor.vendorName;
-    document.querySelector('.cart-van-location').textContent = vendor.address;
-  }
-
-  // update the table view based on the current cart items, and modifies the
-  // order in the database
-  async function updateOrder(orderId) {
-    window.location.reload();
-    const cart = JSON.parse(sessionStorage.getItem("cart"));
-    const order = {{{ json order }}}
-    order.items = cart;
-    fetch(`/customer/orders/${orderId}`, {
-      method: "PUT",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(order)
-    });
-  }
-
-  // sets the status of the order in the database as "cancelled", they will
-  // not be displayed on the orders page
-  async function cancelOrder(orderId) {
-    const order = {{{ json order }}}
-    order.items = {{{ json (orderToCart order) }}};
-    order.status = "cancelled";
-    fetch(`/customer/orders/${orderId}`, {
-      method: "PUT",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(order)
-    }).then(() => window.location.href = `/customer/orders`);
-  }
-
-  
-
-</script>
-
-<script>
-  /* TODO [Jimmy]: Before proceeding to change order, maybe need to refetch the order so it is not 
-    edited by the vendor between when the order page is rendered and when the edit button is clicked ??
-    - Jimmy
-  */
   const order = {{{ json order }}}
 
-
-  function renderTrashButtons(order) {
-    if (order.status === "preparing") {
-      const trashButtons = document.getElementsByClassName("trash-button");
-      for (let i=0; i<trashButtons.length; i++) {
-        trashButtons[i].style.display = "inline-block";
-        trashButtons[i].style.visibility = "visible";
-      }
-    }
-  }
-
-  function renderOrderEditButtons(order){
-    if (order.status === "preparing") {
-      const buttonsWrapper = document.getElementById("order-buttons");
-      buttonsWrapper.style.display = "block";
-      buttonsWrapper.style.visibility = "visible";  
-    }
-  }
-
-  function enableCountInput(order) {
-    if (order.status === "preparing") {
-      const countInputs = document.getElementsByClassName("count-input");
-      for (let i=0; i<countInputs.length; i++) {
-        countInputs[i].enabled = true;
-      }
-    }
-  }
-
-  function disableOrderEdit() {
-    const trashButtons = document.getElementsByClassName("trash-button");
-    const buttonsWrapper = document.getElementById("order-buttons");
-    const countInputs = document.getElementsByClassName("count-input");
-
-    buttonsWrapper.style.display = "none";
-    buttonsWrapper.style.visibility = "hidden";  
-
-    for (let i=0; i<trashButtons.length; i++) {
-        trashButtons[i].style.display = "none";
-        trashButtons[i].style.visibility = "hidden";
-    }
-    for (let i=0; i<countInputs.length; i++) {
-        countInputs[i].enabled = false;
-    }
+  function fulfillOrder(orderId) {
+    //window.location.reload();
+    const order = {{{ json order }}};
+    order.timeFulfilled = new Date();
+    order.status = "fulfilled";
+    order.items = order.items.map((item) => (
+    {
+      _id: item._id,
+      snackId: item.snack,
+      quantity: item.quantity
+    }));
+    fetch(`/vendor/orders/${orderId}`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(order)
+    }).then(() =>
+      window.location.reload()
+    );
   }
 
   function addMinutes(date, minutes) {
@@ -188,24 +99,15 @@
   if (initial_discount_timer == 0){
     initial_discount_timer = discount_timer;
   }
-
   
-  var buttonsUpdated = false
-
+  var buttonsUpdated = false;
+  
   // Run myfunc every second
   var myfunc = setInterval(function () {
 
     var now = new Date().getTime();
     var timeleft = discount_timer - now;
     var timeleft_change = reorder_timer - now;
-
-    if (!buttonsUpdated && timeleft_change > 0) {
-      // Render the buttons
-      renderTrashButtons(order);
-      renderOrderEditButtons(order);
-      enableCountInput(order);
-      buttonsUpdated = !buttonsUpdated;
-    }
 
     // Update progress bar
     order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(10*60000)));
@@ -231,13 +133,13 @@
       document.getElementById("mins_change").innerHTML = ""
       document.getElementById("secs_change").innerHTML = ""
       document.getElementById("end_change").innerHTML = "Order Locked in!";
-      // hide the buttons
-      disableOrderEdit();
       
       // remove the meter
-      document.getElementById("order-fixed-cd").remove();
+      const cd = document.getElementById("order-fixed-cd");
+      if (cd !== null) {
+        cd.remove();
+      }
     }
-
   
     if (timeleft <= 0) {
       document.getElementById("mins").innerHTML = ""
@@ -252,5 +154,3 @@
 
 
 </script>
-
-

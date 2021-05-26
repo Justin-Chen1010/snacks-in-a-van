@@ -173,7 +173,7 @@ const updateVanStatus = async (req, res) => {
         }
       );
     }
-    res.send(status);
+    return res.send(status);
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");

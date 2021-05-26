@@ -13,8 +13,8 @@
          <div id="status">
             
          </div>
-          <input placeholder="latitude" name='latitude' id='latitude-input' type="number" step="0.01" value="" required />
-          <input placeholder="longitude" name='longitude' id='longitude-input' type="number" step="0.01" value="" required />
+          <input placeholder="latitude" name='latitude' id='latitude-input' type="number" step="0.0001" value="" required />
+          <input placeholder="longitude" name='longitude' id='longitude-input' type="number" step="0.0001" value="" required />
          <div id="map-view">
             <iframe 
                id="map-frame"
@@ -37,8 +37,11 @@
       const location = document.getElementById("location-input").value;
       const lon = parseFloat(document.getElementById("longitude-input").value);
       const lat = parseFloat(document.getElementById("latitude-input").value);
+      console.log(location);
+      console.log(lon);
+      console.log(lat);
 
-      const res = await fetch(`/vendor/status/`,
+      fetch(`/vendor/status/`,
          {
             method: "PUT",
             headers: {
@@ -51,9 +54,11 @@
                address: location
             })
          }
-      );
-      window.location = "/vendor/orders";
-      return res.json();
+      ).then((res) => {
+         console.log(res);
+         window.location = "/vendor/orders";
+         return res.json();
+      }).catch((err) => console.log(err));
    }
 
    function updateMapView(lat, lon) {

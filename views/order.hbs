@@ -96,8 +96,6 @@
   if (vendor) {
     document.querySelector('.cart-van-name').textContent = vendor.vendorName;
     document.querySelector('.cart-van-location').textContent = vendor.address;
-  } else {
-    window.location = "/customer/vendors";
   }
 
   // update the table view based on the current cart items, and modifies the
@@ -130,7 +128,6 @@
       body: JSON.stringify(order)
     }).then(() => window.location.href = `/customer/orders`);
   }
-
 
   function renderTrashButtons(order) {
     if (order.status === "preparing") {
@@ -182,14 +179,20 @@
     const buttonsWrapper = document.getElementById("order-buttons");
     const countInputs = document.getElementsByClassName("count-input");
 
-    buttonsWrapper.style.display = "none";
-    buttonsWrapper.style.visibility = "hidden";
-    for (let i=0; i<trashButtons.length; i++) {
+    if (trashButtons != null) {
+      for (let i=0; i<trashButtons.length; i++) {
         trashButtons[i].style.display = "none";
         trashButtons[i].style.visibility = "hidden";
+      }
     }
-    for (let i=0; i<countInputs.length; i++) {
+    if (buttonsWrapper != null) {
+      buttonsWrapper.style.display = "none";
+      buttonsWrapper.style.visibility = "hidden";
+    }
+    if (countInputs != null) {
+      for (let i=0; i<countInputs.length; i++) {
         countInputs[i].disabled = true;
+      }
     }
   }
 

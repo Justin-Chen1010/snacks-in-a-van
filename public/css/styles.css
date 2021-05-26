@@ -8,13 +8,14 @@
  * - do not hardcode discount time (10 min and 15 min) and maybe the rate (20%)
  *   as well
  * - responsive design 
+ *  - Set discount applied in the back end
  * - bug fixes, especially for the redirects
- * - make sure euclidean distance calculation works
+ * - make sure euclidean distance calculation works -> yes
+ * - vendor should be able to see who ordered what
+ * - customer should see which van an order was from (after it is placed)
  * - check if an open vendor is selected when user is about to place order,
  *   if not, alert **
- *
  * Bonus:
- * - vendor should be able to see who ordered what
  * - rating
  * - live reload of orders page for both customers and vendors
  * - see vendors on map

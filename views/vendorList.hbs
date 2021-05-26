@@ -14,8 +14,14 @@
                <div class="vendor-name">{{this.vendorName}}</div>
                <div class="vendor-details">
                   <p>{{this.address}}</p>
+                  {{#if this.phoneNumber}}
                   <p><i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
-                  <p class="get-direction" onClick="openMap(event, `{{this}}`)"><u><i class="fas fa-directions"></i>Get Direction</u></p>
+                  {{/if}}
+                  {{#if this.lat}}
+                  {{#if this.lon}}
+                  <p class="get-direction" onClick="openMap({{this.lat}}, {{this.lon}})"><u><i class="fas fa-directions"></i>Get Direction</u></p>
+                  {{/if}}
+                  {{/if}}
                </div>
             </div>
          </button>
@@ -35,7 +41,7 @@
    }
 
    function dist(lat, lon, vanLat, vanLon){
-      return Math.sqrt(Math.pow((lat - vanLat), 2) - Math.pow((lon - vanLon), 2));
+      return Math.sqrt(Math.pow((lat - vanLat), 2) + Math.pow((lon - vanLon), 2));
    }
 
    function buildVanList(vendor){
@@ -120,8 +126,8 @@
             return vendor.open && vendor.lat && vendor.lon;
          });
          // Sort based on current distance to the vans
-         openVendors = openVendors.sort((v1, v2) => dist(lat, lon, v1.lat, v1.lon) - dist(lat, lon, v2.lat, v2.lon))
-                                 .slice(0, Math.min(vendors.length, numVan));
+         openVendors.sort((v1, v2) => {return dist(lat, lon, v1.lat, v1.lon) - dist(lat, lon, v2.lat, v2.lon)});
+         openVendors = openVendors.slice(0, Math.min(vendors.length, numVan));
 
          for (let vendor of openVendors){
             let button = buildVanList(vendor);
@@ -141,14 +147,14 @@
       }
    }
 
-   function openMap(event, van){
-      if (!(van.lat && van.lon)){
+   function openMap(lat, lon){
+      if (!(lat && lon)){
          alert("This Van has not located yet!");
          // Don't trigger parent event
          event.stopPropagation();
          return;
       }
-      window.open(`http://maps.google.com/?q=${van.lat},${van.lon}`);
+      window.open(`http://maps.google.com/?q=${lat},${lon}`);
       // Don't trigger parent event
       event.stopPropagation();
    }
