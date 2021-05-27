@@ -7,7 +7,11 @@
  * - REPORT
  * - do not hardcode discount time (10 min and 15 min) and maybe the rate (20%)
  *   as well
- * - responsive design 
+ * - responsive design (Phone size: Can do Max-width < 400 Ipad can do min-width 401, max-width 768), issue with nav bar not scaling? navbar.css doesn't seem
+ *   to be coming up on the inspect element, also orders list is wide on tall ipad view but skinny on fat ipad view? i think fat view looks better?
+ *   select a van also looks a bit funky, make preparing and fulfilled capitalized might need a function in helpers.js and call it in hbs. 
+ *   check menu and home.css  -Justin
+
  *  - Set discount applied in the back end
  * - bug fixes, especially for the redirects
  * - make sure euclidean distance calculation works -> yes
@@ -94,7 +98,7 @@
    --color-red: #FF0000;
  }
  
- @media screen and (max-width: 768px) {
+ @media screen and (max-width: 400px) {
    :root {
      --text-big: 15px;
      --text-medium: 12px;
@@ -106,6 +110,19 @@
    }
  }
  
+ @media screen and (min-width:401px) and  (max-width: 768px) {
+  :root {
+    --text-big: 25px;
+    --text-medium: 18px;
+    --text-small: 12px;
+  }
+
+  .copyright {
+    display: none;
+  }
+}
+
+
  @media screen and (min-width: 769px) {
    :root {
      --text-big: 36px;

@@ -107,6 +107,7 @@
     transform: translateX(-10%);
   }
 }
+
 .welcome {
   width: 400px;
   margin: 136px;
@@ -117,10 +118,11 @@
     display: none;
   }
 }
-
-@media screen and (min-width: 768px) {
+/* Changing the min-width here means that we will have moving cart for both ipad views - Justin*/
+@media screen and (min-width: 1079px) {
   .home-wrapper {
     margin: 0;
+
   }
 
   .welcome {

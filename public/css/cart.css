@@ -34,12 +34,29 @@
   right: 56px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 400px) {
   #cart h1 {
     font-size: 32px;
   }
   #cart {
-    font-size: 10px;
+    font-size: 14px;
+    margin-top: 64px;
+    width: 100%;
+    margin-top: 60px;
+  }
+  .cart-wrapper {
+    width: 95%;
+  }
+  .view-menu-button {
+    display: none;
+  }
+}
+@media screen and (min-width:401px) and  (max-width: 768px) {
+  #cart h1 {
+    font-size: 32px;
+  }
+  #cart {
+    font-size: 20px;
     margin-top: 64px;
     width: 100%;
     margin-top: 60px;
