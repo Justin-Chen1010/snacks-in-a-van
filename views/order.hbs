@@ -18,6 +18,10 @@
         {{/if}}
       </h3>
     </div>
+  
+          
+    {{!-- <div id="discount-button-wrapper">
+      </div> --}}
     <div>
       <div class="progress-bars">
         <div class="order-timer">
@@ -44,6 +48,7 @@
     </div>
     {{> cart-table order=null }}
     {{#if (statusEqualTo order.status 'preparing')}}
+   
     <div id="order-buttons" class="order-buttons">
       <button id="cancel-order-button" class="button" onclick="cancelOrder('{{order.orderId}}')">
         <i class="fas fa-trash-alt"></i>
@@ -56,8 +61,14 @@
       <button id="add-item-button" class="button" onclick="goToMenu('{{order.orderId}}')" type="button">
         <i class="fas fa-clipboard=list"></i> Add items from menu
       </button>
+     
+     
+
     </div>
+
+   
     {{/if}}
+   
   </div>
 </section>
 
@@ -139,6 +150,7 @@
       }
     }
   }
+ 
 
   function renderOrderEditButtons(order){
     if (order.status === "preparing") {
@@ -174,6 +186,7 @@
   render();
 
 
+ 
   function disableOrderEdit(){
     const trashButtons = document.getElementsByClassName("trash-button");
     const buttonsWrapper = document.getElementById("order-buttons");
@@ -210,7 +223,7 @@
   var time_order = new Date(order.timeOrdered).getTime();
 
   if (discount_timer == 0) {
-    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(), 15);
+    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(),15);
     //This should work? but it should pull from time-ordered not the current itme
 
     //var discount_timer = now + (15*60000);
@@ -240,7 +253,7 @@
       enableCountInput(order);
       buttonsUpdated = !buttonsUpdated;
     }
-
+    
     // Update progress bar
     order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(10*60000)));
     discount_pb.setAttribute("value", 100 - 100*(1- timeleft/(15*60000)));
@@ -278,13 +291,112 @@
     if (timeleft <= 0) {
       document.getElementById("mins").innerHTML = ""
       document.getElementById("secs").innerHTML = ""
-      document.getElementById("end").innerHTML = "20% Discount Applied!!";
+      document.getElementById("end").innerHTML = "20% Discount Applied!! your total amount has been changed!";
+     
+      discount(order.orderId)
+
       
       // remove the meter
       document.getElementById("discount-cd").remove();
       clearInterval(myfunc);
     }
+    
   }, 1000);
+  // {{!-- function get_discount(orderId) {
+   
+    //  updateDiscountButton();
+   // }
+  //async function getdisc() {
+   //await fetch(`/customer/discount/${orderId}`,
+    //  return res.json();
+    //} catch {
+    //  return {discountApplied: false};
+    //}
+    // Uncaught (in promise) SyntaxError: Unexpected token < in JSON at position 0
+    // caused by parsing none-json object to json format
+  //}
+  //async function discount_no() {
+    //await fetch(`/customer/discount/${orderId}`,
+      //{
+       // method: "PUT",
+        ///headers: {
+         /// 'Content-Type': 'application/json',
+       // },
+        //body: JSON.stringify({
+         // discountApplied: true
+        //})
+      //}
+    //);
+    //updateDiscountButton();
+ // }
+   //function defaultButton() {
+    //const wrapper = document.getElementById("discount-button-wrapper");
+    //const button = document.createElement("button");
+    //button.setAttribute("class", "button");
+    //const buttonText = document.createTextNode("getdisocunt");
+    //button.appendChild(buttonText);
+    //button.style.backgroundColor = "grey";
+    //wrapper.replaceChild(button, wrapper.childNodes[0]);
+ // }
+   ////function updateDiscountButton() {
+    //const wrapper = document.getElementById("discount-button-wrapper");
+    //const button = document.createElement("button");
+    //button.setAttribute("class", "button");
+
+    //getdisc().then((order) => {
+     // if (order.discountApplied) {
+       // const buttonText = document.createTextNode("Close");
+        //button.appendChild(buttonText);
+        //button.style.backgroundColor = "red";
+       // button.addEventListener("click", () => discount_no());
+      //} else {
+        //const buttonText = document.createTextNode("Open");
+        //button.appendChild(buttonText);
+        //button.style.backgroundColor = "green";
+        //button.addEventListener("click", () => get_discount()); 
+     // }
+      //wrapper.replaceChild(button, wrapper.childNodes[0]);
+    //}).catch((err) => { 
+      // do nothing
+    //});
+  //} --}}
+
+function discount(orderId){
+
+  const order={{{json order}}};
+  
+  let cartTotalField = document.querySelector(".cart-total");
+  let sum = 0;
+      
+  for (const row of tableContents) {
+      sum += parseFloat(row["Price"].substring(1));
+  }
+  sum=sum*80/100
+  cartTotalField.textContent = `$${sum} `;
+  order.discountApplied=true;
+
+  order.items = order.items.map((item) => (
+    {
+      _id: item._id,
+      snackId: item.snack,
+      quantity: item.quantity
+    }
+    ));
+
+    fetch(`/customer/orders/${orderId}`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(order)
+    }).then(function(response){
+
+
+  }).catch(function(error){
+
+  });
+
+}
 
 
 </script>

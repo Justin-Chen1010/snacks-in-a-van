@@ -53,8 +53,9 @@
   function openVan() {
     if (window.confirm('Please update your location before opening to customers!')) {
       window.location = "/vendor/location";
-      updateVanButton();
+     
     }
+     updateVanButton();
   }
 
   async function getVan() {

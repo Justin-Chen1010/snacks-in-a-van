@@ -4,6 +4,62 @@ const Vendor = require("../models/vendor");
 const Customer = mongoose.model("Customer");
 const Order = mongoose.model("Order");
 const Snack = mongoose.model("Snack");
+const getonediscountorder = async (req, res) => {
+  try {
+    const oneOrder = await Order.findOne({
+      orderId: req.params.orderId,
+    });
+    if (oneOrder === null) {
+      // no vendor found in database
+      res.status(404);
+      return res.send("Vendor not found");
+    }
+    return res.send(oneOrder); // vendor was found
+  } catch (err) {
+    // error occurred
+    res.status(400);
+    return res.send("Database query failed");
+  }
+};
+
+
+
+const DiscountApplied = async (req, res) => {
+  try {
+    console.log("here y ar");
+     
+   
+    const oneOrder = await Order.findOne({
+      orderId: req.params.orderId,
+    });
+    res.send(oneOrder)
+  
+    const status= req.body;
+
+    if (oneOrder === null) {
+      // no vendor found in database
+      res.status(404);
+      return res.send("ur order is not found");
+    }
+    // If no discount is applied, change to applied
+    if (!oneOrder.discountApplied) {
+      console.log("here y ar");
+      await Order.updateOne(
+        { orderId: oneOrder.orderId },
+        {
+          $set: {
+            discountApplied: true,
+           
+          },
+        }
+      );
+    } 
+    return res.send(status);
+  } catch (err) {
+    res.status(400);
+    return res.send("Database query failed");
+  }
+};
 
 // get all orders
 const getAllOrders = async (req, res) => {
@@ -181,6 +237,7 @@ const updateOrder = async (req, res) => {
     // update the order's status and items in that order
     oneOrder.status = newOrder.status;
     oneOrder.timeOrdered = newOrder.timeOrdered;
+    oneOrder.discountApplied=newOrder.discountApplied;
     oneOrder.items = newOrder.items.map((item) => ({
       _id: mongoose.Types.ObjectId(),
       snack: item.snackId,
@@ -242,5 +299,5 @@ module.exports = {
   updateOrder,
   getOrdersForVendor,
   getOneOrderForVendor,
-  getOrdersForCustomer, getAllPreparingOrder
+  getOrdersForCustomer, getAllPreparingOrder,DiscountApplied, getonediscountorder
 };
