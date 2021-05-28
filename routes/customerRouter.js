@@ -12,6 +12,10 @@ require("../config/customerPassport")(passport);
 customerRouter.get("/vendors", async (req, res) =>
   vendorController.getAllVendors(req, res)
 );
+
+customerRouter.get("/rating", authenticate.isCustomerLoggedIn, async (req, res) => {
+  res.render("rating", { email: req.session.email });
+});
 customerRouter.put("/discount/:orderId", authenticate.isCustomerLoggedIn, async (req, res) =>
 
  orderController.getonediscountorder(req, res)

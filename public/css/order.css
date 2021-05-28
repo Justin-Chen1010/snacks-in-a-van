@@ -62,6 +62,30 @@
   font-size: 16px;
   cursor: pointer;
 }
+#pickup-order-button{
+
+  margin: 18px;
+}
+#pickup-order-button:focus {     
+  background-color:green;    
+}
+.glow {
+  font-size: 20px;
+  color: red;
+  text-align: center;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px rgb(165, 44, 70), 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+  }
+  
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+  }
+}
+
 
 /* Smaller than standard tablet size*/
 @media screen and (max-width: 768px) {

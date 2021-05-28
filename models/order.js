@@ -5,8 +5,8 @@ const orderSchema = new mongoose.Schema({
   orderId: { type: String, required: true, unique: true },
 
   timeOrdered: { type: Date, default: Date.now },
-  timeFulfilled: { type: Date },
-  timePickedUp: { type: Date },
+  timeFulfilled: { type: Date,default: null },
+  timePickedUp: { type: Date,default: null },
   status: {
     type: String,
     enum: ["preparing", "fulfilled", "completed", "cancelled"],

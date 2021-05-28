@@ -1,0 +1,77 @@
+#rating{
+  margin-top: 10%;
+  width: 100%;
+  text-align: center;
+}
+#message{
+  font-family: inherit;
+}
+.stars input {
+    position: absolute;
+    left: -999999px;
+}
+
+
+.stars a {
+    display: inline-block;
+    padding-right:4px;
+    text-decoration: none;
+    margin:0;
+
+}
+.rating_star {
+  font-size: 0; /* trick to remove inline-element's margin */
+   
+}
+
+.stars a:after {
+    margin-top:100%;
+    position: relative;
+    font-size: 30px;
+    font-family: 'FontAwesome', serif;
+    display: block;
+    content: "\f005";
+    color: #9e9e9e;
+}
+
+
+.rating_star {
+  font-size: 0; /* trick to remove inline-element's margin */
+   
+}
+
+.stars a:hover ~ a:after{
+  color: #9e9e9e !important;
+}
+span.active a.active ~ a:after{
+  color: #9e9e9e;
+}
+
+span:hover a:after{
+  color: yellow !important;
+  
+}
+
+span.active a:after,
+.stars a.active:after{
+  color:yellow;
+  
+}
+.stars{
+    text-align: center;
+}
+
+#respond textarea {
+  margin-bottom: 10px;
+  
+  width: 80%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+
+  line-height: 1.4em;
+}

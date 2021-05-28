@@ -9,10 +9,19 @@
       </h1>
       <h3>
         Status: {{order.status}}
+
         {{#if (statusEqualTo order.status 'completed')}}
         <i class="fas fa-circle" id="blue-dot"></i>
+        
         {{else if (statusEqualTo order.status 'fulfilled')}}
         <i class="fas fa-circle" id="green-dot"></i>
+        <div class="glow">please picked up now</div>
+        <div id="fulfill-button" class="fulfill-button">
+          <button id="pickup-order-button" class="button" onclick="pickupOrder('{{order.orderId}}')">
+            <i class="fas fa-check"></i>
+            pickup Order
+          </button>
+
         {{else if (statusEqualTo order.status 'preparing')}}
         <i class="fas fa-circle" id="orange-dot"></i>
         {{/if}}
@@ -35,6 +44,7 @@
           <span id="secs"></span>
           <meter id="discount-cd" min="0" max="100" low="33" high="66" value="0"></meter>
           <span id="end"></span>
+          <div id="text"></div>
         </div>
       </div>
       <div>
@@ -68,13 +78,22 @@
 
    
     {{/if}}
+    {{#if (statusEqualTo order.status 'completed')}}
+
+    <div class="rating_page">
+        <a href="/customer/rating"><u>rate us</u></a>
+      </div>
+    {{/if}}
    
   </div>
 </section>
 
 <script>
   const order = {{{ json order }}}
-
+  const discount_amount = 20
+  const set_lock_time=1
+  const set_discount_time=2
+ 
  // reload, but only once, avoids infinite loop
  async function reloadOnce() {
   if (window.localStorage){
@@ -223,14 +242,14 @@
   var time_order = new Date(order.timeOrdered).getTime();
 
   if (discount_timer == 0) {
-    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(),15);
+    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(),set_discount_time);
     //This should work? but it should pull from time-ordered not the current itme
 
     //var discount_timer = now + (15*60000);
     //Convert 15 minutes to milliseconds
   }
   if (reorder_timer == 0){
-    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), 10);
+    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), set_lock_time);
   }
 
   if (initial_discount_timer == 0){
@@ -287,12 +306,22 @@
         cd.remove();
       }
     }
-  
-    if (timeleft <= 0) {
+    // if vendor has fulfilled the order, then customer cant have discount
+    if (order.timeFulfilled !=null){
+      
       document.getElementById("mins").innerHTML = ""
       document.getElementById("secs").innerHTML = ""
-      document.getElementById("end").innerHTML = "20% Discount Applied!! your total amount has been changed!";
-     
+      document.getElementById("end").innerHTML = "No Discount Applied!";
+       document.getElementById("discount-cd").remove();
+      clearInterval(myfunc);
+    }
+    // if vendor hasnt fulfilled the order within 15 minutes
+    if ((timeleft <= 0 )&& (order.timeFulfilled ===null)) {
+      document.getElementById("mins").innerHTML = ""
+      document.getElementById("secs").innerHTML = ""
+      document.getElementById("end").innerHTML = "20% Discount Applied!";
+      document.getElementById("text").innerHTML = " your total amount has been changed!";
+      console.log(order.timeFulfilled)
       discount(order.orderId)
 
       
@@ -302,79 +331,42 @@
     }
     
   }, 1000);
-  // {{!-- function get_discount(orderId) {
-   
-    //  updateDiscountButton();
-   // }
-  //async function getdisc() {
-   //await fetch(`/customer/discount/${orderId}`,
-    //  return res.json();
-    //} catch {
-    //  return {discountApplied: false};
-    //}
-    // Uncaught (in promise) SyntaxError: Unexpected token < in JSON at position 0
-    // caused by parsing none-json object to json format
-  //}
-  //async function discount_no() {
-    //await fetch(`/customer/discount/${orderId}`,
-      //{
-       // method: "PUT",
-        ///headers: {
-         /// 'Content-Type': 'application/json',
-       // },
-        //body: JSON.stringify({
-         // discountApplied: true
-        //})
-      //}
-    //);
-    //updateDiscountButton();
- // }
-   //function defaultButton() {
-    //const wrapper = document.getElementById("discount-button-wrapper");
-    //const button = document.createElement("button");
-    //button.setAttribute("class", "button");
-    //const buttonText = document.createTextNode("getdisocunt");
-    //button.appendChild(buttonText);
-    //button.style.backgroundColor = "grey";
-    //wrapper.replaceChild(button, wrapper.childNodes[0]);
- // }
-   ////function updateDiscountButton() {
-    //const wrapper = document.getElementById("discount-button-wrapper");
-    //const button = document.createElement("button");
-    //button.setAttribute("class", "button");
+  
 
-    //getdisc().then((order) => {
-     // if (order.discountApplied) {
-       // const buttonText = document.createTextNode("Close");
-        //button.appendChild(buttonText);
-        //button.style.backgroundColor = "red";
-       // button.addEventListener("click", () => discount_no());
-      //} else {
-        //const buttonText = document.createTextNode("Open");
-        //button.appendChild(buttonText);
-        //button.style.backgroundColor = "green";
-        //button.addEventListener("click", () => get_discount()); 
-     // }
-      //wrapper.replaceChild(button, wrapper.childNodes[0]);
-    //}).catch((err) => { 
-      // do nothing
-    //});
-  //} --}}
+function pickupOrder(orderId) {
+    //window.location.reload();
+    const order = {{{ json order }}};
+    order.timePickedUp = new Date();
+    order.status = "completed";
+    order.items = order.items.map((item) => (
+    {
+      _id: item._id,
+      snackId: item.snack,
+      quantity: item.quantity
+    }));
+    fetch(`/customer/orders/${orderId}`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(order)
+    }).then(() =>
+      window.location.reload()
+    );
+  }
 
-function discount(orderId){
+ function discount(orderId){
 
   const order={{{json order}}};
-  
   let cartTotalField = document.querySelector(".cart-total");
   let sum = 0;
       
   for (const row of tableContents) {
       sum += parseFloat(row["Price"].substring(1));
   }
-  sum=sum*80/100
+  sum=sum*(1-(discount_amount/100))
   cartTotalField.textContent = `$${sum} `;
   order.discountApplied=true;
-
   order.items = order.items.map((item) => (
     {
       _id: item._id,
@@ -383,20 +375,15 @@ function discount(orderId){
     }
     ));
 
-    fetch(`/customer/orders/${orderId}`, {
+  fetch(`/customer/orders/${orderId}`, {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(order)
     }).then(function(response){
-
-
   }).catch(function(error){
-
   });
-
 }
-
 
 </script>

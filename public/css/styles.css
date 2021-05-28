@@ -1,17 +1,17 @@
 /*
  *  TODO:
- * - vendor can mark order as fulfilled, then as picked up.
- *   Customer will see this, and they won't be able to update **
- * - customer can change order if within time or not yet fulfilled, **
+ * - vendor can mark order as fulfilled, then as picked up.-yes
+ *   Customer will see this, and they won't be able to update ** -yes
+ * - customer can change order if within time or not yet fulfilled, ** -yes
  *   resetting the timer. Vendor will see this 
  * - REPORT
- * - do not hardcode discount time (10 min and 15 min) and maybe the rate (20%)
+ * - do not hardcode discount time (10 min and 15 min) and maybe the rate (20%) -yes
  *   as well
  * - responsive design 
- *  - Set discount applied in the back end
+ *  - Set discount applied in the back end -yes
  * - bug fixes, especially for the redirects
  * - make sure euclidean distance calculation works -> yes
- * - vendor should be able to see who ordered what
+ * - vendor should be able to see who ordered what-> not yet
  * - customer should see which van an order was from (after it is placed)
  * - check if an open vendor is selected when user is about to place order,
  *   if not, alert **
@@ -43,6 +43,7 @@
  @import "./account.css";
  @import "./vendorList.css";
  @import "./cart-table.css";
+ @import "./rating.css";
  
  
  * {

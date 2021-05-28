@@ -1,0 +1,35 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<section id="rating">
+    <form method="post" action="/customer/rating" class="rating-form">
+    <div class="message">Thankyou for choosing us!</div>
+    <div class="rate">Rate us </div>
+    <p class="stars">
+    <span class="rating_star"> 
+        <a class="star-1" href="#">1</a>
+        <a class="star-2" href="#">2</a>
+        <a class="star-3" href="#">3</a>
+        <a class="star-4" href="#">4</a>
+        <a class="star-5" href="#">5</a>
+    </span>
+    <div id="respond">
+    <label for="comment"> leave your comment below</label>
+    <textarea name="comment" id="comment" placeholder="add some comment" rows="10" tabindex="4"  required="required" >
+    </textarea>
+    
+    </div>
+    <input type="hidden" name="comment_post_ID" value="1" id="comment_post_ID" />
+    <input name="submit" class='button' type="submit" value="Submit" />
+    
+    </form>
+</section>
+
+<script>
+$('.stars a').on('click', function(){
+  $('.stars span, .stars a').removeClass('active');
+
+  $(this).addClass('active');
+  $('.stars span').addClass('active');
+});
+</script>

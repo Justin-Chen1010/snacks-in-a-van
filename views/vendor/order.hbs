@@ -32,6 +32,7 @@
           <span id="secs"></span>
           <meter id="discount-cd" min="0" max="100" low="33" high="66" value="0"></meter>
           <span id="end"></span>
+          <div id="text"></div>
         </div>
       </div>
 
@@ -54,7 +55,9 @@
     
 
   const order = {{{ json order }}}
-
+   const discount_amount = 20
+  const set_lock_time=1
+  const set_discount_time=2
   function fulfillOrder(orderId) {
     //window.location.reload();
     const order = {{{ json order }}};
@@ -91,14 +94,14 @@
   var time_order = new Date(order.timeOrdered).getTime();
 
   if (discount_timer == 0) {
-    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(), 15);
+    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(),set_discount_time);
     //This should work? but it should pull from time-ordered not the current itme
 
     //var discount_timer = now + (15*60000);
     //Convert 15 minutes to milliseconds
   }
   if (reorder_timer == 0){
-    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), 10);
+    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), set_lock_time);
   }
 
   if (initial_discount_timer == 0){
@@ -145,22 +148,58 @@
         cd.remove();
       }
     }
-  
-    if (timeleft <= 0) {
+    
+    
+     
+    
+      // if order is  notfulfilled within 15 minutes, discount applied
+     if ((timeleft <= 0 && order.timeFulfilled===null)) {
+      
       document.getElementById("mins").innerHTML = ""
       document.getElementById("secs").innerHTML = ""
-      document.getElementById("end").innerHTML = "20% Discount Applied!! total amount has been reduced";
+      document.getElementById("end").innerHTML = "20% Discount Applied!! ";
+      document.getElementById("text").innerHTML = "total amount has been reduced";
       discount(order.orderId)
       // remove the meter
-      document.getElementById("discount-cd").remove();
+      const cd = document.getElementById("discount-cd");
+      if (cd !== null) {
+        cd.remove();
+      }
+    
       clearInterval(myfunc);
     }
-  }, 1000);
-
-  function cust(orderId){
+    // if it is fulfilled before the discount time, then no discount applied
+    if (order.timeFulfilled !=null && timeleft > 0){
+      
+      document.getElementById("mins").innerHTML = ""
+      document.getElementById("secs").innerHTML = ""
+      document.getElementById("end").innerHTML = "No Discount Applied!";
+      const cd = document.getElementById("discount-cd");
+      if (cd !== null) {
+        cd.remove();
+      }
     
+      clearInterval(myfunc);
+      
+    }
+    if(order.status==="fulfilled"||order.status==="completed"){
+      document.getElementById("mins").innerHTML = ""
+      document.getElementById("secs").innerHTML = ""
+      if (order.discountApplied){
+        document.getElementById("end").innerHTML = " Discount Applied!";
+        document.getElementById("text").innerHTML = "total amount has been reduced";
+        discount(order.orderId)
 
-  }
+      }
+      else{
+         document.getElementById("end").innerHTML = " no Discount Applied!";
+      }
+      document.getElementById("discount-cd").remove();
+      clearInterval(myfunc);
+
+    }
+    
+  }, 1000);
 
   function discount(orderId){
 
@@ -172,7 +211,7 @@
   for (const row of tableContents) {
       sum += parseFloat(row["Price"].substring(1));
   }
-  sum=sum*80/100
+  sum=sum*(1-(discount_amount/100))
   cartTotalField.textContent = `$${sum} `;
   order.discountApplied=true;
 

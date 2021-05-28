@@ -238,6 +238,8 @@ const updateOrder = async (req, res) => {
     oneOrder.status = newOrder.status;
     oneOrder.timeOrdered = newOrder.timeOrdered;
     oneOrder.discountApplied=newOrder.discountApplied;
+    oneOrder.timeFulfilled = newOrder.timeFulfilled;
+    oneOrder.timePickedUp = newOrder.timePickedUp;
     oneOrder.items = newOrder.items.map((item) => ({
       _id: mongoose.Types.ObjectId(),
       snack: item.snackId,
