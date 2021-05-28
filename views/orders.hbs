@@ -8,11 +8,11 @@
                 {{this.orderId}}
             </div>
             <div class="status-dot">
-                {{#if (statusEqualTo this.status 'completed')}}
+                {{#if (eq this.status 'completed')}}
                 <i class="fas fa-circle" id="blue-dot"></i>
-                {{else if (statusEqualTo this.status 'fulfilled')}}
+                {{else if (eq this.status 'fulfilled')}}
                 <i class="fas fa-circle" id="green-dot"></i>
-                {{else if (statusEqualTo this.status 'preparing')}}
+                {{else if (eq this.status 'preparing')}}
                 <i class="fas fa-circle" id="orange-dot"></i>
                 {{/if}}
             </div>

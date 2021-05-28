@@ -9,11 +9,11 @@
       </h1>
       <h3>
         Status: {{order.status}}
-        {{#if (statusEqualTo order.status 'completed')}}
+        {{#if (eq order.status 'completed')}}
         <i class="fas fa-circle" id="blue-dot"></i>
-        {{else if (statusEqualTo order.status 'fulfilled')}}
+        {{else if (eq order.status 'fulfilled')}}
         <i class="fas fa-circle" id="green-dot"></i>
-        {{else if (statusEqualTo order.status 'preparing')}}
+        {{else if (eq order.status 'preparing')}}
         <i class="fas fa-circle" id="orange-dot"></i>
         {{/if}}
       </h3>
@@ -43,7 +43,7 @@
       </div>
     </div>
     {{> cart-table order=null }}
-    {{#if (statusEqualTo order.status 'preparing')}}
+    {{#if (eq order.status 'preparing')}}
     <div id="order-buttons" class="order-buttons">
       <button id="cancel-order-button" class="button" onclick="cancelOrder('{{order.orderId}}')">
         <i class="fas fa-trash-alt"></i>

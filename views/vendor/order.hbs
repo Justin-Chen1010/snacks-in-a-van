@@ -9,11 +9,11 @@
       </h1>
       <h3>
         Status: {{order.status}}
-        {{#if (statusEqualTo order.status 'completed')}}
+        {{#if (eq order.status 'completed')}}
         <i class="fas fa-circle" id="blue-dot"></i>
-        {{else if (statusEqualTo order.status 'fulfilled')}}
+        {{else if (eq order.status 'fulfilled')}}
         <i class="fas fa-circle" id="green-dot"></i>
-        {{else if (statusEqualTo order.status 'preparing')}}
+        {{else if (eq order.status 'preparing')}}
         <i class="fas fa-circle" id="orange-dot"></i>
         {{/if}}
       </h3>
@@ -36,13 +36,17 @@
 
     </div>
     {{> cart-table order=order }}
-    {{#if (statusEqualTo order.status 'preparing')}}
-    <div id="fulfill-button" class="fulfill-button">
-      <button id="fulfill-order-button" class="button" onclick="fulfillOrder('{{order.orderId}}')">
+    {{#if (eq order.status 'preparing')}}
+      <button class="button" onclick="fulfillOrder('{{order.orderId}}')">
         <i class="fas fa-check"></i>
         Fulfill Order
       </button>
     </div>
+    {{else if (eq order.status 'fulfilled')}}
+      <button class="button" onclick="markAsPickedUp('{{order.orderId}}')">
+        <i class="fas fa-flag-checkered"></i>
+        Mark as Picked Up
+      </button>
     {{/if}}
   </div>
 </section>
@@ -50,11 +54,11 @@
 <script>
   const order = {{{ json order }}}
 
-  function fulfillOrder(orderId) {
-    //window.location.reload();
+  function updateOrderStatus(orderId, newStatus) {
+    window.location.reload();
     const order = {{{ json order }}};
     order.timeFulfilled = new Date();
-    order.status = "fulfilled";
+    order.status = newStatus;
     order.items = order.items.map((item) => (
     {
       _id: item._id,
@@ -70,6 +74,14 @@
     }).then(() =>
       window.location.reload()
     );
+  }
+
+  function markAsPickedUp(orderId) {
+    updateOrderStatus(orderId, 'completed');
+  }
+
+  function fulfillOrder(orderId) {
+    updateOrderStatus(orderId, 'fulfilled');
   }
 
   function addMinutes(date, minutes) {

@@ -53,8 +53,8 @@ var register = function (Handlebars) {
       return !(status === "cancelled");
     },
 
-    statusEqualTo: function(status1, status2) {
-      return status1 === status2;
+    eq: function(a, b) {
+      return a === b;
     },
   };
 
