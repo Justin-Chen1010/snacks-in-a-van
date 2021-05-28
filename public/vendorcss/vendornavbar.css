@@ -1,1 +1,7 @@
 @import "../css/navbar.css";
+
+.van-button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

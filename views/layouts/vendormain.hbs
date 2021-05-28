@@ -21,9 +21,8 @@
     </h1>
     <nav class="navbar-links">
       <a href="/vendor/orders">Orders</a>
-    
       <a href="/vendor/account">Account</a>
-      <div id="van-button-wrapper">
+      <div class="van-button-wrapper">
       </div>
     </nav>
   </header>
@@ -31,17 +30,15 @@
     {{{body}}}
   </main>
   <footer>
-
-        <div class="small-screen-navbar">
-            <nav class="small-screen-navbar-logo">
-                <a href="/vendor"><i class="fas fa-home"></i></a>
-                <a href="/vendor/orders" class="target"><i class="fas fa-history"></i></a>
-                <div id="van-button-wrapper">
-        </div>
-                <a href="/vendor/account" class="target"><i class="fas fa-user-cog"></i></a>
-            </nav>
-        </div>
-
+    <div class="small-screen-navbar">
+      <nav class="small-screen-navbar-logo">
+          <a href="/vendor"><i class="fas fa-home"></i></a>
+          <a href="/vendor/orders"><i class="fas fa-history"></i></a>
+          <a href="/vendor/account"><i class="fas fa-user-cog"></i></a>
+          <div class="van-button-wrapper">
+          </div>
+      </nav>
+    </div>
     <div class="copyright"></div>
     <p><span>&#169;</span>Snacks in a Van 2021</p>
   </footer>
@@ -64,8 +61,6 @@
     } catch {
       return {open: false};
     }
-    // Uncaught (in promise) SyntaxError: Unexpected token < in JSON at position 0
-    // caused by parsing none-json object to json format
   }
 
   async function closeVan() {
@@ -87,36 +82,40 @@
   }
 
   function defaultButton() {
-    const wrapper = document.getElementById("van-button-wrapper");
-    const button = document.createElement("button");
-    button.setAttribute("class", "button");
-    const buttonText = document.createTextNode("Open");
-    button.appendChild(buttonText);
-    button.style.backgroundColor = "grey";
-    wrapper.replaceChild(button, wrapper.childNodes[0]);
+    const wrappers = document.getElementsByClassName("van-button-wrapper");
+    for (const wrapper of wrappers) {
+      const button = document.createElement("button");
+      button.setAttribute("class", "button");
+      const buttonText = document.createTextNode("Open");
+      button.appendChild(buttonText);
+      button.style.backgroundColor = "grey";
+      wrapper.replaceChild(button, wrapper.childNodes[0]);
+    }
   }
 
   function updateVanButton() {
-    const wrapper = document.getElementById("van-button-wrapper");
-    const button = document.createElement("button");
-    button.setAttribute("class", "button");
+    const wrappers = document.getElementsByClassName("van-button-wrapper");
+    for (const wrapper of wrappers) {
+      const button = document.createElement("button");
+      button.setAttribute("class", "button");
 
-    getVan().then((vendor) => {
-      if (vendor.open) {
-        const buttonText = document.createTextNode("Close");
-        button.appendChild(buttonText);
-        button.style.backgroundColor = "red";
-        button.addEventListener("click", () => closeVan());
-      } else {
-        const buttonText = document.createTextNode("Open");
-        button.appendChild(buttonText);
-        button.style.backgroundColor = "green";
-        button.addEventListener("click", () => openVan()); 
-      }
-      wrapper.replaceChild(button, wrapper.childNodes[0]);
-    }).catch((err) => { 
-      // do nothing
-    });
+      getVan().then((vendor) => {
+        if (vendor.open) {
+          const buttonText = document.createTextNode("Close");
+          button.appendChild(buttonText);
+          button.style.backgroundColor = "red";
+          button.addEventListener("click", () => closeVan());
+        } else {
+          const buttonText = document.createTextNode("Open");
+          button.appendChild(buttonText);
+          button.style.backgroundColor = "green";
+          button.addEventListener("click", () => openVan()); 
+        }
+        wrapper.replaceChild(button, wrapper.childNodes[0]);
+      }).catch((err) => { 
+        // do nothing
+      });
+    }
   }
 
   defaultButton();
