@@ -50,12 +50,22 @@ input[type="number"] {
 }
 
 /* Smaller than standard tablet size*/
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 400px) {
   .count-input {
     font-size: 12px;
     padding: 2px;
   }
   .cart-table {
-    font-size: 9px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width:401px) and  (max-width: 768px) {
+  .count-input {
+    font-size: 12px;
+    padding: 2px;
+  }
+  .cart-table {
+    font-size: 20px;
   }
 }

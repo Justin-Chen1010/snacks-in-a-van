@@ -68,7 +68,7 @@
   color: white;
 }
 
-/* for tablet size*/
+/* for tablet size, doesn't seem like its applied*/
 @media screen and (min-width: 769px) {
   .navbar h1 {
     display: block;
