@@ -35,7 +35,7 @@ const getOrdersForVendor = async (req, res) => {
       vendor: vendor.vendorName,
       status: orderStatus,
     }).sort("timeOrdered").lean();
-    res.render("vendor/orders", {orders: orders, status: orderStatus, layout:"vendorMain.hbs"});
+    res.render("vendor/orders", {orders: orders, status: orderStatus, layout:"vendormain.hbs"});
   } catch (err) {
     res.status(400);
     return res.send("Database query failed");
@@ -134,7 +134,7 @@ const getOneOrderForVendor = async (req, res) => {
         order: oneOrder,
         menu: req.menu,
         customer: req.customer, 
-        layout: "vendorMain.hbs"
+        layout: "vendormain.hbs"
       }
     );
   } catch (err) {
