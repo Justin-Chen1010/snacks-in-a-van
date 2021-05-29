@@ -57,7 +57,17 @@ const getAllPreparingOrder=async(req, res)=>{
   }
 };
 
-
+const getOrderingCustomer = async (req, res, next) => {
+  try {
+    // find the customer who has the same order id in his/her array of order ids
+    const oneCustomer = await Customer.findOne({orders: req.params.orderId}).lean();
+    req.customer = oneCustomer;
+  } catch (err) {
+    res.status(400).send("Database query failed");
+  } finally {
+    next();
+  }
+}
 
 
 
@@ -66,6 +76,9 @@ const getOneOrder = async (req, res) => {
   try {
     const oneOrder = await Order.findOne({
       orderId: req.params.orderId,
+    }).lean();
+    const vendor = await Vendor.findOne({
+      vendorName: oneOrder.vendor
     }).lean();
     if (oneOrder === null) {
       // no order found in database
@@ -76,8 +89,17 @@ const getOneOrder = async (req, res) => {
         backTo: "/customer",
       });
     }
+    if (vendor === null) {
+      // no vendor found in database
+      res.status(404);
+      return res.render("error", {
+        errorCode: 404,
+        message: `Vendor ${oneOrder.vendor} not found.`,
+        backTo: "/customer",
+      });
+    }
     // order was found
-    res.render("order", { order: oneOrder, menu: req.menu });
+    res.render("order", { order: oneOrder, vendor: vendor, menu: req.menu });
   } catch (err) {
     console.log(err);
     // error occurred
@@ -96,6 +118,7 @@ const getOneOrderForVendor = async (req, res) => {
     const oneOrder = await Order.findOne({
       orderId: req.params.orderId,
     }).lean();
+
     if (oneOrder === null) {
       // no order found in database
       res.status(404);
@@ -106,9 +129,16 @@ const getOneOrderForVendor = async (req, res) => {
       });
     }
     // order was found
-    res.render("vendor/order", { order: oneOrder, menu: req.menu, layout: "vendorMain.hbs"});
+    res.render("vendor/order", 
+      {
+        order: oneOrder,
+        menu: req.menu,
+        customer: req.customer, 
+        layout: "vendorMain.hbs"
+      }
+    );
   } catch (err) {
-    console.log(err);
+    console.log(err);   
     // error occurred
     res.status(400);
     return res.render("error", {
@@ -205,7 +235,7 @@ const getOrdersForCustomer = async (req, res) => {
 
     const orders = await Promise.all(
       customer.orders.map(async (id) => {
-        var order = await Order.findOne({ orderId: id }).lean();
+        var order = await Order.findOne({ orderId: id}).lean();
         return order;
       })
     );
@@ -242,5 +272,6 @@ module.exports = {
   updateOrder,
   getOrdersForVendor,
   getOneOrderForVendor,
+  getOrderingCustomer,
   getOrdersForCustomer, getAllPreparingOrder
 };

@@ -51,20 +51,6 @@
   margin: 8px;
 }
 
-.vendor-button {
-  border: none;
-  border-radius: 40px;
-  text-align: left;
-  transition: all 0.1s;
-  margin: 8px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  align-items: center;
-  cursor: pointer;
-}
 
 .vendor-button:hover {
   transform: scale(1.1);
@@ -90,13 +76,13 @@
   margin-left: 16px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 400px) {
   #vendors {
     margin-top: 30px;
     margin-bottom: 90px;
   }
   .vendors-wrapper {
-    padding: 0;
+    padding: 0 16px;
   }
   .vendors-list {
     font-size: 100px;
@@ -105,14 +91,29 @@
     font-size: 32px;
     padding: 8px;
   }
+  .vendor-button {
+    border: none;
+    border-radius: 40px;
+    text-align: left;
+    transition: all 0.1s;
+    margin: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  
+    display: flex;
+    width: 90%;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+  }
+  
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
   #vendors {
     margin-top: 90px;
   }
   .vendors-wrapper {
-    padding: 0 30%;
+    padding: 0 32px;
   }
   .vendors-list {
     font-size: 64px;
@@ -121,4 +122,50 @@
     font-size: 64px;
     padding: 32px;
   }
+  .vendor-button {
+    border: none;
+    border-radius: 40px;
+    text-align: left;
+    transition: all 0.1s;
+    margin: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  
+    display: flex;
+    width: 90%;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+  }
+
 }
+
+@media screen and (min-width:401px) and  (max-width: 768px) {
+  #vendors {
+    margin-top: 90px;
+  }
+  .vendors-wrapper {
+    padding: 0 32px;
+  }
+  .vendors-list {
+    font-size: 64px;
+  }
+  .vendor-icon {
+    font-size: 64px;
+    padding: 32px;
+  }
+  .vendor-button {
+    border: none;
+    border-radius: 40px;
+    text-align: left;
+    transition: all 0.1s;
+    margin: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+

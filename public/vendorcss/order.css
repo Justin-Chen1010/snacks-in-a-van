@@ -1,3 +1,11 @@
 @import "../css/order.css";
 @import "../css/cart.css";
 @import "../css/cart-table.css";
+
+#customer-name, #customer-email {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: auto;
+}

@@ -13,12 +13,12 @@ vendorRouter.get("/", (req, res) =>  {
 });
 
 vendorRouter.get("/signup", (req, res) => {
-  res.render('vendor/signup', {vendorName: req.session.vendorName, layout:"vendorMain.hbs"});
+  res.render('vendor/signup', {vendorName: req.session.vendorName, layout:"vendormain.hbs"});
 });
 
 
 // vendorRouter.get("/account", async (req, res) => {
-//   res.render("vendor/account", { vendorName: req.session.vendorName, layout:"vendorMain.hbs" })
+//   res.render("vendor/account", { vendorName: req.session.vendorName, layout:"vendormain.hbs" })
 // });
 
 
@@ -31,7 +31,7 @@ vendorRouter.get("/signup", (req, res) => {
 // }));
 
 vendorRouter.get("/account", authenticate.isVendorLoggedIn, async (req, res) => {
-  res.render("vendor/account", { vendorName: req.session.vendorName, layout:"vendorMain.hbs" })
+  res.render("vendor/account", { vendorName: req.session.vendorName, layout:"vendormain.hbs" })
 });
 
 
@@ -49,7 +49,7 @@ vendorRouter.post("/account", authenticate.isVendorLoggedIn,
   // }
   async (req, res) => {
     vendorController.updateVendor(req, res);
-    // res.render("vendor/account", { layout:"vendorMain.hbs" });
+    // res.render("vendor/account", { layout:"vendormain.hbs" });
   }
 );
 
@@ -58,7 +58,7 @@ vendorRouter.get("/forgot-password", (req, res) => {
 if (req.session.vendoremail!==req.body.vendoremail){
   req.flash("message","email not found");
 }
-  res.render('vendor/passwordManagement',{layout:"vendorMain.hbs"});
+  res.render('vendor/passwordManagement',{layout:"vendormain.hbs"});
 
 });
 
@@ -66,7 +66,7 @@ if (req.session.vendoremail!==req.body.vendoremail){
 
 vendorRouter.get("/reset-password", (req, res) => {
 
-  res.render('vendor/resetPassword',{layout:"vendorMain.hbs"});
+  res.render('vendor/resetPassword',{layout:"vendormain.hbs"});
   
 
 });
@@ -74,10 +74,10 @@ vendorRouter.get("/reset-password", (req, res) => {
 
 
 vendorRouter.get("/home", async (req, res) => {
-  res.render("vendor/home", {layout:"vendorMain.hbs"});
+  res.render("vendor/home", {layout:"vendormain.hbs"});
 });
 // vendorRouter.get("/signup", (req, res) => {
-//   res.render('vendor/signup',{layout:"vendorMain.hbs"});
+//   res.render('vendor/signup',{layout:"vendormain.hbs"});
 // // });
 // vendorRouter.post('/signup', passport.authenticate('local-signup', {
 //   successRedirect : '/', // redirect to the homepage
@@ -97,7 +97,7 @@ vendorRouter.post("/forgot-password", passport.authenticate('local-password-mana
 }));
 
 vendorRouter.get("/login", async (req, res) => {
-  res.render("vendor/login", { "vendorLoginFailed" : req.session.vendorLoginErr, layout:"vendorMain.hbs" });
+  res.render("vendor/login", { "vendorLoginFailed" : req.session.vendorLoginErr, layout:"vendormain.hbs" });
   req.session.vendorLoginErr = false;
 });
 
@@ -128,7 +128,7 @@ vendorRouter.post("/logout", function (req, res) {
 
 // get the available vendors
 vendorRouter.get("/location", authenticate.isVendorLoggedIn, async (req, res) => {
-  res.render("vendor/location", {layout:"vendorMain.hbs"});
+  res.render("vendor/location", {layout:"vendormain.hbs"});
 });
 
 // get outstanding ('preparing') orders for a vendor, can query status
@@ -137,8 +137,12 @@ vendorRouter.get("/orders", authenticate.isVendorLoggedIn, async (req, res) => {
   orderController.getOrdersForVendor(req, res);
 });
 
-vendorRouter.get("/orders/:orderId", authenticate.isVendorLoggedIn, snackController.getMenu, async (req, res) => {
-  orderController.getOneOrderForVendor(req, res);
+vendorRouter.get("/orders/:orderId",
+  authenticate.isVendorLoggedIn,
+  snackController.getMenu,
+  orderController.getOrderingCustomer,
+  async (req, res) => {
+    orderController.getOneOrderForVendor(req, res);
 });
 
 // update the status of an order

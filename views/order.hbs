@@ -35,11 +35,11 @@
       </div>
       <div>
         <i id="van-name" class="fas fa-shuttle-van"></i>
-        <span class="cart-van-name">Van name</span>
+        <span class="cart-van-name">{{vendor.vendorName}}</span>
       </div>
       <div>
         <i id="van-location" class="fas fa-map-marker-alt"></i>
-        <span class="cart-van-location">Van location</span>
+        <span class="cart-van-location">{{vendor.address}}</span>
       </div>
     </div>
     {{> cart-table order=null }}
@@ -232,6 +232,8 @@
     var now = new Date().getTime();
     var timeleft = discount_timer - now;
     var timeleft_change = reorder_timer - now;
+    const discountTimeSet = 15;
+    const ChangeOrderTimeSet = 10;
 
     if (!buttonsUpdated && timeleft_change > 0) {
       // Render the buttons
@@ -242,8 +244,8 @@
     }
 
     // Update progress bar
-    order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(10*60000)));
-    discount_pb.setAttribute("value", 100 - 100*(1- timeleft/(15*60000)));
+    order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(ChangeOrderTimeSet*60000)));
+    discount_pb.setAttribute("value", 100 - 100*(1- timeleft/(discountTimeSet*60000)));
 
     
     // Calculating the days, hours, minutes and seconds left

@@ -35,6 +35,15 @@
       </div>
 
     </div>
+      <div>
+        <i id="customer-email" class="fas fa-envelope-square"></i>
+        <span>{{customer.email}}</span>
+      </div>
+      <div>
+        <i id="customer-name" class="fas fa-signature"></i>
+        <span>{{customer.givenName}} {{customer.familyName}}</span>
+      </div>
+    </div>
     {{> cart-table order=order }}
     {{#if (eq order.status 'preparing')}}
       <button class="button" onclick="fulfillOrder('{{order.orderId}}')">
@@ -96,16 +105,18 @@
   var reorder_timer = 0;
   var initial_discount_timer = 0;
   var time_order = new Date(order.timeOrdered).getTime();
+  const discountTimeSet = 15;
+  const ChangeOrderTimeSet = 10;
 
   if (discount_timer == 0) {
-    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(), 15);
+    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(), discountTimeSet);
     //This should work? but it should pull from time-ordered not the current itme
 
     //var discount_timer = now + (15*60000);
     //Convert 15 minutes to milliseconds
   }
   if (reorder_timer == 0){
-    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), 10);
+    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), ChangeOrderTimeSet);
   }
 
   if (initial_discount_timer == 0){
@@ -122,8 +133,8 @@
     var timeleft_change = reorder_timer - now;
 
     // Update progress bar
-    order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(10*60000)));
-    discount_pb.setAttribute("value", 100 - 100*(1- timeleft/(15*60000)));
+    order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(ChangeOrderTimeSet*60000)));
+    discount_pb.setAttribute("value", 100 - 100*(1- timeleft/(discountTimeSet*60000)));
 
     
     // Calculating the days, hours, minutes and seconds left

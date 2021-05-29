@@ -14,7 +14,7 @@
  *   check menu and home.css  -Justin
 
  *  - Set discount applied in the back end
- * - bug fixes, especially for the redirects
+ * - bug fixes, especially for the redirects (after placing order to the order that they just placed maybe?)
  * - make sure euclidean distance calculation works -> yes
  * - vendor should be able to see who ordered what
  * - customer should see which van an order was from (after it is placed)
@@ -46,7 +46,7 @@
  @import "./signup.css";
  @import "./order.css";
  @import "./account.css";
- @import "./vendorList.css";
+ @import "./vendor-list.css";
  @import "./cart-table.css";
  
  

@@ -8,12 +8,12 @@ const { v4: uuidv4 } = require("uuid");
 const getAllVendors = async (req, res) => {
   try {
     if (req.body.hasOwnProperty("filter") && req.body.filter){
-      res.render("vendorList", {vendors: req.body.vans, layout :'main.hbs'});
+      res.render("vendor-list", {vendors: req.body.vans, layout :'main.hbs'});
     }
     const vendors = await Vendor.find({ open: true })
       .select({ password: 0 })
       .lean();
-    res.render("vendorList", { vendors: vendors ,layout :'main.hbs'
+    res.render("vendor-list", { vendors: vendors ,layout :'main.hbs'
 
     });
   } catch (err) {
@@ -29,7 +29,7 @@ const getAllOpenVendors = async (req, res) => {
     const vendors = await Vendor.find({ open: true })
       .select({ password: 0 })
       .lean();
-    res.render("vendorList", { vendors: vendors ,layout :'main.hbs'
+    res.render("vendor-list", { vendors: vendors ,layout :'main.hbs'
 
     });
   } catch (err) {
@@ -104,7 +104,7 @@ const updateVendor = async (req, res) => {
         }
       }
     );
-    return res.render("vendor/account", {vendorName: req.session.vendorName, layout:"vendorMain.hbs"}); // customer was found
+    return res.render("vendor/account", {vendorName: req.session.vendorName, layout:"vendormain.hbs"}); // customer was found
   } catch (err) {
     // error occurred
     res.status(400);
