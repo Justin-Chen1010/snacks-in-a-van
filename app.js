@@ -55,6 +55,8 @@ app.get("/customer", (req, res) => {
 });
 
 // Invalid path, return status 404
+
+
 app.all("*", async (req, res) => {
   res
     .status(404)

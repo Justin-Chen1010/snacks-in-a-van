@@ -12,6 +12,17 @@ require("../config/customerPassport")(passport);
 customerRouter.get("/vendors", async (req, res) =>
   vendorController.getAllVendors(req, res)
 );
+customerRouter.put("/discount/:orderId", authenticate.isCustomerLoggedIn, async (req, res) =>
+
+ orderController.getonediscountorder(req, res)
+);
+
+customerRouter.get("/discount/:orderId", authenticate.isCustomerLoggedIn, async (req, res) => {
+ orderController.getonediscountorder(req, res)
+}
+);
+
+
 
 // get the menu: details of all snacks
 customerRouter.get("/menu", async (req, res) =>
@@ -35,7 +46,6 @@ customerRouter.post("/orders", authenticate.isCustomerLoggedIn, async (req, res)
 customerRouter.get("/orders", authenticate.isCustomerLoggedIn, async (req, res) => {
     orderController.getOrdersForCustomer(req, res);
 });
-
 // get an order detail that belongs to the customer
 customerRouter.get(
   "/orders/:orderId",

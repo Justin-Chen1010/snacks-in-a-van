@@ -110,14 +110,17 @@
     // redirect to cart page
     function viewCart() {
         window.location.href = "/customer/cart";
+       
     }
 
     // redirect to order page, after having updated the order currently being
     // added to in this page
     function viewOrder(orderId) {
         order = {{{ json order }}}
+        
         let orderItems = {{{ json (orderToCart order)}}};
         order.items = orderItems;
+        console.log(order)
         fetch(`/customer/orders/${orderId}`, {
             method: "PUT",
             headers: {
