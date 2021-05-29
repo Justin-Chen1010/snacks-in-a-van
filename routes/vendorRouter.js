@@ -124,8 +124,6 @@ vendorRouter.post("/logout", function (req, res) {
 });
 
 
-
-
 // get the available vendors
 vendorRouter.get("/location", authenticate.isVendorLoggedIn, async (req, res) => {
   res.render("vendor/location", {layout:"vendormain.hbs"});
@@ -135,6 +133,10 @@ vendorRouter.get("/location", authenticate.isVendorLoggedIn, async (req, res) =>
 // ?status=preparing is default, but status=fulfilled or completed
 vendorRouter.get("/orders", authenticate.isVendorLoggedIn, async (req, res) => {
   orderController.getOrdersForVendor(req, res);
+});
+
+vendorRouter.post("/orders", authenticate.isVendorLoggedIn, async(req, res) => {
+  orderController.getOrderByIdPattern(req, res);
 });
 
 vendorRouter.get("/orders/:orderId",

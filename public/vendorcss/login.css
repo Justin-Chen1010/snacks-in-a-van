@@ -1,17 +1,9 @@
-@media screen and (max-width: 768px) {
-  .vendor-login-form {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media screen and (min-width: 769px) {
-  .vendor-login-form {
-    width: 20%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.vendor-login-form {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 32px;
+  margin-bottom: 32px;
 }
 
 .vendor-login-form-header {
@@ -55,15 +47,6 @@
   padding: 8px;
 }
 
-input[type="text"],
-input[type="password"],
-label {
-  width: 100%;
-  display: block;
-  margin: 8px;
-  font-weight: lighter;
-}
-
 
 
 .van-icon {
@@ -74,19 +57,19 @@ label {
 }
 @keyframes movingvan {
   0% {
-    transform: translateX(-20%);
+    transform: translateX(-10%);
   }
 
   50% {
-    transform: translateX(20%);
+    transform: translateX(10%);
   }
 
   100% {
-    transform: translateX(-20%);
+    transform: translateX(-10%);
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 400px) { 
   #login-form {
     width: 100%;
     margin-top: 8px;
@@ -102,18 +85,85 @@ label {
   .vendor-login-forgot-password {
     text-align: right;
     font-size: 11px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .vendor-login-error-message {
     text-align: right;
     font-size: 11px;
     font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
     color: var(--color-red);
   }
   .vendor-no-account-yet {
     font-size: 11px;
   }
+  
+  input[type="text"],
+  input[type="password"],
+  label {
+    width: 100%;
+    display: block;
+    margin: 8px;
+    font-weight: lighter;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
-@media screen and (min-width: 768px) {
+
+@media screen and (min-width:401px) and  (max-width: 1060px) {
+  #login-form {
+    width: 100%;
+    margin-top: 8px;
+    font-size: 15px;
+  }
+  #vendor-login-button {
+    width: auto;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .vendor-login-forgot-password {
+    width: 50%;
+    text-align: right;
+    font-size: 11px;    
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .vendor-login-error-message {
+    width: 50%;
+    text-align: right;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--color-red);
+  }
+  .vendor-no-account-yet {
+    font-size: 11px;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  label {
+    width: 50%;
+    display: block;
+    margin: 8px;
+    font-weight: lighter;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .vendor-login-form {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 128px;
+    margin-bottom: 64px;
+  }
+}
+@media screen and (min-width: 1061px) {
   #login-form {
     width: 100%;
     margin-top: 128px;
@@ -126,14 +176,35 @@ label {
     cursor: pointer;
   }
   .vendor-login-forgot-password {
+    width: 50%;
     text-align: right;
     font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .vendor-login-error-message {
+    width: 50%;
     text-align: right;
     font-size: 16px;
     font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
     color: var(--color-red);
 
   }
+  
+  input[type="text"],
+  input[type="password"],
+  label {
+    width: 50%;
+    display: block;
+    margin: 8px;
+    font-weight: lighter;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
+
+/* @media screen and (min-width: 1061px) {
+  @media screen and (min-width:401px) and  (max-width: 1060px) { */
+    /* @media screen and (max-width: 400px) { */

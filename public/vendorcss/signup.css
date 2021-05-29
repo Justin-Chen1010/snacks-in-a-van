@@ -1,18 +1,12 @@
-/* #signup-vendor {
-    width: 100%;
-    color: black;
-    text-align: center;
-  
-    margin-left: auto;
-    margin-right: auto;
-  } */
+#signup-vendor {
+  width: 100%;
+  margin-top: 64px;
+  margin-bottom: 64px;
+}
 
-  @media screen and (min-width: 768px) {
 
-    #signup-vendor {
-      width: 100%;
-      margin-top: 128px;
-    }
+@media screen and (min-width: 1061px) {
+
     
     #signup-vendor h1 {
       font-family: var(--font-heading);
@@ -47,10 +41,65 @@
     
     #signup-vendor input,
     label {
-      width: 100%;
+      width: 50%;
       display: block;
       margin: 8px;
       font-weight: lighter;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    #signup-vendor input {
+      background-color: var(--color-white);
+      border-radius: 8px;
+      border: none;
+      padding: 8px;
+    }
+    
+  }
+
+  @media screen and (min-width:401px) and  (max-width: 1060px) {
+
+    
+    #signup-vendor h1 {
+      font-family: var(--font-heading);
+    }
+    
+    .vendor-signup-form {
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .vendor-signup-form-header {
+      margin-top: 32px;
+      text-align: center;
+    }
+    
+    .vendor-signup-form-header i {
+      font-size: 56px;
+    }
+    
+    .vendor-signup-form-submit {
+      margin-top: 32px;
+      text-align: center;
+    }
+    
+    #vendor-signup-button {
+      width: auto;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+    
+    #signup-vendor input,
+    label {
+      width: 50%;
+      display: block;
+      margin: 8px;
+      font-weight: lighter;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     #signup-vendor input {
@@ -61,30 +110,9 @@
     }
     
     
-    /* input[name="lat"],
-    input[name="lon"],
-    input[name="address"],
-    
-    input[name="vendorconfirmPassword"]
-     {
-      width: 20%;
-      padding: 8px;
-      border-radius: 8px;
-      border: none;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      font-weight: lighter;
-    } */
   }
   
-  @media screen and (max-width: 768px) {
-
-    #signup-vendor {
-      width: 100%;
-      margin-top: 128px;
-    }
-    
+  @media screen and (max-width: 400px) {
     #signup-vendor h1 {
       font-family: var(--font-heading);
     }
@@ -122,6 +150,8 @@
       display: block;
       margin: 8px;
       font-weight: lighter;
+      margin-left: auto;
+      margin-right: auto;
     }
     
     #signup-vendor input {
@@ -131,20 +161,5 @@
       padding: 8px;
     }
 
-    /* input[name="lat"],
-    input[name="lon"],
-    input[name="address"],
-    
-    input[name="vendorconfirmPassword"] {
-      width: 50%;
-      padding: 8px;
-      border-radius: 8px;
-      border: none;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      font-weight: lighter;
-      
-    } */
 }
   

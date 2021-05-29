@@ -2,24 +2,36 @@
    <div class="vendors-wrapper">
       <h1>Select A Van</h1>
       <div class="location">
-         <i class="fas fa-map-marker-alt" id="location-icon"></i>
-         <input type="Number" min="1" max="20" step="1" value="5" id="num-van-input" placeholder="# Vans">
-         <button id="find-nearest" type="button" onClick="getNearestVans()">FIND NEAREST</button>
+         <button class="button nearest-vans-button" type="button" onClick="getNearestVans()">FIND NEAREST</button>
+         <input type="Number" min="1" max="20" step="1" value="5" id="num-van-input" pattern="[0-9]*" placeholder="# Vans">
+         <i class="icon-SnackVan" id="location-icon"></i>
       </div>
       <div id="vendors-list">
          {{#each vendors}}
          <button class="vendor-button" type="button" onclick="updateVendor('{{this.vendorName}}')">
-            <div class="vendor-icon"><i class="icon-SnackVan"></i></div>
-            <div>
+            <div class="vendor-icon">
+               <i class="icon-SnackVan"></i>
+            </div>
+            <div class="vendor-details-wrapper">
                <div class="vendor-name">{{this.vendorName}}</div>
                <div class="vendor-details">
-                  <p>{{this.address}}</p>
+                  <p>
+                     <i class="fas fa-map-marker-alt"></i>
+                     {{this.address}}
+                  </p>
                   {{#if this.phoneNumber}}
-                  <p><i class="fas fa-phone"></i>{{this.phoneNumber}}</p>
+                  <p>
+                     <i class="fas fa-phone"></i>
+                     {{this.phoneNumber}}
+                  </p>
                   {{/if}}
                   {{#if this.lat}}
                   {{#if this.lon}}
-                  <p class="get-direction" onClick="openMap({{this.lat}}, {{this.lon}})"><u><i class="fas fa-directions"></i>Get Direction</u></p>
+                  <p
+                     class="get-direction"
+                     onClick="openMap({{this.lat}}, {{this.lon}})"
+                  ><u><i class="fas fa-directions"></i>Get Direction</u>
+                  </p>
                   {{/if}}
                   {{/if}}
                </div>
@@ -85,7 +97,8 @@
       phone.appendChild(document.createTextNode(vendor.phoneNumber));
       // Direction
       const direction = document.createElement("p");
-      direction.setAttribute("onClick", () => openMap(event, vendor));
+      direction.classList.add("get-direction");
+      direction.addEventListener("click", () => openMap(vendor.lat, vendor.lon));
       const underline = document.createElement("u");
       const dirIcon = document.createElement("i");
       dirIcon.setAttribute("class", "fas fa-directions");

@@ -31,10 +31,10 @@
       return false;
     }
     if (!passwordPolicy(password)) {
-      alert("Invalid password\n\n
-             1. At least one alphabet character (upper or lower caseA-Z)\n
-             2. At least one numerical digit (0-9)\n
-             3. A length of at least 8 characters");
+      alert("Invalid password\n\n" +
+            "1. At least one alphabet character (upper or lower caseA-Z)\n" +
+            "2. At least one numerical digit (0-9)\n" +
+            "3. A length of at least 8 characters");
       return false;
     }
   }

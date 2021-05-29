@@ -53,9 +53,9 @@ var register = function (Handlebars) {
       return !(status === "cancelled");
     },
 
-    eq: function(a, b) {
-      return a === b;
-    },
+    eq: (a, b) => (a === b),
+    or: (a, b) => (a || b),
+    not: (a) => (!a)
   };
 
   if (Handlebars && typeof Handlebars.registerHelper === "function") {

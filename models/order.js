@@ -5,8 +5,8 @@ const orderSchema = new mongoose.Schema({
   orderId: { type: String, required: true, unique: true },
 
   timeOrdered: { type: Date, default: Date.now },
-  timeFulfilled: { type: Date },
-  timePickedUp: { type: Date },
+  timeFulfilled: { type: Date, default : null },
+  timePickedUp: { type: Date , default: null},
   status: {
     type: String,
     enum: ["preparing", "fulfilled", "completed", "cancelled"],
@@ -22,7 +22,10 @@ const orderSchema = new mongoose.Schema({
       quantity: { type: Number, required: true, min: 1 },
     },
   ],
-  customerRating: { type: mongoose.Schema.Types.ObjectId, ref: "Rating" },
+  score: { type: Number, default: null },
+  comment: { type: String , default: null},
+
+  //customerRating: { type: mongoose.Schema.Types.ObjectId, ref: "Rating" },
 });
 
 const Order = mongoose.model("Order", orderSchema);

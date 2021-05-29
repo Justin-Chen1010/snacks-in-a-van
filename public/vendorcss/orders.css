@@ -13,3 +13,38 @@
 .orders-buttons button.selected {
     background-color: var(--color-black);
 }
+
+.findOrderInputWrapper{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    margin: 24px;
+    padding: 8px;
+}
+
+#orderIdInput{
+    border-radius: 50px;
+    font-size: 24px;
+    border: none;
+    /* width: 30%; */
+    flex-grow: 1;
+    padding: 8px 16px;
+}
+
+#searchButton{
+    margin: 16px;
+    border-radius: 20px;
+    font-size: 24px;
+}
+
+#searchButton:hover {
+    cursor: pointer;
+    transform: scale(1.25) perspective(1px)
+}
+
+#findOrderByIdForm{
+    width: auto;
+    display: block;
+}

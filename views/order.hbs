@@ -2,6 +2,12 @@
   <div class="order-wrapper">
     <div class="order-header">
       <h1>
+        {{!-- <div>
+          <body onload="JavaScript:AutoRefresh(20000);">
+            <p> </p>this page will refresh every 20 seconds.</p>
+          </body>
+    </div> --}}
+
         <div>
           <i class="icon-SnackVan"></i>
         </div>
@@ -11,6 +17,9 @@
         Status: {{order.status}}
         {{#if (eq order.status 'completed')}}
         <i class="fas fa-circle" id="blue-dot"></i>
+        <div class="rating_page">
+          <a href="/customer/rating/{{order.orderId}}"><u>Write a Review!</u></a>
+        </div>
         {{else if (eq order.status 'fulfilled')}}
         <i class="fas fa-circle" id="green-dot"></i>
         {{else if (eq order.status 'preparing')}}
@@ -18,25 +27,23 @@
         {{/if}}
       </h3>
     </div>
-  
-          
-    {{!-- <div id="discount-button-wrapper">
-      </div> --}}
     <div>
+      {{#if (or (eq order.status 'preparing') (eq order.discountApplied true))}}
       <div class="progress-bars">
         <div class="order-timer">
           <span id="mins_change"></span>
           <span id="secs_change"></span>
-          <meter id="order-fixed-cd" min="0" max="100" low="33" high="66" value="0"></meter>
+          <meter id="order-fixed-cd" min="0" max="100" low="30" high="70" optimum="85" value="0"></meter>
           <span id="end_change"></span>
         </div>
         <div class="discount-timer">
           <span id="mins"></span>
           <span id="secs"></span>
-          <meter id="discount-cd" min="0" max="100" low="33" high="66" value="0"></meter>
+          <meter id="discount-cd" min="0" max="100" low="30" high="70" optimum="85" value="0"></meter>
           <span id="end"></span>
         </div>
       </div>
+      {{/if}}
       <div>
         <i id="van-name" class="fas fa-shuttle-van"></i>
         <span class="cart-van-name">{{vendor.vendorName}}</span>
@@ -60,31 +67,28 @@
       <button id="add-item-button" class="button" onclick="goToMenu('{{order.orderId}}')" type="button">
         <i class="fas fa-clipboard=list"></i> Add items from menu
       </button>
-     
-     
-
     </div>
-
-   
     {{/if}}
-   
   </div>
 </section>
 
 <script>
   const order = {{{ json order }}}
-
+  const DISCOUNT_TIME_LIMIT_MIN = parseFloat({{{discountSettings.discountTimeLimitMin}}})
+  const ORDER_LOCK_IN_TIME_LIMIT_MIN = parseFloat({{{discountSettings.orderLockInTimeLimitMin}}})
+  const DISCOUNT_RATE = parseFloat({{{discountSettings.discountRate}}})
+ 
  // reload, but only once, avoids infinite loop
- async function reloadOnce() {
-  if (window.localStorage){
-    if (!localStorage.getItem('firstReload')){
-     localStorage['firstReload'] = true;
-     window.location.reload();
-    } else {
-     localStorage.removeItem('firstReload');
+  async function reloadOnce() {
+    if (window.localStorage){
+      if (!localStorage.getItem('firstReload')){
+        localStorage['firstReload'] = true;
+        window.location.reload();
+      } else {
+        localStorage.removeItem('firstReload');
+      }
     }
-  }
- };
+  };
 
   function loadCart() {
     const cart = JSON.parse(sessionStorage.getItem('cart'));
@@ -222,14 +226,14 @@
   var time_order = new Date(order.timeOrdered).getTime();
 
   if (discount_timer == 0) {
-    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(),15);
+    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(),DISCOUNT_TIME_LIMIT_MIN);
     //This should work? but it should pull from time-ordered not the current itme
 
     //var discount_timer = now + (15*60000);
     //Convert 15 minutes to milliseconds
   }
   if (reorder_timer == 0){
-    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), 10);
+    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(),ORDER_LOCK_IN_TIME_LIMIT_MIN);
   }
 
   if (initial_discount_timer == 0){
@@ -239,13 +243,17 @@
   var buttonsUpdated = false;
   
   // Run myfunc every second
+  setInterval(() => {
+    window.location.reload()
+  }, 10000);
+  
   var myfunc = setInterval(function () {
 
     var now = new Date().getTime();
     var timeleft = discount_timer - now;
     var timeleft_change = reorder_timer - now;
-    const discountTimeSet = 15;
-    const ChangeOrderTimeSet = 10;
+    const discountTimeSet = DISCOUNT_TIME_LIMIT_MIN;
+    const changeOrderTimeSet = ORDER_LOCK_IN_TIME_LIMIT_MIN;
 
     if (!buttonsUpdated && timeleft_change > 0) {
       // Render the buttons
@@ -255,11 +263,14 @@
       buttonsUpdated = !buttonsUpdated;
     }
     
+    if (!order_fixed_pb || !discount_pb) {
+      return;
+    }
+    
     // Update progress bar
-    order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(ChangeOrderTimeSet*60000)));
+    order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(changeOrderTimeSet*60000)));
     discount_pb.setAttribute("value", 100 - 100*(1- timeleft/(discountTimeSet*60000)));
 
-    
     // Calculating the days, hours, minutes and seconds left
     var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
@@ -268,10 +279,10 @@
     var seconds_change = Math.floor((timeleft_change % (1000 * 60)) / 1000);
 
     // Result is output to the specific element
-    document.getElementById("mins_change").innerHTML = "Order lock in: " + minutes_change + "m "
+    document.getElementById("mins_change").innerHTML = "Order locked in: " + minutes_change + "m "
     document.getElementById("secs_change").innerHTML = seconds_change + "s "
 
-    document.getElementById("mins").innerHTML = "Discount apply in: " + minutes + "m "
+    document.getElementById("mins").innerHTML = "Discount applied in: " + minutes + "m "
     document.getElementById("secs").innerHTML = seconds + "s "
 
     // Display the message when countdown is over
@@ -279,6 +290,7 @@
       document.getElementById("mins_change").innerHTML = ""
       document.getElementById("secs_change").innerHTML = ""
       document.getElementById("end_change").innerHTML = "Order Locked in!";
+      
       // hide the buttons
       disableOrderEdit();
       
@@ -292,10 +304,8 @@
     if (timeleft <= 0) {
       document.getElementById("mins").innerHTML = ""
       document.getElementById("secs").innerHTML = ""
-      document.getElementById("end").innerHTML = "20% Discount Applied!! your total amount has been changed!";
-     
+      document.getElementById("end").innerHTML = "20% Discount Applied!!!";   
       discount(order.orderId)
-
       
       // remove the meter
       document.getElementById("discount-cd").remove();
@@ -303,76 +313,18 @@
     }
     
   }, 1000);
-  // {{!-- function get_discount(orderId) {
-   
-    //  updateDiscountButton();
-   // }
-  //async function getdisc() {
-   //await fetch(`/customer/discount/${orderId}`,
-    //  return res.json();
-    //} catch {
-    //  return {discountApplied: false};
-    //}
-    // Uncaught (in promise) SyntaxError: Unexpected token < in JSON at position 0
-    // caused by parsing none-json object to json format
-  //}
-  //async function discount_no() {
-    //await fetch(`/customer/discount/${orderId}`,
-      //{
-       // method: "PUT",
-        ///headers: {
-         /// 'Content-Type': 'application/json',
-       // },
-        //body: JSON.stringify({
-         // discountApplied: true
-        //})
-      //}
-    //);
-    //updateDiscountButton();
- // }
-   //function defaultButton() {
-    //const wrapper = document.getElementById("discount-button-wrapper");
-    //const button = document.createElement("button");
-    //button.setAttribute("class", "button");
-    //const buttonText = document.createTextNode("getdisocunt");
-    //button.appendChild(buttonText);
-    //button.style.backgroundColor = "grey";
-    //wrapper.replaceChild(button, wrapper.childNodes[0]);
- // }
-   ////function updateDiscountButton() {
-    //const wrapper = document.getElementById("discount-button-wrapper");
-    //const button = document.createElement("button");
-    //button.setAttribute("class", "button");
 
-    //getdisc().then((order) => {
-     // if (order.discountApplied) {
-       // const buttonText = document.createTextNode("Close");
-        //button.appendChild(buttonText);
-        //button.style.backgroundColor = "red";
-       // button.addEventListener("click", () => discount_no());
-      //} else {
-        //const buttonText = document.createTextNode("Open");
-        //button.appendChild(buttonText);
-        //button.style.backgroundColor = "green";
-        //button.addEventListener("click", () => get_discount()); 
-     // }
-      //wrapper.replaceChild(button, wrapper.childNodes[0]);
-    //}).catch((err) => { 
-      // do nothing
-    //});
-  //} --}}
-
-function discount(orderId){
-
-  const order={{{json order}}};
   
-  let cartTotalField = document.querySelector(".cart-total");
-  let sum = 0;
+  function discount(orderId){
+    const order = {{{json order}}};
+  
+    let cartTotalField = document.querySelector(".cart-total");
+    let sum = 0;
       
-  for (const row of tableContents) {
-      sum += parseFloat(row["Price"].substring(1));
+    for (const row of tableContents) {
+        sum += parseFloat(row["Price"].substring(1));
   }
-  sum=sum*80/100
+  sum = (sum*(1 - DISCOUNT_RATE));
   cartTotalField.textContent = `$${sum} `;
   order.discountApplied=true;
 
@@ -382,22 +334,17 @@ function discount(orderId){
       snackId: item.snack,
       quantity: item.quantity
     }
-    ));
+  ));
 
-    fetch(`/customer/orders/${orderId}`, {
-      method: "PUT",
-      headers: {
+  fetch(`/customer/orders/${orderId}`, {
+    method: "PUT",
+    headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(order)
-    }).then(function(response){
-
-
+    },
+    body: JSON.stringify(order)
+  }).then(function(response){
   }).catch(function(error){
-
   });
-
 }
-
 
 </script>

@@ -20,20 +20,22 @@
     </div>
 
     <div>
+      {{#if (or (eq order.status 'preparing') (eq order.discountApplied true))}}
       <div class="progress-bars">
         <div class="order-timer">
           <span id="mins_change"></span>
           <span id="secs_change"></span>
-          <meter id="order-fixed-cd" min="0" max="100" low="33" high="66" value="0"></meter>
+          <meter id="order-fixed-cd" min="0" max="100" low="30" high="70" optimum="85" value="0"></meter>
           <span id="end_change"></span>
         </div>
         <div class="discount-timer">
           <span id="mins"></span>
           <span id="secs"></span>
-          <meter id="discount-cd" min="0" max="100" low="33" high="66" value="0"></meter>
+          <meter id="discount-cd" min="0" max="100" low="30" high="70" optimum="85" value="0"></meter>
           <span id="end"></span>
         </div>
       </div>
+      {{/if}}
 
     </div>
       <div>
@@ -44,7 +46,6 @@
         <i id="customer-name" class="fas fa-signature"></i>
         <span>{{customer.givenName}} {{customer.familyName}}</span>
       </div>
-    </div>
     {{> cart-table order=order }}
     {{#if (eq order.status 'preparing')}}
       <button class="button" onclick="fulfillOrder('{{order.orderId}}')">
@@ -58,6 +59,7 @@
         Mark as Picked Up
       </button>
     {{/if}}
+    </div>
   </div>
 </section>
 
@@ -67,12 +69,23 @@
     
 
   const order = {{{ json order }}}
-
+  const DISCOUNT_TIME_LIMIT_MIN = parseFloat({{{discountSettings.discountTimeLimitMin}}})
+  const ORDER_LOCK_IN_TIME_LIMIT_MIN = parseFloat({{{discountSettings.orderLockInTimeLimitMin}}})
+  const DISCOUNT_RATE = parseFloat({{{discountSettings.discountRate}}})
+ 
   function updateOrderStatus(orderId, newStatus) {
     window.location.reload();
     const order = {{{ json order }}};
-    order.timeFulfilled = new Date();
+    if (newStatus==="completed"){
+      order.timePickedUp= new Date()
+    }
+    else if(newStatus==="fulfilled"){
+      order.timeFulfilled = new Date();
+
+    }
+    
     order.status = newStatus;
+
     order.items = order.items.map((item) => (
     {
       _id: item._id,
@@ -110,18 +123,16 @@
   var reorder_timer = 0;
   var initial_discount_timer = 0;
   var time_order = new Date(order.timeOrdered).getTime();
-  const discountTimeSet = 15;
-  const ChangeOrderTimeSet = 10;
 
   if (discount_timer == 0) {
-    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(), discountTimeSet);
+    discount_timer = addMinutes(new Date(order.timeOrdered).getTime(), DISCOUNT_TIME_LIMIT_MIN);
     //This should work? but it should pull from time-ordered not the current itme
 
     //var discount_timer = now + (15*60000);
     //Convert 15 minutes to milliseconds
   }
   if (reorder_timer == 0){
-    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), ChangeOrderTimeSet);
+    reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(), ORDER_LOCK_IN_TIME_LIMIT_MIN);
   }
 
   if (initial_discount_timer == 0){
@@ -129,18 +140,25 @@
   }
   
   var buttonsUpdated = false;
-  
+  setInterval(() => {
+    window.location.reload()
+  }, 10000);
+
   // Run myfunc every second
   var myfunc = setInterval(function () {
-
     var now = new Date().getTime();
     var timeleft = discount_timer - now;
     var timeleft_change = reorder_timer - now;
+    const discountTimeSet = DISCOUNT_TIME_LIMIT_MIN;
+    const changeOrderTimeSet = ORDER_LOCK_IN_TIME_LIMIT_MIN;
 
     // Update progress bar
-    order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(ChangeOrderTimeSet*60000)));
-    discount_pb.setAttribute("value", 100 - 100*(1- timeleft/(discountTimeSet*60000)));
+    if (!order_fixed_pb || !discount_pb) {
+      return;
+    }
 
+    order_fixed_pb.setAttribute("value", 100 - 100*(1- timeleft_change/(changeOrderTimeSet*60000)));
+    discount_pb.setAttribute("value", 100 - 100*(1- timeleft/(discountTimeSet*60000)));
     
     // Calculating the days, hours, minutes and seconds left
     var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
@@ -150,12 +168,12 @@
     var seconds_change = Math.floor((timeleft_change % (1000 * 60)) / 1000);
 
     // Result is output to the specific element
-    document.getElementById("mins_change").innerHTML = "Order lock in: " + minutes_change + "m "
+    document.getElementById("mins_change").innerHTML = "Order locked in: " + minutes_change + "m "
     document.getElementById("secs_change").innerHTML = seconds_change + "s "
 
-    document.getElementById("mins").innerHTML = "Discount apply in: " + minutes + "m "
+    document.getElementById("mins").innerHTML = "Discount applied in: " + minutes + "m "
     document.getElementById("secs").innerHTML = seconds + "s "
-
+    
     // Display the message when countdown is over
     if (timeleft_change <= 0) {
       document.getElementById("mins_change").innerHTML = ""
@@ -168,59 +186,50 @@
         cd.remove();
       }
     }
-  
     if (timeleft <= 0) {
       document.getElementById("mins").innerHTML = ""
       document.getElementById("secs").innerHTML = ""
-      document.getElementById("end").innerHTML = "20% Discount Applied!! total amount has been reduced";
+      document.getElementById("end").innerHTML = "20% Discount Applied";
       discount(order.orderId)
       // remove the meter
       document.getElementById("discount-cd").remove();
       clearInterval(myfunc);
     }
   }, 1000);
-
-  function cust(orderId){
-    
-
-  }
-
-  function discount(orderId){
-
-  const order={{{json order}}};
   
-  let cartTotalField = document.querySelector(".cart-total");
-  let sum = 0;
+  function discount(orderId){
+    const order={{{json order}}};
+    {{!-- if (order.status !== 'preparing') {
+      return;
+    } --}}
+  
+    let cartTotalField = document.querySelector(".cart-total");
+    let sum = 0;
       
-  for (const row of tableContents) {
-      sum += parseFloat(row["Price"].substring(1));
-  }
-  sum=sum*80/100
-  cartTotalField.textContent = `$${sum} `;
-  order.discountApplied=true;
-
-  order.items = order.items.map((item) => (
-    {
-      _id: item._id,
-      snackId: item.snack,
-      quantity: item.quantity
+    for (const row of tableContents) {
+        sum += parseFloat(row["Price"].substring(1));
     }
-    ));
+    sum = (sum*(1 - DISCOUNT_RATE));
+    cartTotalField.textContent = `$${sum} `;
+    order.discountApplied=true;
 
-    fetch(`/vendor/orders/${orderId}`, {
-      method: "PUT",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(order)
-    }).then(function(response){
+    order.items = order.items.map((item) => (
+      {
+        _id: item._id,
+        snackId: item.snack,
+        quantity: item.quantity
+      }
+      ));
 
-
-  }).catch(function(error){
-
-  });
-
-}
-
+      fetch(`/vendor/orders/${orderId}`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(order)
+      }).then(function(response){
+    }).catch(function(error){
+    });
+  }
 
 </script>

@@ -1,17 +1,9 @@
-@media screen and (max-width: 768px) {
-  .login-form {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media screen and (min-width: 769px) {
-  .login-form {
-    width: 20%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.login-form {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 32px;
+  margin-bottom: 32px;
 }
 
 .login-form-header {
@@ -32,6 +24,8 @@
 .login-forgot-password {
   text-align: right;
   font-size: 16px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-error-message {
@@ -62,9 +56,9 @@ label {
   display: block;
   margin: 8px;
   font-weight: lighter;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-
 
 .van-icon {
   animation-duration: 4s;
@@ -86,7 +80,7 @@ label {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 400px) {
   #login {
     width: 100%;
     margin-top: 8px;
@@ -102,18 +96,37 @@ label {
   .login-forgot-password {
     text-align: right;
     font-size: 11px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .login-error-message {
     text-align: right;
     font-size: 11px;
     font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
     color: var(--color-red);
   }
   .login-no-account-yet {
     font-size: 11px;
   }
+
+  input[type="email"],
+  input[type="password"],
+  label {
+    width: 100%;
+    display: block;
+    margin: 8px;
+    font-weight: lighter;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .login-form {
+    margin-top: 64px;
+    margin-bottom: 64px;
+  }
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width:401px) and  (max-width: 1060px) {
   #login {
     width: 100%;
     margin-top: 128px;
@@ -126,14 +139,81 @@ label {
     cursor: pointer;
   }
   .login-forgot-password {
+    width: 50%;
     text-align: right;
     font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    
   }
   .login-error-message {
+    width: 50%;
     text-align: right;
     font-size: 16px;
     font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
     color: var(--color-red);
 
+  }
+  input[type="email"],
+  input[type="password"],
+  label {
+    width: 50%;
+    display: block;
+    margin: 8px;
+    font-weight: lighter;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .login-form {
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+}
+
+@media screen and (min-width: 1061px) {
+  #login {
+    width: 100%;
+    margin-top: 128px;
+  }
+  #login-button {
+    width: auto;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .login-forgot-password {
+    width: 50%;
+    text-align: right;
+    font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    
+  }
+  .login-error-message {
+    width: 50%;
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--color-red);
+
+  }
+  input[type="email"],
+  input[type="password"],
+  label {
+    width: 50%;
+    display: block;
+    margin: 8px;
+    font-weight: lighter;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .login-form {
+    margin-top: 32px;
+    margin-bottom: 32px;
   }
 }

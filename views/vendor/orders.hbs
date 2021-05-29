@@ -18,6 +18,12 @@
         </button>
     </div>
     <div class="orders-wrapper">
+    <div class="findOrderInputWrapper">
+        <form class="findOrderByIdForm" method="POST" action="">
+            <input id="orderIdInput" type="search" name="orderIdSearch" placeholder="Starting Order ID Letters" pattern="[A-Za-z0-9\-]*" autocomplete="off">
+            <input id="searchButton" type="submit" value="Search" class="button">
+        </form>
+    </div>
         {{#each orders}}
         {{#if (orderNotCancelled this.status)}}
         <a class="order-item" href="/vendor/orders/{{this.orderId}}">

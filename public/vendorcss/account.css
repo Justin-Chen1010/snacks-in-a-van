@@ -3,7 +3,7 @@
     font-family: var(--font-heading);
   }
   
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 400px) {
     #vendor-account {
       width: 100%;
       margin: 36px;
@@ -50,7 +50,7 @@
   
     #vendor-account input,
     label {
-      width: 100%;
+      width: 50%;
       display: block;
       margin: 8px;
       font-weight: lighter;
@@ -68,7 +68,73 @@
     }
   }
   
-  @media screen and (min-width: 769px) {
+  @media screen and (min-width: 1061px) {
+    #vendor-account {
+      width: 100%;
+      margin: 128px 0;
+    }
+  
+    .password-update {
+      width: 20%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  
+    .password-update-header {
+      margin-top: 32px;
+      text-align: center;
+    }
+  
+    .password-update-header i {
+      font-size: 56px;
+    }
+  
+    .password-update-submit {
+      margin-top: 32px;
+      text-align: center;
+    }
+  
+    #vendor-logout-button {
+      width: auto;
+      border-radius: 8px;
+      border: none;
+      font-size: 12px;
+      margin: 8px;
+      cursor: pointer;
+      padding: 8px 16px;
+    }
+  
+    #password-update-button {
+      width: auto;
+      border-radius: 8px;
+      border: none;
+      font-size: 12px;
+      margin: 8px;
+      cursor: pointer;
+      padding: 8px 16px;
+    }
+  
+    #vendor-account input,
+    label {
+      width: 100%;
+      display: block;
+      margin: 8px;
+      font-weight: lighter;
+    }
+  
+    #vendor-account input {
+      background-color: var(--color-white);
+      border-radius: 8px;
+      border: none;
+      padding: 8px;
+    }
+  
+    #vendor-account #vendorName {
+      background-color: var(--color-lighter);
+    }
+  }
+
+  @media screen and (min-width:401px) and  (max-width: 1060px) {
     #vendor-account {
       width: 100%;
       margin: 128px 0;

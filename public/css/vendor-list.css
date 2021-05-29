@@ -17,15 +17,16 @@
   font-size: 16px;
   /* flex-grow: 1; */
   margin-right: 8px;
-  width: 20%; 
+  text-align: center;
+  width: 56px; 
 }
 
-#find-nearest{
-  border-radius: 8px;
+.nearest-vans-button {
+  font-size: small;
+  margin: 0 16px;
 }
 
-#find-nearest:hover{
-  background-color:#4095c6;
+#nearest-vans-button:hover{
   cursor: pointer;
 }
 
@@ -40,17 +41,20 @@
 .location {
   display: flex;
   text-align: center;
+  justify-content: center;
+  align-items: center;
   font-size: 24px;
   margin: 16px;
   padding: 0 32px;
 }
 
-.vendors-list {
+#vendors-list {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   margin: 8px;
 }
-
 
 .vendor-button:hover {
   transform: scale(1.1);
@@ -65,6 +69,10 @@
   font-size: 16px;
 }
 
+.vendor-details-wrapper {
+  flex-grow: 1;
+}
+
 .vendor-details {
   font-family: var(--font-body);
   text-align: left;
@@ -76,6 +84,22 @@
   margin-left: 16px;
 }
 
+.vendor-button {
+  border: none;
+  border-radius: 24px;
+  text-align: left;
+  transition: all 0.1s;
+  margin: 8px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  display: flex;
+  width: 90%;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+}
+
+
 @media screen and (max-width: 400px) {
   #vendors {
     margin-top: 30px;
@@ -86,26 +110,12 @@
   }
   .vendors-list {
     font-size: 100px;
+    text-align: center;
   }
   .vendor-icon {
     font-size: 32px;
     padding: 8px;
   }
-  .vendor-button {
-    border: none;
-    border-radius: 40px;
-    text-align: left;
-    transition: all 0.1s;
-    margin: 8px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  
-    display: flex;
-    width: 90%;
-    justify-content: flex-start;
-    align-items: center;
-    cursor: pointer;
-  }
-  
 }
 
 @media screen and (min-width: 769px) {
@@ -113,59 +123,29 @@
     margin-top: 90px;
   }
   .vendors-wrapper {
-    padding: 0 32px;
+    padding: 0 30%;
   }
-  .vendors-list {
+  #vendors-list {
     font-size: 64px;
   }
   .vendor-icon {
     font-size: 64px;
     padding: 32px;
   }
-  .vendor-button {
-    border: none;
-    border-radius: 40px;
-    text-align: left;
-    transition: all 0.1s;
-    margin: 8px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  
-    display: flex;
-    width: 90%;
-    justify-content: flex-start;
-    align-items: center;
-    cursor: pointer;
-  }
-
 }
 
-@media screen and (min-width:401px) and  (max-width: 768px) {
+@media screen and (min-width:401px) and (max-width: 768px) {
   #vendors {
     margin-top: 90px;
   }
   .vendors-wrapper {
     padding: 0 32px;
   }
-  .vendors-list {
+  #vendors-list {
     font-size: 64px;
   }
   .vendor-icon {
     font-size: 64px;
     padding: 32px;
   }
-  .vendor-button {
-    border: none;
-    border-radius: 40px;
-    text-align: left;
-    transition: all 0.1s;
-    margin: 8px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  
-    display: flex;
-    width: 100%;
-    justify-content: flex-start;
-    align-items: center;
-    cursor: pointer;
-  }
 }
-

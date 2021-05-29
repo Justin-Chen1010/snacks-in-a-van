@@ -4,6 +4,7 @@ const Vendor = require("../models/vendor");
 const Customer = mongoose.model("Customer");
 const Order = mongoose.model("Order");
 const Snack = mongoose.model("Snack");
+
 const getonediscountorder = async (req, res) => {
   try {
     const oneOrder = await Order.findOne({
@@ -22,13 +23,8 @@ const getonediscountorder = async (req, res) => {
   }
 };
 
-
-
 const DiscountApplied = async (req, res) => {
   try {
-    console.log("here y ar");
-     
-   
     const oneOrder = await Order.findOne({
       orderId: req.params.orderId,
     });
@@ -154,7 +150,16 @@ const getOneOrder = async (req, res) => {
       });
     }
     // order was found
-    res.render("order", { order: oneOrder, vendor: vendor, menu: req.menu });
+    res.render("order", {
+      order: oneOrder,
+      vendor: vendor,
+      menu: req.menu,
+      discountSettings: {
+        discountTimeLimitMin: req.app.settings.config.discountTimeLimitMin,
+        orderLockInTimeLimitMin: req.app.settings.config.orderLockInTimeLimitMin,
+        discountRate: req.app.settings.config.discountRate
+      }
+    });
   } catch (err) {
     console.log(err);
     // error occurred
@@ -189,7 +194,12 @@ const getOneOrderForVendor = async (req, res) => {
         order: oneOrder,
         menu: req.menu,
         customer: req.customer, 
-        layout: "vendormain.hbs"
+        layout: "vendormain.hbs",
+        discountSettings: {
+          discountTimeLimitMin: req.app.settings.config.discountTimeLimitMin,
+          orderLockInTimeLimitMin: req.app.settings.config.orderLockInTimeLimitMin,
+          discountRate: req.app.settings.config.discountRate
+        }
       }
     );
   } catch (err) {
@@ -203,6 +213,67 @@ const getOneOrderForVendor = async (req, res) => {
     });
   }
 };
+
+const getOrderByIdPattern = async (req, res) => {
+  try {
+    // Find all orders that match the given regex
+    const orderStatus = req.query.status ? req.query.status : "preparing";
+    const vendor = await Vendor.findOne({ vendorName: req.session.vendorName });
+    const orderIdPattern = req.body.orderIdSearch;
+    var matchedOrders;
+    if (orderIdPattern !== null){
+        matchedOrders = await Order.find(
+          { 
+            orderId: { $regex: new RegExp("^" + orderIdPattern, "i")},
+            vendor: vendor.vendorName,
+            status: orderStatus
+          }).sort("timeOrdered").lean();
+    } else {
+      matchedOrders = await Order.find({});
+    }
+    res.render("vendor/orders", {orders: matchedOrders, status: orderStatus, layout:"vendormain.hbs"});
+
+  } catch (err) {
+    console.log(err);   
+    // error occurred
+    res.status(400);
+    return res.render("error", {
+      errorCode: 400,
+      message: "Database query failed",
+      backTo: "/vendor/order",
+    });
+  }
+}
+
+const getRating = async (req, res) => {
+  try {
+    const oneOrder = await Order.findOne({
+      orderId: req.params.orderId,
+    }).lean();
+    if (oneOrder === null) {
+      // no order found in database
+      res.status(404);
+      return res.render("error", {
+        errorCode: 404,
+        message: `Order ${req.params.orderId} not found.`,
+        backTo: "/customer",
+      });
+    }
+    // order was found
+    res.render("rating", {
+      order: oneOrder,
+    });
+  } catch (err) {
+    console.log(err);
+    // error occurred
+    res.status(400);
+    return res.render("error", {
+      errorCode: 400,
+      message: "Database query failed",
+      backTo: "/customer",
+    });
+  }
+}
 
 // add order
 const addOrder = async (req, res) => {
@@ -266,7 +337,11 @@ const updateOrder = async (req, res) => {
     // update the order's status and items in that order
     oneOrder.status = newOrder.status;
     oneOrder.timeOrdered = newOrder.timeOrdered;
-    oneOrder.discountApplied=newOrder.discountApplied;
+    oneOrder.timeFulfilled = newOrder.timeFulfilled;
+    oneOrder.timePickedUp = newOrder.timePickedUp;
+    oneOrder.discountApplied = newOrder.discountApplied;
+    oneOrder.comment = newOrder.comment;
+    oneOrder.score = newOrder.score;
     oneOrder.items = newOrder.items.map((item) => ({
       _id: mongoose.Types.ObjectId(),
       snack: item.snackId,
@@ -321,13 +396,17 @@ const getOrdersForCustomer = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   getAllOrders,
   getOneOrder,
   addOrder,
   updateOrder,
+  getRating,
   getOrdersForVendor,
   getOneOrderForVendor,
+  getOrderByIdPattern,
   getOrderingCustomer,
   getOrdersForCustomer, getAllPreparingOrder,DiscountApplied, getonediscountorder
 };

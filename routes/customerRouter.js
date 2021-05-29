@@ -22,7 +22,16 @@ customerRouter.get("/discount/:orderId", authenticate.isCustomerLoggedIn, async 
 }
 );
 
+customerRouter.get("/rating/:orderId",
+  authenticate.isCustomerLoggedIn,
+  async (req, res) => {
+  // res.render("rating", { email: req.session.email });
+  orderController.getRating(req, res)
+});
 
+customerRouter.put("/rating/:orderId", authenticate.isCustomerLoggedIn, async (req, res) => {
+  orderController.updateOrder(req, res)
+});
 
 // get the menu: details of all snacks
 customerRouter.get("/menu", async (req, res) =>

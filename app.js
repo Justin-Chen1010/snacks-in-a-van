@@ -12,6 +12,7 @@ const passport = require('passport');
 const session = require('express-session');
 const flash = require('connect-flash-plus');
 const jwt = require('jsonwebtoken');
+const config = require("./config.json");
 
 const app = express();
 
@@ -43,8 +44,9 @@ app.engine(
   })
 );
 
-
 app.set("view engine", "hbs");
+
+app.set("config", config);
 
 app.get("/", (req, res) => {
   res.redirect('/customer');
@@ -68,3 +70,5 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`The app is listening on port ${port}!`);
 });
+
+module.exports = app;
