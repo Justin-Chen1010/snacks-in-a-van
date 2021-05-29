@@ -1,8 +1,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <section id="rating">
-    {{!-- <form method="post" action="/customer/rating" class="rating-form"> --}}
     <div class="message">Thank you for choosing us!</div>
     <div class="rate">Rate us </div>
     <p class="stars">
@@ -15,15 +13,12 @@
     </span>
     <div id="respond">
     <label for="comment"> Leave your comment below!</label>
-    <textarea name="comment" id="comment" placeholder="add some comment" rows="10" tabindex="4"  required="required" >
+    <textarea name="comment" id="comment" placeholder="add some comment" rows="10" tabindex="0"  required="required" >
     </textarea>
     
     </div>
     <input type="hidden" name="comment_post_ID" value="1" id="comment_post_ID" />
     <input name="submit" class='button' type="submit" onclick="postRating('{{order.orderId}}')" value="Submit" />
-    
-    {{!-- </form> --}}
-    <button onclick="postRating()">DEBUGA</button>
 </section>
 
 <script>
@@ -54,10 +49,8 @@
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(order)
-    }).then((res) => {
-      console.log(res.json());
-    }).catch((err) => {
-      console.log(err);
+    }).then(() => {
+      window.location.href = "/customer/orders/"
     });
   }
 

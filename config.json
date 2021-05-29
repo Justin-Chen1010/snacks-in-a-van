@@ -1,5 +1,5 @@
 {
-    "discountTimeLimitMin": 1,
-    "orderLockInTimeLimitMin": 1,
+    "discountTimeLimitMin": 15,
+    "orderLockInTimeLimitMin": 10,
     "discountRate": 0.2
 }

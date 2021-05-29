@@ -12,7 +12,6 @@
     <input placeholder="***************" name='vendorConfirmPassword' id='vendorConfirmPassword' type="password" value="" />
     <div class="password-update-submit">
       <button id="password-update-button" class="button" type="submit">
-
         <i class="fas fa-edit"></i>
         UPDATE
       </button>
@@ -32,6 +31,7 @@
             method: "POST",
         });
         window.location = "/vendor/login";
+        sessionStorage.clear();
     }
 
 
