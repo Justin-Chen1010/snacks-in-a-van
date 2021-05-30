@@ -10,7 +10,6 @@ const vendorSchema = new mongoose.Schema({
   lon: { type: Number },
   address: { type: String },
   role:{ type: String, default: "vendor"},
-  // vendorEmail:{ type: String}
 
 });
 

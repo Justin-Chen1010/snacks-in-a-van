@@ -6,6 +6,7 @@
 #message{
   font-family: inherit;
 }
+
 .stars input {
     position: absolute;
     left: -999999px;
@@ -32,6 +33,11 @@
   font-size: 0;  
 }
 
+.rating_star {
+  font-size: 0; /* trick to remove inline-element's margin */
+   
+}
+
 .stars a:hover ~ a:after{
   color: #9e9e9e !important;
 }
@@ -55,7 +61,6 @@ span.active a:after,
 
 #respond textarea {
   margin-bottom: 10px;
-  
   width: 80%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   -webkit-border-radius: 5px;
@@ -64,6 +69,5 @@ span.active a:after,
   -ms-border-radius: 5px;
   -khtml-border-radius: 5px;
   border-radius: 5px;
-
   line-height: 1.4em;
 }

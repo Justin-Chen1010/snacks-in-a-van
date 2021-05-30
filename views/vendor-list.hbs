@@ -19,12 +19,6 @@
                      <i class="fas fa-map-marker-alt"></i>
                      {{this.address}}
                   </p>
-                  {{#if this.phoneNumber}}
-                  <p>
-                     <i class="fas fa-phone"></i>
-                     {{this.phoneNumber}}
-                  </p>
-                  {{/if}}
                   {{#if this.lat}}
                   {{#if this.lon}}
                   <p
@@ -91,12 +85,6 @@
       // Address
       const address = document.createElement("p");
       address.textContent = vendor.address;
-      // Phone num
-      const phone = document.createElement("p");
-      const phoneIcon = document.createElement("i");
-      phoneIcon.setAttribute("class", "fas fa-phone");
-      phone.appendChild(phoneIcon);
-      phone.appendChild(document.createTextNode(vendor.phoneNumber));
       // Direction
       const direction = document.createElement("p");
       direction.classList.add("get-direction");
@@ -110,7 +98,6 @@
 
       // Insert the details into the wrapper
       detailWrapper.appendChild(address);
-      detailWrapper.appendChild(phone);
       detailWrapper.appendChild(direction);
 
       // Insert the detail into content

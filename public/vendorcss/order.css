@@ -18,6 +18,10 @@
     float: left;
 }
 
+.fulfill-button {
+    margin: 16px;
+}
+
 @media screen and (max-width: 400px) {
     #back-text {
         font-size: 32px;

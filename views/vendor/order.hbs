@@ -53,13 +53,19 @@
       </div>
     {{> cart-table order=order }}
     {{#if (eq order.status 'preparing')}}
-      <button class="button" onclick="fulfillOrder('{{order.orderId}}')">
+      <button
+        class="button fulfill-button"
+        onclick="fulfillOrder('{{order.orderId}}')"
+      >
         <i class="fas fa-check"></i>
         Fulfill Order
       </button>
     </div>
     {{else if (eq order.status 'fulfilled')}}
-      <button class="button" onclick="markAsPickedUp('{{order.orderId}}')">
+      <button
+        class="button fulfill-button"
+        onclick="markAsPickedUp('{{order.orderId}}')"
+      >
         <i class="fas fa-flag-checkered"></i>
         Mark as Picked Up
       </button>

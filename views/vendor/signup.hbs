@@ -5,11 +5,11 @@
       <h1>Signup Form</h1>
     </div>
     <label for="vendorName">Vendor Name</label>
-    <input placeholder="vendor name" name='vendorName' id='vendorName' value="" />
+    <input placeholder="vendor name" name='vendorName' id='vendorName' value="" required />
     <label for="password">Password</label>
-    <input placeholder="***************" name='password' id='password' type="password" value="" />
+    <input placeholder="***************" name='password' id='password' type="password" value="" required />
     <label for="Confirm Password password">Confirm Password</label>
-    <input placeholder="***************" name='vendorconfirmPassword' id='vendorconfirmPassword' type="password" value="" />
+    <input placeholder="***************" name='vendorconfirmPassword' id='vendorconfirmPassword' type="password" value="" required />
     <div class="vendor-signup-form-submit">
       <button type="submit" class="button" id="vendor-signup-button">SIGN UP</button>
     </div>
@@ -20,7 +20,12 @@
 
   // check if the sign up meet the requirements
   function validate() {
-    //Passwords MUST be hashedbefore storing them in the database.
+    //Passwords MUST be hashed before storing them in the database.
+    const vendorName = document.getElementById("vendorName").value;
+    if (vendorName === "") {
+      alert("vendor name is can not be empty.");
+      return false;
+    }
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("vendorconfirmPassword").value;
     if (confirmPassword !== password) {
