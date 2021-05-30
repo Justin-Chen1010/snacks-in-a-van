@@ -94,7 +94,6 @@ span.buttons {
   }
 }
 
-/* iPad Nav bar looks wonky, not sure why its overwritten, same on phone view actually, looks fine after adding items but its not centered -Justin*/
 @media screen and (min-width:401px) and  (max-width: 768px) {
   .cart-icon {
     color: var(--color-dark);

@@ -1,31 +1,14 @@
 const mongoose = require("mongoose");
-const Vendor = mongoose.model("Vendor");
-const Order = mongoose.model("Order");
+const Vendor = require("../models/vendor");
+const Order = require("../models/order");
 const { v4: uuidv4 } = require("uuid");
-
 
 // get all open vendors
 const getAllVendors = async (req, res) => {
   try {
-    if (req.body.hasOwnProperty("filter") && req.body.filter){
+    if (req.body.hasOwnProperty("filter") && req.body.filter) {
       res.render("vendor-list", {vendors: req.body.vans, layout :'main.hbs'});
     }
-    const vendors = await Vendor.find({ open: true })
-      .select({ password: 0 })
-      .lean();
-    res.render("vendor-list", { vendors: vendors ,layout :'main.hbs'
-
-    });
-  } catch (err) {
-    res.status(400);
-    return res.send("Database query failed");
-  }
-};
-
-
-
-const getAllOpenVendors = async (req, res) => {
-  try {
     const vendors = await Vendor.find({ open: true })
       .select({ password: 0 })
       .lean();
@@ -57,28 +40,6 @@ const getOneVendor = async (req, res) => {
   }
 };
 
-// // change an vendor (POST)
-// const updateVendor = async (req, res) => {
-//   try {
-//     const oneVendor = await Vendor.findOne({
-//       vendorName: req.session.vendorName,
-//     });
-//     if (oneVendor === null) {
-//       // no vendor found in database
-//       res.status(404);
-//       return res.send("Vendor not found");
-//     }
-//     // actually update the vendor
-//     Vendor.updateOne({ vendorName: oneVendor.vendorName });
-//     // db.foods.updateOne( {name: "Apple"}, {$set: {description: "Apples are cool" }}
-//     return res.send(oneVendor); // vendor was found
-//   } catch (err) {
-//     // error occurred
-//     res.status(400);
-//     return res.send("Database query failed");
-//   }
-// };
-
 const updateVendor = async (req, res) => {
   try {
     let oneVendor = await Vendor.findOne({
@@ -89,7 +50,7 @@ const updateVendor = async (req, res) => {
       res.status(404);
       return res.send("Customer not found");
     }
-    // actually update the customer
+    // update Vendor
     var currentVendor = new Vendor();
     currentVendor.vendorName = oneVendor.vendorName;
     currentVendor.open = false;
@@ -140,7 +101,6 @@ const updateVanStatus = async (req, res) => {
       vendorName: req.session.vendorName,
     });
     const status = req.body;
-
     if (oneVendor === null) {
       // no vendor found in database
       res.status(404);
@@ -180,34 +140,6 @@ const updateVanStatus = async (req, res) => {
   }
 };
 
-// mark an order as "fulfilled"
-// TODO: this should probably be in orderController
-// const markOrderAsFulfilled = async (req, res) => {
-//   // find only the 'preparing' status
-//   try {
-//     const filter = {
-//       orderId: req.params.orderId,
-//       status: "preparing",
-//       vendor: req.session.vendorName,
-//     };
-
-//     const order = await Order.findOne(filter);
-//     if (order === null) {
-//       // no order that has status "preparing" with that id and for that vendor
-//       res.status(404);
-//       return res.send("Order not found :^(");
-//     }
-//     await Order.updateOne(filter, {
-//       $set: { status: "fulfilled", timeFulfilled: Date.now() },
-//       //Set default date and time to the time fulfilled
-//     });
-//     res.send("Order status updated!");
-//   } catch (err) {
-//     res.status(400);
-//     return res.send("Database query failed");
-//   }
-// };
-
 // remember to export the functions
 module.exports = {
   getAllVendors,
@@ -215,5 +147,4 @@ module.exports = {
   updateVendor,
   addVendor,
   updateVanStatus,
-  // markOrderAsFulfilled,
 };

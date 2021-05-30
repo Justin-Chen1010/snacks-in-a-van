@@ -12,7 +12,7 @@ const customerSchema = new mongoose.Schema({
   role : {type: String, default: "customer"}
 });
 
-// customerSchema
+// customerSchema password hash
 customerSchema.methods.generateHash = function (password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };

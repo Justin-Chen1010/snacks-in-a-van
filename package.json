@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "jest --forceExit"
   },
   "keywords": [],
   "author": "",
@@ -33,7 +33,10 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "react-router-dom": "^5.2.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jest": "^27.0.3",
+    "supertest": "^6.1.3"
   }
 }

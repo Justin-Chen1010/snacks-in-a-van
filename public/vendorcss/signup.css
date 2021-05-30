@@ -40,7 +40,7 @@
     }
     
     #signup-vendor input,
-    label {
+    #signup-vendor label {
       width: 50%;
       display: block;
       margin: 8px;
@@ -93,7 +93,7 @@
     }
     
     #signup-vendor input,
-    label {
+    #signup-vendor label {
       width: 50%;
       display: block;
       margin: 8px;
@@ -145,7 +145,7 @@
     }
     
     #signup-vendor input,
-    label {
+    #signup-vendor label {
       width: 100%;
       display: block;
       margin: 8px;
@@ -160,6 +160,5 @@
       border: none;
       padding: 8px;
     }
-
 }
   

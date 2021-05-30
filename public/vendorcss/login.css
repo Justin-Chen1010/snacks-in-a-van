@@ -102,7 +102,7 @@
   
   input[type="text"],
   input[type="password"],
-  label {
+  #login-form label {
     width: 100%;
     display: block;
     margin: 8px;
@@ -147,7 +147,7 @@
   
   input[type="text"],
   input[type="password"],
-  label {
+  #login-form label {
     width: 50%;
     display: block;
     margin: 8px;
@@ -195,7 +195,7 @@
   
   input[type="text"],
   input[type="password"],
-  label {
+  #login-form label {
     width: 50%;
     display: block;
     margin: 8px;
@@ -204,7 +204,3 @@
     margin-right: auto;
   }
 }
-
-/* @media screen and (min-width: 1061px) {
-  @media screen and (min-width:401px) and  (max-width: 1060px) { */
-    /* @media screen and (max-width: 400px) { */

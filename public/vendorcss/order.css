@@ -10,3 +10,21 @@
     height: auto;
 }
 
+.cart-table {
+  background-color: lightgrey;
+}
+
+#back-to-orders{
+    float: left;
+}
+
+@media screen and (max-width: 400px) {
+    #back-text {
+        font-size: 32px;
+    }
+}
+
+#back-text:hover{
+    color: var(--color-blue);
+    cursor: pointer;
+}

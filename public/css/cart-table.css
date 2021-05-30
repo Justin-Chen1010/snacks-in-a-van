@@ -49,7 +49,6 @@ input[type="number"] {
   padding: 64px 0;
 }
 
-/* Smaller than standard tablet size*/
 @media screen and (max-width: 400px) {
   .count-input {
     font-size: 12px;

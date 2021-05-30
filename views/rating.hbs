@@ -22,12 +22,14 @@
 </section>
 
 <script>
-  function postRating(orderId) {
 
+  // store the customer's rating and comment to the database  
+  function postRating(orderId) { 
     const order = {{{json order}}};
-
     let score = 0;
     const stars = document.getElementById("rating-stars");
+
+    // get how many stars selected on
     for (const star of stars.children) {
       if (star.classList.contains("active")) {
         score = parseInt(star.textContent);
@@ -54,10 +56,11 @@
     });
   }
 
-$('.stars a').on('click', function(){
-  $('.stars span, .stars a').removeClass('active');
+  // select on the stars
+  $('.stars a').on('click', function(){
+    $('.stars span, .stars a').removeClass('active');
 
-  $(this).addClass('active');
-  $('.stars span').addClass('active');
-});
+    $(this).addClass('active');
+    $('.stars span').addClass('active');
+  });
 </script>

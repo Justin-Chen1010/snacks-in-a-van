@@ -58,11 +58,8 @@ app.get("/customer", (req, res) => {
 
 // Invalid path, return status 404
 
-
 app.all("*", async (req, res) => {
-  res
-    .status(404)
-    .render("error", { errorCode: "404", message: "That route is invalid.", backTo: req.baseUrl.split("/")[0]});
+  res.status(404).render("error", { errorCode: "404", message: "That route is invalid.", backTo: req.baseUrl.split("/")[0]});
 });
 
 const port = process.env.PORT || 8080;

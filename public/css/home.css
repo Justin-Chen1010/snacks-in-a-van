@@ -1,5 +1,5 @@
 #home {
-  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-x: hidden; 
   background-image: url("../static/home-background.jpg");
   background-position: center;
   background-repeat: no-repeat;
@@ -51,7 +51,6 @@
 
 .welcome {
   position: relative;
-  /* font-size: 2vw; */
   width: 400px;
   top: 48px;
   left: 64px;
@@ -83,15 +82,11 @@
 }
 
 .icon {
-  animation-duration: 4s;
   animation-name: movingvan;
   animation-duration: 15s;
   animation-iteration-count: infinite;
-  /* margin-top: 36px;
-  text-align: center;
-  font-size: 64px;
-  */
-  font-size: 500%;
+  margin-top: 36px;
+  font-size: 400%;
 }
 
 @keyframes movingvan {
@@ -118,7 +113,7 @@
     display: none;
   }
 }
-/* Changing the min-width here means that we will have moving cart for both ipad views - Justin*/
+
 @media screen and (min-width: 1079px) {
   .home-wrapper {
     margin: 0;

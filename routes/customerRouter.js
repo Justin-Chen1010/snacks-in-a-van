@@ -12,23 +12,15 @@ require("../config/customerPassport")(passport);
 customerRouter.get("/vendors", async (req, res) =>
   vendorController.getAllVendors(req, res)
 );
-customerRouter.put("/discount/:orderId", authenticate.isCustomerLoggedIn, async (req, res) =>
 
- orderController.getonediscountorder(req, res)
-);
-
-customerRouter.get("/discount/:orderId", authenticate.isCustomerLoggedIn, async (req, res) => {
- orderController.getonediscountorder(req, res)
-}
-);
-
+// get rating for the customer
 customerRouter.get("/rating/:orderId",
   authenticate.isCustomerLoggedIn,
   async (req, res) => {
-  // res.render("rating", { email: req.session.email });
   orderController.getRating(req, res)
 });
 
+// update the rating for the customer
 customerRouter.put("/rating/:orderId", authenticate.isCustomerLoggedIn, async (req, res) => {
   orderController.updateOrder(req, res)
 });
@@ -55,6 +47,7 @@ customerRouter.post("/orders", authenticate.isCustomerLoggedIn, async (req, res)
 customerRouter.get("/orders", authenticate.isCustomerLoggedIn, async (req, res) => {
     orderController.getOrdersForCustomer(req, res);
 });
+
 // get an order detail that belongs to the customer
 customerRouter.get(
   "/orders/:orderId",
@@ -87,25 +80,19 @@ customerRouter.get("/account", authenticate.isCustomerLoggedIn, async (req, res)
   res.render("account", { email: req.session.email });
 });
 
+// update the detail of the customer with the new data
 customerRouter.post("/account", authenticate.isCustomerLoggedIn,
-  // passport.authenticate("local-update",
-  // {
-  //   successRedirect: "/customer/login", //redirect to the login page if sign up succeed
-  //   failureFlash: true
-  // }), async (req, res) => {
-  //   customerController.updateCustomer(req, res);
-  // }
-
   async (req, res) => {
     customerController.updateCustomer(req, res);
   }
 );
 
-// login page
+// login page, display login error message if last login was failed
 customerRouter.get("/login", async (req, res) => {
   res.render("login", { "loginFailed": req.session.loginError })
   req.session.loginError = false;
 });
+
 
 customerRouter.post(
   "/login",
@@ -113,9 +100,10 @@ customerRouter.post(
     successReturnToOrRedirect: "/customer/cart", //redirect to cart after login if success
     failureRedirect: "/customer/login", //redirect to the login page after failed
     failureFlash: true,
-    
   })
 );
+
+// signup page
 customerRouter.get("/signup", (req, res) => {
   res.render("signup");
 });
@@ -129,10 +117,8 @@ customerRouter.post(
   })
 );
 
-
-// logout function, users are redirected to login after
+// logout function, users are redirected to login afterwards
 customerRouter.post("/logout", function (req, res) {
-  
   req.logout();
   req.flash("");
   res.redirect("/customer/login");

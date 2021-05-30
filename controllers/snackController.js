@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
-
-// import snack model
-const Snack = mongoose.model("Snack");
-const Order = mongoose.model("Order");
+const Snack = require("../models/snack");
+const Order = require("../models/order");
 
 // get all snacks
 const getAllSnacks = async (req, res) => {

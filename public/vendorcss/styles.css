@@ -11,8 +11,6 @@
  @import "./orders.css";
  @import "./order.css";
  @import "./location.css";
- @import "./resetpassword.css";
- @import "./passwordmanagement.css";
  @import "../css/button.css";
  @import "./account.css";
  @import "./signup.css";
@@ -33,19 +31,19 @@
  
  a {
    color: var(--color-black);
-   text-decoration: none; /* switch off underlining of anchors */
+   text-decoration: none; 
  }
  
  :target {
    color: var(--color-white);
  }
- 
- /* elements that are on every page */
+
  body {
    font-family: var(--font-body);
    font-size: var(--text-medium);
    
-  background-color: var(--color-light);
+    background-color: var(--color-light);
+    background-color: lightgrey;
    color: var(--color-dark);
    margin: 0;
    height: 100%;

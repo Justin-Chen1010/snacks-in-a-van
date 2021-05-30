@@ -49,11 +49,13 @@
     }
   
     #vendor-account input,
-    label {
-      width: 50%;
+    #vendor-account label {
+      width: 100%;
       display: block;
       margin: 8px;
       font-weight: lighter;
+      margin-left: auto;
+      margin-right: auto;
     }
   
     #vendor-account input {
@@ -115,11 +117,13 @@
     }
   
     #vendor-account input,
-    label {
+    #vendor-account label {
       width: 100%;
       display: block;
       margin: 8px;
       font-weight: lighter;
+      margin-left: auto;
+      margin-right: auto;
     }
   
     #vendor-account input {
@@ -164,8 +168,7 @@
       width: auto;
       border-radius: 8px;
       border: none;
-      font-size: 12px;
-      margin: 8px;
+      font-size: 10px;
       cursor: pointer;
       padding: 8px 16px;
     }
@@ -174,18 +177,19 @@
       width: auto;
       border-radius: 8px;
       border: none;
-      font-size: 12px;
-      margin: 8px;
+      font-size: 10px;
       cursor: pointer;
       padding: 8px 16px;
     }
   
     #vendor-account input,
-    label {
+    #vendor-account label {
       width: 100%;
       display: block;
       margin: 8px;
       font-weight: lighter;
+      margin-left: auto;
+      margin-right: auto;
     }
   
     #vendor-account input {

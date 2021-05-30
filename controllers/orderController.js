@@ -1,67 +1,15 @@
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
 const Vendor = require("../models/vendor");
-const Customer = mongoose.model("Customer");
-const Order = mongoose.model("Order");
-const Snack = mongoose.model("Snack");
-
-const getonediscountorder = async (req, res) => {
-  try {
-    const oneOrder = await Order.findOne({
-      orderId: req.params.orderId,
-    });
-    if (oneOrder === null) {
-      // no vendor found in database
-      res.status(404);
-      return res.send("Vendor not found");
-    }
-    return res.send(oneOrder); // vendor was found
-  } catch (err) {
-    // error occurred
-    res.status(400);
-    return res.send("Database query failed");
-  }
-};
-
-const DiscountApplied = async (req, res) => {
-  try {
-    const oneOrder = await Order.findOne({
-      orderId: req.params.orderId,
-    });
-    res.send(oneOrder)
-  
-    const status= req.body;
-
-    if (oneOrder === null) {
-      // no vendor found in database
-      res.status(404);
-      return res.send("ur order is not found");
-    }
-    // If no discount is applied, change to applied
-    if (!oneOrder.discountApplied) {
-      await Order.updateOne(
-        { orderId: oneOrder.orderId },
-        {
-          $set: {
-            discountApplied: true,
-           
-          },
-        }
-      );
-    } 
-    return res.send(status);
-  } catch (err) {
-    res.status(400);
-    return res.send("Database query failed");
-  }
-};
+const Customer = require("../models/customer");
+const Order = require("../models/order");
+const Snack = require("../models/snack");
 
 // get all orders
 const getAllOrders = async (req, res) => {
   try {
     // sort by timeOrdered, earlier orders first
     const orders = await Order.find().sort("timeOrdered").lean();
-    // return res.send(orders);
     return res.render("orders", {
       orders: orders
     });
@@ -93,21 +41,6 @@ const getOrdersForVendor = async (req, res) => {
   }
 }
 
-
-const getAllPreparingOrder=async(req, res)=>{
-  try {
-    
-    const PreparingOrder =await Order.find({status: "preparing"});
-    if (PreparingOrder===null){
-      res.status(400).send(`no preparing food....`);
-    }
-  return res.send(PreparingOrder);
-  } catch (err) {
-    res.status(400);
-    return res.send("Database query failed");
-  }
-};
-
 const getOrderingCustomer = async (req, res, next) => {
   try {
     // find the customer who has the same order id in his/her array of order ids
@@ -119,7 +52,6 @@ const getOrderingCustomer = async (req, res, next) => {
     next();
   }
 }
-
 
 
 // find one order by their id
@@ -245,6 +177,7 @@ const getOrderByIdPattern = async (req, res) => {
   }
 }
 
+//get the rating for each order
 const getRating = async (req, res) => {
   try {
     const oneOrder = await Order.findOne({
@@ -315,7 +248,6 @@ const addOrder = async (req, res) => {
       { $push: { orders: id } }
     );
     return res.send(newOrder);
-    // console.log(res.body.newOrder);
   } catch (err) {
     // error occurred
     res.status(400);
@@ -408,5 +340,5 @@ module.exports = {
   getOneOrderForVendor,
   getOrderByIdPattern,
   getOrderingCustomer,
-  getOrdersForCustomer, getAllPreparingOrder,DiscountApplied, getonediscountorder
+  getOrdersForCustomer
 };

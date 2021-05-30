@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { v4: uuidv4 } = require("uuid");
-const Customer = mongoose.model("Customer");
+const Customer = require("../models/customer");
 
 // get all customers
 const getAllCustomers = async (req, res) => {
@@ -56,6 +56,7 @@ const addCustomer = async (req, res) => {
   );
 };
 
+// update a customer's details
 const updateCustomer = async (req, res) => {
   try {
     let oneCustomer = await Customer.findOne({
@@ -67,7 +68,7 @@ const updateCustomer = async (req, res) => {
       return res.send("Customer not found");
     }
     const newDetails = req.body;
-    // actually update the customer
+    // update the customer
     var currentCustomer = new Customer();
     currentCustomer.customerId = oneCustomer.customerId;
     currentCustomer.email = newDetails.email;

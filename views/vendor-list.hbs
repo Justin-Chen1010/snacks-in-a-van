@@ -52,10 +52,12 @@
       window.location = "/customer/menu";
    }
 
+   // calculate the Euclidean distance of the vendor from the customer
    function dist(lat, lon, vanLat, vanLon){
       return Math.sqrt(Math.pow((lat - vanLat), 2) + Math.pow((lon - vanLon), 2));
    }
 
+   // creates vendor list for customer to select
    function buildVanList(vendor){
       const button = document.createElement("button");
       button.setAttribute("class", "vendor-button");
@@ -139,7 +141,9 @@
             return vendor.open && vendor.lat && vendor.lon;
          });
          // Sort based on current distance to the vans
-         openVendors.sort((v1, v2) => {return dist(lat, lon, v1.lat, v1.lon) - dist(lat, lon, v2.lat, v2.lon)});
+         openVendors.sort((v1, v2) => {
+            return dist(lat, lon, v1.lat, v1.lon) - dist(lat, lon, v2.lat, v2.lon)
+         });
          openVendors = openVendors.slice(0, Math.min(vendors.length, numVan));
 
          for (let vendor of openVendors){

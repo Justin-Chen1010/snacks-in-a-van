@@ -1,6 +1,6 @@
 /*
  *  TODO:
- * - vendor forgot password
+ * - vendor forgot password - Yes
  * - vendor can mark order as fulfilled, then as picked up. -> yes
  *   Customer will see this, and they won't be able to update **-> yes
  * - customer can change order if within time or not yet fulfilled, **
@@ -30,11 +30,11 @@
  * Deleting all items from order details will not cancel the order
 
  * ---------- TODO ----------:
- * Change Vendor App background + remove homescreen text animation
- * "GO BACK" button in vendor and customer app from /order to /orders
+ * Change Vendor App background + remove homescreen text animation ***
+ * "GO BACK" button in vendor and customer app from /order to /orders ***
  * Clear sessionStorage when logging out and when order is placed / cancelled (clear cart) ***
- * Order timer resizing for smaller screens
- * Redirect after rating is submitted
+ * Order timer resizing for smaller screens ***
+ * Redirect after rating is submitted ***
  */
 
  @import url("https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@600&display=swap");
@@ -72,14 +72,13 @@
  
  a {
    color: var(--color-black);
-   text-decoration: none; /* switch off underlining of anchors */
+   text-decoration: none; 
  }
  
  :target {
    color: var(--color-white);
  }
  
- /* elements that are on every page */
  body {
    font-family: var(--font-body);
    font-size: var(--text-medium);

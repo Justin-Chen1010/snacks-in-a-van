@@ -17,7 +17,6 @@ function isVendorLoggedIn(req, res, next) {
     res.redirect('/vendor/login');
 }
 
-
 // export the function so that we can use
 // in other parts of our all
 module.exports = {

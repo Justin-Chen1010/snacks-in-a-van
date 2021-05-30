@@ -21,6 +21,14 @@
   margin-right: auto;
 }
 
+#van-name, #van-location {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: auto;
+}
+
 #place-order-button,
 #clear-cart-button {
   margin: 16px;

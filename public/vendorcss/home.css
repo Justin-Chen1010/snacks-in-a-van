@@ -1,1 +1,23 @@
 @import "../css/home.css";
+
+#home{
+    background-image: url('https://images.unsplash.com/photo-1531685250784-7569952593d2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1934&q=80');
+    background-repeat: repeat-y;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}   
+
+.text-vendor {
+    left: 128px;
+    flex-grow: 5;
+    font-size: 48px;
+    text-align: center;
+    font-family: var(--font-heading);
+  }
+  
+  .icon-vendor {
+    margin-top: 96px;
+    font-size: 500%;
+  }

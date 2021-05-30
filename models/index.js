@@ -30,6 +30,5 @@ db.once("open", async () => {
 // set up models to be used
 require("./customer");
 require("./order");
-require("./rating");
 require("./snack");
 require("./vendor");

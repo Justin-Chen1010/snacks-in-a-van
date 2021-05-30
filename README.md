@@ -32,13 +32,13 @@
 
 ## Team Members
 
-| Name                 | Student ID |   Task   | State |
-| :------------------- | :--------: | :------: | ----: |
-| Cynthia              |  1086213   | Back End |  Done |
-| Jonathan Jauhari     |  1038331   | Back End |  Done |
-| Mei Chuan Lu         |  1068282   | Back End |  Done |
-| MH Lu                |  1068283   | Back End |  Done |
-| Yan-Ting Justin Chen |  1086022   | Back End |  Done |
+| Name                 | Student ID |   Task               | State |
+| :------------------- | :--------: | :------:             | ----: |
+| Cynthia              |  1086213   | Back End + Front End |  Done |
+| Jonathan Jauhari     |  1038331   | Back End + Front End |  Done |
+| Mei Chuan Lu         |  1068282   | Back End + Front End |  Done |
+| MH Lu                |  1068283   | Back End + Front End |  Done |
+| Yan-Ting Justin Chen |  1086022   | Back End + Front End |  Done |
 
 ## General info
 
@@ -59,6 +59,8 @@ This project was created with:
 - express: 4.17.1
 - mongoose: 5.12.3
 - uuid: 8.3.2
+- jest: 27.0.3
+- supertest: 6.1.3
 
 **Now Get ready to complete all the tasks:**
 
@@ -66,8 +68,8 @@ This project was created with:
 - [x] User Interface (UI)mockup
 - [x] App server mockup
 - [x] Front-end + back-end (one feature)
-- [ ] Complete system + source code
-- [ ] Report on your work(+ test1 feature)
+- [x] Complete system + source code
+- [x] Report on your work(+ test1 feature)
 
 ## Server Mockup
 
@@ -77,8 +79,8 @@ Access the server via this [heroku link](https://snacks-in-a-van-roboto.herokuap
 
 ### LOGIN DETAILS FOR FRONT-END WEBSITE
 
-- Username: 123@4567.com
-- Password: 123456
+- Username: batty@gmail.com
+- Password: password1
 
 ### Login Details for MongoDB
 

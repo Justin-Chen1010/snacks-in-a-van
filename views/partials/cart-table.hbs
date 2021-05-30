@@ -7,13 +7,12 @@
     let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
     let orderItems = {{{ json (orderToCart order)}}};
     if (orderItems) {
-        
         cart = orderItems;
     }
     const menu = {{{ json menu }}};
 
     let tableContents = [];
-
+    
     // update the table contents based on the current contents of the cart
     function updateTableContents() {
         tableContents = [];
@@ -30,7 +29,7 @@
                     Item: snack.snackName,
                     Quantity: quantity,
                     "Unit Price": `$${snack.price}`,
-                    Price: `$${snack.price * quantity}`
+                    Price: `$${(snack.price * quantity).toFixed(2)}`
                 });
             }
         }
@@ -63,19 +62,17 @@
         sessionStorage.setItem("cart", JSON.stringify(cart));
         updateTable();
     }
-  
+
     // update the cart total price based on the current table view
     function updateCartTotal() {
         let cartTotalField = document.querySelector(".cart-total");
         let sum = 0;
-        
+
         for (const row of tableContents) {
             sum += parseFloat(row["Price"].substring(1));
         }
-        
-        cartTotalField.textContent = `$${sum}`;
-        //setTimeout(sum, 5*1000)
 
+        cartTotalField.textContent = `$${sum}`;
     }
 
     // generate the table head in `table`, given the cart data
@@ -137,11 +134,11 @@
         row.insertCell();
         row.insertCell();
         row.insertCell();
-        
+
 
         let cell3 = row.insertCell();
         let text3 = document.createTextNode("Total:");
-        
+
         cell3.appendChild(text3);
 
 
@@ -149,7 +146,7 @@
         cell2.className = "cart-total";
         let text2 = document.createTextNode("0");
         cell2.appendChild(text2);
-        
+
     }
 
     // update the table contents and the view. This function generates the

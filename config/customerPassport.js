@@ -1,3 +1,6 @@
+// Code taken from foodbuddy app, provided by INFO30005 Faculty 2021
+// used to create our local strategy for authenticating
+// using username and password
 require("dotenv").config();
 const { v4: uuidv4 } = require("uuid");
 const LocalStrategy = require("passport-local").Strategy;
@@ -7,17 +10,7 @@ const Vendor = require("../models/vendor");
 module.exports = (passport) => {
   passport.serializeUser(function (user, done) {
    
-    done(null,user);
-    // i dont understand why when i change the done(null, {'id':user._id ,'role': user.role}) , this gives me error the next time im going to log inm i wonder why, is it becasue of the two things that i have passed or is it bcause
-    //in the req.session.userid something? or is it on the log in ithe customer router like passport authenticate ther
-    //like if (req.session.userId === req.params.customerId) {
-      // current user is authenticated and is requesting their page
-    //   orderController.addOrder(req, res);
-    // } else {
-
-    //   // authenticated user, but not the right one
-    //   res.redirect(`/customer/${req.session.userId}/orders`);
-    
+    done(null,user);   
   });
 
   passport.deserializeUser(function (user, done) {
@@ -37,9 +30,6 @@ module.exports = (passport) => {
   }
 });
 
-  // strategy to login
-  // this method only takes in username and password, and the field names
-  // should match of those in the login form
   passport.use(
     "local-login",
     new LocalStrategy(
@@ -47,10 +37,9 @@ module.exports = (passport) => {
         usernameField: "email",
         passwordField: "password",
         passReqToCallback: true,
-      }, // pass the req as the first arg to the callback for verification
+      },
       function (req, email, password, done) {
         process.nextTick(function () {
-          // see if the user with the email exists
           Customer.findOne({ email: email }, function (err, user) {
             if (err) return done(err);
             if (!user)
@@ -70,15 +59,10 @@ module.exports = (passport) => {
               );
             } else {
 
-              // req.session.type="customer";
-              // console.log(req.session.type);
               req.session.email = email;
               req.session.userId = user.customerId;
               req.session.role = 'customer';
 
-              // if (req.session.returnTo === "/orders") {
-              //   req.session.returnTo = `/customer/${user.customerId}/orders`;
-              // }
               return done(
                 null,
                 user,
@@ -100,14 +84,11 @@ module.exports = (passport) => {
         usernameField: "email",
         passwordField: "password",
         passReqToCallback: true,
-      }, // pass the req as the first arg to the callback for verification
+      },
 
       function (req, email, password, done) {
         process.nextTick(function () {
           Customer.findOne({ email: email }, function (err, existingUser) {
-            // search a user by the username (email in our case)
-            // if user is not found or exists, exit with false indicating
-            // authentication failure
             if (err) {
               console.log(err);
               return done(err);
@@ -120,14 +101,14 @@ module.exports = (passport) => {
                 req.flash("signupMessage", "That email is already taken.")
               );
             } else {
-              // otherwise
-              // create a new user
               var newUser = new Customer();
               newUser.customerId = uuidv4();
               newUser.email = email;
               newUser.familyName = req.body.familyName;
               newUser.givenName = req.body.givenName;
               newUser.role="customer";
+
+               // check if the password is identical with confirm password
               if (password === req.body.confirmPassword) {
                 newUser.password = newUser.generateHash(password);
               } else {
@@ -137,16 +118,13 @@ module.exports = (passport) => {
                   req.flash("signupMessage", "Passwords must be identical.")
                 );
               }
-
+              
               // and save the user
               newUser.save(function (err) {
                 if (err) throw err;
 
                 return done(null, newUser);
               });
-
-              // put the user's email in the session so that it can now be used for all
-              // communications between the client (browser) and the FoodBuddy app
               req.session.email = email;
             }
           });

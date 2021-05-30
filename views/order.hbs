@@ -2,13 +2,14 @@
   <div class="order-wrapper">
     <div class="order-header">
       <h1>
-        {{!-- <div>
-          <body onload="JavaScript:AutoRefresh(20000);">
-            <p> </p>this page will refresh every 20 seconds.</p>
-          </body>
-    </div> --}}
-
         <div>
+          <div id="back-to-orders-wrapper">
+            <span id="back-to-orders" onclick="javascript:history.back()">
+                <span id="back-text">
+                  <i class="fas fa-arrow-left" id="back-arrow"></i>BACK
+                </span >
+            </span>
+          </div>
           <i class="icon-SnackVan"></i>
         </div>
         Order Details
@@ -31,16 +32,16 @@
       {{#if (or (eq order.status 'preparing') (eq order.discountApplied true))}}
       <div class="progress-bars">
         <div class="order-timer">
+          <span id="order-locked-in"></span><br>
           <span id="mins_change"></span>
           <span id="secs_change"></span>
           <meter id="order-fixed-cd" min="0" max="100" low="30" high="70" optimum="85" value="0"></meter>
-          <span id="end_change"></span>
         </div>
         <div class="discount-timer">
+          <span id="discount-in"></span><br>
           <span id="mins"></span>
           <span id="secs"></span>
           <meter id="discount-cd" min="0" max="100" low="30" high="70" optimum="85" value="0"></meter>
-          <span id="end"></span>
         </div>
       </div>
       {{/if}}
@@ -78,7 +79,7 @@
   const ORDER_LOCK_IN_TIME_LIMIT_MIN = parseFloat({{{discountSettings.orderLockInTimeLimitMin}}})
   const DISCOUNT_RATE = parseFloat({{{discountSettings.discountRate}}})
  
- // reload, but only once, avoids infinite loop
+  // reload, but only once, avoids infinite loop
   async function reloadOnce() {
     if (window.localStorage){
       if (!localStorage.getItem('firstReload')){
@@ -143,6 +144,7 @@
     }).then(() => window.location.href = `/customer/orders`);
   }
 
+  // show the trash button to allow customer to cancel the order
   function renderTrashButtons(order) {
     if (order.status === "preparing") {
       const trashButtons = document.getElementsByClassName("trash-button");
@@ -154,7 +156,7 @@
     }
   }
  
-
+  // allow customer to edit the order
   function renderOrderEditButtons(order){
     if (order.status === "preparing") {
       const buttonsWrapper = document.getElementById("order-buttons");
@@ -166,6 +168,7 @@
     }
   }
 
+    // allow customer to edit the order
   function enableCountInput(order) {
     if (order.status === "preparing") {
       const countInputs = document.getElementsByClassName("count-input");
@@ -176,6 +179,7 @@
     }
   }
 
+  //while the order time is not locked, customer can change or cancel their order
   function render() {
     var now = new Date().getTime();
     
@@ -188,8 +192,7 @@
   }
   render();
 
-
- 
+  //disable the edit and cancel button 
   function disableOrderEdit(){
     const trashButtons = document.getElementsByClassName("trash-button");
     const buttonsWrapper = document.getElementById("order-buttons");
@@ -227,10 +230,6 @@
 
   if (discount_timer == 0) {
     discount_timer = addMinutes(new Date(order.timeOrdered).getTime(),DISCOUNT_TIME_LIMIT_MIN);
-    //This should work? but it should pull from time-ordered not the current itme
-
-    //var discount_timer = now + (15*60000);
-    //Convert 15 minutes to milliseconds
   }
   if (reorder_timer == 0){
     reorder_timer = addMinutes(new Date(order.timeOrdered).getTime(),ORDER_LOCK_IN_TIME_LIMIT_MIN);
@@ -242,11 +241,12 @@
   
   var buttonsUpdated = false;
   
-  // Run myfunc every second
+  /* Refresh page every 5 minutes */
   setInterval(() => {
     window.location.reload()
-  }, 10000);
-  
+  }, 300000);
+
+  // Run myfunc every second
   var myfunc = setInterval(function () {
 
     var now = new Date().getTime();
@@ -279,17 +279,20 @@
     var seconds_change = Math.floor((timeleft_change % (1000 * 60)) / 1000);
 
     // Result is output to the specific element
-    document.getElementById("mins_change").innerHTML = "Order locked in: " + minutes_change + "m "
-    document.getElementById("secs_change").innerHTML = seconds_change + "s "
+    document.getElementById("order-locked-in").innerHTML = "Order locked in: ";
+    document.getElementById("mins_change").innerHTML = minutes_change >= 10 ? minutes_change + "m " : "0" + minutes_change + "m ";
+    document.getElementById("secs_change").innerHTML = seconds_change >= 10 ? seconds_change + "s " : "0" + seconds_change + "s ";
 
-    document.getElementById("mins").innerHTML = "Discount applied in: " + minutes + "m "
-    document.getElementById("secs").innerHTML = seconds + "s "
+    document.getElementById("discount-in").innerHTML = "Discount applied in: ";
+    document.getElementById("mins").innerHTML = minutes >= 10 ? minutes + "m " : "0" + minutes + "m ";
+    document.getElementById("secs").innerHTML = seconds >= 10 ? seconds + "s " : "0" + seconds + "s ";
 
     // Display the message when countdown is over
     if (timeleft_change <= 0) {
-      document.getElementById("mins_change").innerHTML = ""
-      document.getElementById("secs_change").innerHTML = ""
-      document.getElementById("end_change").innerHTML = "Order Locked in!";
+      document.getElementById("order-locked-in").innerHTML =  "Order Locked in!";
+      document.getElementById("mins_change").innerHTML = "";
+      document.getElementById("secs_change").innerHTML = "";
+
       
       // hide the buttons
       disableOrderEdit();
@@ -302,9 +305,9 @@
     }
   
     if (timeleft <= 0) {
-      document.getElementById("mins").innerHTML = ""
-      document.getElementById("secs").innerHTML = ""
-      document.getElementById("end").innerHTML = "20% Discount Applied!!!";   
+      document.getElementById("discount-in").innerHTML = "20% Discount Applied!!!"; 
+      document.getElementById("mins").innerHTML = "";
+      document.getElementById("secs").innerHTML = "";
       discount(order.orderId)
       
       // remove the meter
@@ -314,18 +317,18 @@
     
   }, 1000);
 
-  
+  // update the total price to a new price after discount
   function discount(orderId){
     const order = {{{json order}}};
-  
+
     let cartTotalField = document.querySelector(".cart-total");
     let sum = 0;
-      
     for (const row of tableContents) {
         sum += parseFloat(row["Price"].substring(1));
   }
+  //update a new price
   sum = (sum*(1 - DISCOUNT_RATE));
-  cartTotalField.textContent = `$${sum} `;
+  cartTotalField.textContent = `$${sum.toFixed(2)} `;
   order.discountApplied=true;
 
   order.items = order.items.map((item) => (

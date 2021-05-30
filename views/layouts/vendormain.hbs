@@ -12,6 +12,12 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
 </head>
 
+<style>
+body {
+  background-color: lightgrey;
+}
+</style>
+
 <body>
 
   <header class="navbar">
@@ -47,14 +53,16 @@
 </html>
 
 <script>
+
+  // set the status of current vendor (user) to open
   function openVan() {
     if (window.confirm('Please update your location before opening to customers!')) {
       window.location = "/vendor/location";
-     
     }
      updateVanButton();
   }
 
+  // get the status of current vendor (user)
   async function getVan() {
     try {
       const res = await fetch("/vendor/status");
@@ -64,6 +72,7 @@
     }
   }
 
+  // set the status of current vendor (user) to close
   async function closeVan() {
     await fetch(`/vendor/status`,
       {
@@ -82,6 +91,8 @@
     updateVanButton();
   }
 
+  // renders a disabled gray "Open" button that loads before the van status
+  // is fetched from the server
   function defaultButton() {
     const wrappers = document.getElementsByClassName("van-button-wrapper");
     for (const wrapper of wrappers) {
@@ -94,6 +105,8 @@
     }
   }
 
+  // renders a button either to close or open, if the logged in vendor is 
+  // currently open or closed, respectively.
   function updateVanButton() {
     const wrappers = document.getElementsByClassName("van-button-wrapper");
     for (const wrapper of wrappers) {

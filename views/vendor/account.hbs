@@ -25,17 +25,19 @@
 
 <script>
 
-    async function logout() {
-        const res = await fetch(`/vendor/logout/`,
-        {
-            method: "POST",
-        });
-        window.location = "/vendor/login";
-        sessionStorage.clear();
-    }
+  async function logout() {
+      const res = await fetch(`/vendor/logout/`,
+      {
+          method: "POST",
+      });
+      window.location = "/vendor/login";
+      sessionStorage.clear();
+  }
 
-
+  
+  // check if the sign up meet the requirements
   function validate() {
+    //Passwords MUST be hashedbefore storing them in the database.
     const password = document.getElementById("vendorPassword").value;
     const confirmPassword = document.getElementById("vendorConfirmPassword").value;
     if (confirmPassword !== password) {
@@ -51,6 +53,10 @@
     }
   }
 
+  // checks the following:
+  // 1. At least one alphabet character (upper or lower case A-Z)
+  // 2. At least one numerical digit (0-9)
+  // 3. A length of at least 8 characters
   function passwordPolicy(password) {
     const regexNum = /\d/;
     const regexChar = /[a-zA-Z]/;

@@ -20,13 +20,11 @@
   font-family: var(--font-heading);
 }
 
-/* Hide the trash button by default */
 .trash-button {
   display: none;
   visibility: hidden;
 }
 
-/* Hide the buttons allowing change order by default */
 #order-buttons {
   display: none;
   visibility: hidden;
@@ -45,6 +43,7 @@
 .progress-bars {
   display: flex;
   justify-content: space-evenly;
+  margin-bottom: 32px;
 }
 
 #van-name, #van-location {
@@ -63,7 +62,6 @@
   cursor: pointer;
 }
 
-/* Smaller than standard tablet size*/
 @media screen and (max-width: 400px) {
   #order h1 {
     font-size: 32px;
@@ -76,6 +74,9 @@
   }
   .order-wrapper {
     width: 95%;
+  }
+  #back-text {
+    font-size: 24px;
   }
 }
 
@@ -92,6 +93,9 @@
   .order-wrapper {
     width: 95%;
   }
+  #back-text {
+    font-size: 32px;
+  }
 }
 
 @media screen and (min-width: 769px) {
@@ -104,4 +108,24 @@
     bottom: 56px;
     right: 56px;
   }
+  #back-text {
+    font-size: 32px;
+  }
+}
+
+#back-to-orders-wrapper {
+  position:relative;
+}
+
+#back-to-orders{
+  position:absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+
+}
+
+#back-text:hover{
+  color: var(--color-blue);
+  cursor: pointer;
 }

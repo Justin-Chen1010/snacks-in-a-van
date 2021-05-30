@@ -14,6 +14,7 @@ const vendorSchema = new mongoose.Schema({
 
 });
 
+// vendorSchema password hash
 vendorSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
