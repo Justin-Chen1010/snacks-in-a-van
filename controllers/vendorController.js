@@ -40,6 +40,7 @@ const getOneVendor = async (req, res) => {
   }
 };
 
+//update vendor's details
 const updateVendor = async (req, res) => {
   try {
     let oneVendor = await Vendor.findOne({

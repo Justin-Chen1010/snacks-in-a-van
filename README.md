@@ -14,9 +14,11 @@
   - [Technologies](#technologies)
   - [Server Mockup](#server-mockup)
     - [Server URL](#server-url)
-    - [LOGIN DETAILS FOR FRONT-END WEBSITE](#login-details-for-front-end-website)
+    - [LOGIN DETAILS FOR FRONT-END WEBSITE (Customer)](#login-details-for-front-end-website-customer)
+    - [LOGIN DETAILS FOR FRONT-END WEBSITE (Vendor)](#login-details-for-front-end-website-vendor)
     - [Login Details for MongoDB](#login-details-for-mongodb)
     - [Secret for authentication (using passport.js):](#secret-for-authentication-using-passportjs)
+      - [Unit Tests & Integration Unit Test](#unit-tests--integration-unit-test)
     - [Postman](#postman)
       - [Viewing full menu of the snack](#viewing-full-menu-of-the-snack)
       - [View details of a snack](#view-details-of-a-snack)
@@ -54,10 +56,28 @@ orders, and mark them as fulfilled.
 This project was created with:
 
 - NodeJs: 12.18.4
-- dotenv: 8.2.0
+- bcrypt: 5.0.1
+- bcrypt-nodejs: 0.0.3
 - body-parser: 1.19.0
+- connect-flash-plus: 0.2.1
+- cookie-parser: 1.4.5
+- cors: 2.8.5
+- css: 3.0.0
+- dotenv: 8.6.0
 - express: 4.17.1
-- mongoose: 5.12.3
+- express-handlebars: 5.3.2
+- express-session: 1.17.1
+- git: 0.1.5
+- html: 1.0.0
+- jsonwebtoken: 8.5.1
+- mongodb: 3.6.9
+- mongoose: 5.12.11
+- morgan: 1.10.0
+- node: 16.1.0
+- node-fetch: 2.6.1
+- passport: 0.4.1
+- passport-jwt: 4.0.0
+- passport-local: 1.0.0
 - uuid: 8.3.2
 - jest: 27.0.3
 - supertest: 6.1.3
@@ -65,7 +85,7 @@ This project was created with:
 **Now Get ready to complete all the tasks:**
 
 - [x] Read the Project handouts carefully
-- [x] User Interface (UI)mockup
+- [x] User Interface (UI) mockup
 - [x] App server mockup
 - [x] Front-end + back-end (one feature)
 - [x] Complete system + source code
@@ -77,9 +97,14 @@ This project was created with:
 
 Access the server via this [heroku link](https://snacks-in-a-van-roboto.herokuapp.com/)
 
-### LOGIN DETAILS FOR FRONT-END WEBSITE
+### LOGIN DETAILS FOR FRONT-END WEBSITE (Customer)
 
 - Username: batty@gmail.com
+- Password: password1
+
+### LOGIN DETAILS FOR FRONT-END WEBSITE (Vendor)
+
+- vendorName: test
 - Password: password1
 
 ### Login Details for MongoDB
@@ -90,6 +115,19 @@ Access the server via this [heroku link](https://snacks-in-a-van-roboto.herokuap
 ### Secret for authentication (using passport.js):
 
 - PASSPORT_KEY=vendorsnacks
+
+#### Unit Tests & Integration Unit Test
+
+Ensure that a Vendor with the following details:
+
+```_
+vendorName: "test"
+password: "password1"
+```
+
+exists. Running `npm test` at the project root will execute 3 unit
+tests and 1 integration test, for the feature "Using the vendor app, the van
+operator sets the status of their van.".
 
 ### Postman
 
