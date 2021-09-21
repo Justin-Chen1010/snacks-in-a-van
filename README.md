@@ -112,14 +112,6 @@ Access the server via this [heroku link](https://snacks-in-a-van-roboto.herokuap
 - vendorName: test
 - Password: password1
 
-### Login Details for MongoDB
-
-- MONGO_USERNAME=vendorsnacks
-- MONGO_PASSWORD=vendorsnacks
-
-### Secret for authentication (using passport.js):
-
-- PASSPORT_KEY=vendorsnacks
 
 #### Unit Tests & Integration Unit Test
 
@@ -444,10 +436,4 @@ Sample output for `GET /vendor/`
 ]
 ```
 
-### Database
 
-Access the database via [link](https://cloud.mongodb.com/v2/607a6469b3cdb46083865625#clusters)
-
-- Connection string: `mongodb+srv://vendorsnacks:vendorsnacks@cluster0.7suke.mongodb.net/snacks?retryWrites=true&w=majority`
-- DB username: `vendorsnacks`
-- DB password: `vendorsnacks`
