@@ -3,6 +3,7 @@
 # INFO30005 – Web Information Technologies
 
 # Group Project Repository
+This project was worked on in a team of 5 through liveshare and zoom with tons of pair-programming.
 
 ## Table of contents
 
